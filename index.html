@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Okna, drzwi, systemy przesuwne i fasady aluminiowe. Alukoncept Sp. z o.o. — projektowanie, produkcja i montaż konstrukcji aluminiowych. Sosnowiec."
+    />
+    <meta name="theme-color" content="#0b0c0d" />
+    <!-- WERSJA DEMO: usunąć przed publikacją produkcyjną -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Okna, drzwi i fasady aluminiowe — Dom w Aluminium</title>
+
+    <!--
+      Wartości domyślne dla robotów, które nie wykonują skryptów.
+      Na podstronach nadpisuje je komponent Seo (src/components/Seo.tsx).
+      PRZED PUBLIKACJĄ: adres obrazu OG musi być bezwzględny — ustawić
+      VITE_SITE_URL, patrz SEO.md.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dom w Aluminium" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:title" content="Okna, drzwi i fasady aluminiowe — Dom w Aluminium" />
+    <meta
+      property="og:description"
+      content="Projektujemy i wykonujemy konstrukcje aluminiowe — od pojedynczego okna po kompletną fasadę budynku."
+    />
+    <meta property="og:image" content="/og-default.svg" />
+    <meta property="og:image:alt" content="Dom w Aluminium — stolarka aluminiowa, Alukoncept Sp. z o.o." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!--
+      Kroje pisma stoją na własnej domenie (public/fonts). Nie ma tu żadnego
+      połączenia z fonts.googleapis.com: arkusz z obcego serwera blokował
+      renderowanie i przekazywał Google adres IP każdego odwiedzającego,
+      zanim ten cokolwiek kliknął. Definicje @font-face: src/fonts.css.
+
+      Wstępnie pobieramy wyłącznie krój nagłówków w wadze 600 — to on
+      rysuje pierwszy ekran. Reszta wag dociąga się normalnie.
+    -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/archivo-600-normal-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/archivo-600-normal-latin-ext.woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <noscript>
+      <div style="max-width:42rem;margin:0 auto;padding:4rem 1.5rem;color:#ece8e1;font-family:system-ui,sans-serif;line-height:1.6">
+        <h1 style="font-size:1.5rem;margin:0 0 1rem">Dom w Aluminium — stolarka aluminiowa</h1>
+        <p style="color:#9ba1a6;margin:0 0 1.5rem">
+          Ta strona wymaga włączonego JavaScriptu. Jeśli nie możesz go włączyć,
+          zadzwoń — odpowiemy na każde pytanie o okna, drzwi, systemy przesuwne
+          i fasady aluminiowe.
+        </p>
+        <p style="margin:0 0 .5rem"><a href="tel:+48695704228" style="color:#c3a175">695 704 228</a></p>
+        <p style="color:#9ba1a6;margin:0">Alukoncept Sp. z o.o., Stanisława Mikołajczyka 59 A, 41-400 Sosnowiec</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

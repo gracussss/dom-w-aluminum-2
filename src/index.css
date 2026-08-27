@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+  /* ---------------------------------------------------------------
+     Paleta materiałowa: anodowane aluminium, szkło, beton, wapień.
+     Ciemne = sekcje technologiczne. Jasne = sekcje architektoniczne.
+     Akcent (bronze) = anodowany brąz, realne wykończenie w architekturze.
+     --------------------------------------------------------------- */
+  --color-void: #0b0c0d;
+  --color-anthracite: #141618;
+  --color-graphite: #1c1f21;
+  --color-steel: #2a2e31;
+  --color-steel-light: #3a3f43;
+
+  --color-aluminium: #9ba1a6;
+  --color-aluminium-dim: #6d7378;
+  --color-aluminium-light: #c4c9cd;
+
+  --color-limestone: #ece8e1;
+  --color-plaster: #ded9d0;
+  --color-sand: #cec7ba;
+  --color-sand-deep: #7e7565;
+
+  --color-bronze: #7a5f39;
+  --color-bronze-light: #c3a175;
+  --color-bronze-dim: #6f5837;
+
+  /* szkło — realny zielonkawy odcień krawędzi float glass */
+  --color-glass: #7d9a92;
+
+  /* ---- Typografia ---- */
+  --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-editorial: "Instrument Serif", "Iowan Old Style", serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  /* ---- Layout ---- */
+  --container-content: 1560px;
+
+  /* ---- Easing ---- */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-frame: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background-color: var(--color-void);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis steruje scrollem — natywny smooth musi być wyłączony */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-void);
+    color: var(--color-limestone);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  ::selection {
+    background-color: var(--color-bronze);
+    color: var(--color-void);
+  }
+
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-steel);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-steel-light);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    margin: 0;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bronze-light);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Wielkie nagłówki architektoniczne — ciasny tracking, grotesk */
+  .display {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+  }
+
+  .display-tight {
+    letter-spacing: -0.055em;
+  }
+
+  /* Editorial — kursywa serif jako akcent typograficzny, używana oszczędnie */
+  .editorial {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .label-sm {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .container-edge {
+    width: 100%;
+    max-width: var(--container-content);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-edge {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-edge {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* Ziarno — zabija płaski, „wygenerowany” wygląd dużych płaszczyzn */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Siatka techniczna — subtelna, jak rysunek konstrukcyjny */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-aluminium) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-aluminium) 7%, transparent) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hairline-t {
+    border-top: 1px solid color-mix(in srgb, var(--color-limestone) 12%, transparent);
+  }
+  .hairline-b {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-limestone) 12%, transparent);
+  }
+
+  /* Szlifowane aluminium — kierunkowy połysk metalu */
+  .brushed {
+    background-image: linear-gradient(
+      100deg,
+      #6e7479 0%,
+      #b9bec2 18%,
+      #878d92 34%,
+      #cfd4d7 52%,
+      #7f858a 68%,
+      #b2b7bb 84%,
+      #6e7479 100%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

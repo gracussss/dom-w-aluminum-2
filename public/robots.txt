@@ -1,0 +1,26 @@
+# ------------------------------------------------------------------
+# WERSJA DEMO — blokada indeksowania.
+#
+# Strona zawiera materiały poglądowe (zdjęcia, nazwy systemów, parametry),
+# a jednocześnie prawdziwe dane firmy. Do czasu publikacji produkcyjnej
+# nie może trafić do wyszukiwarek.
+#
+# PRZED STARTEM PRODUKCYJNYM (pełna lista w SEO.md):
+#   1. usunąć poniższą regułę Disallow i odkomentować blok produkcyjny,
+#   2. usunąć <meta name="robots"> z index.html,
+#   3. usunąć nagłówek X-Robots-Tag z vercel.json,
+#   4. ustawić VITE_SITE_URL — bez tego nie powstaje sitemap.xml.
+# ------------------------------------------------------------------
+
+User-agent: *
+Disallow: /
+
+# ------------------------------------------------------------------
+# BLOK PRODUKCYJNY — odkomentować przy publikacji.
+# Adres sitemapy musi wskazywać docelową domenę (tę samą co VITE_SITE_URL).
+# ------------------------------------------------------------------
+
+# User-agent: *
+# Allow: /
+#
+# Sitemap: https://DOMENA-DO-USTALENIA/sitemap.xml

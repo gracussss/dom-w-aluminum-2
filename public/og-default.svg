@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img"
+     aria-label="Dom w Aluminium — stolarka aluminiowa, Alukoncept Sp. z o.o.">
+  <!--
+    OBRAZ PODGLĄDU (Open Graph / Twitter), 1200×630.
+    Źródło wektorowe. PRZED PUBLIKACJĄ PRODUKCYJNĄ wyeksportować do PNG
+    (1200×630) i przestawić stałą OG_IMAGE w src/lib/seo.ts — część serwisów
+    społecznościowych nie renderuje SVG. Szczegóły w SEO.md.
+    Bez zdjęć: wszystkie zdjęcia w projekcie są tymczasowe (Unsplash).
+  -->
+  <rect width="1200" height="630" fill="#0b0c0d"/>
+
+  <!-- siatka rysunku technicznego -->
+  <g stroke="#ece8e1" stroke-width="1" opacity="0.05">
+    <path d="M100 0V630M200 0V630M300 0V630M400 0V630M500 0V630M600 0V630M700 0V630M800 0V630M900 0V630M1000 0V630M1100 0V630"/>
+    <path d="M0 100H1200M0 200H1200M0 300H1200M0 400H1200M0 500H1200"/>
+  </g>
+
+  <!-- znaczniki narożne -->
+  <g stroke="#9ba1a6" stroke-width="1.5" opacity="0.35" fill="none">
+    <path d="M64 108V64H108"/>
+    <path d="M1136 522v44h-44"/>
+  </g>
+
+  <!-- znak: okno aluminiowe -->
+  <g transform="translate(96,150)">
+    <rect x="3" y="3" width="74" height="74" fill="none" stroke="#ece8e1" stroke-width="5"/>
+    <rect x="15.5" y="15.5" width="49" height="49" fill="none" stroke="#ece8e1" stroke-width="2.5" opacity="0.45"/>
+    <rect x="36.5" y="15.5" width="7" height="49" fill="#c3a175"/>
+  </g>
+
+  <!-- nazwa -->
+  <text x="96" y="330" font-family="Archivo, Helvetica Neue, Arial, sans-serif" font-size="92"
+        font-weight="700" letter-spacing="-3" fill="#ece8e1">DOM W ALUMINIUM</text>
+
+  <!-- zakres prac -->
+  <text x="96" y="398" font-family="Archivo, Helvetica Neue, Arial, sans-serif" font-size="34"
+        font-weight="400" letter-spacing="-0.6" fill="#c4c9cd">
+    Okna · drzwi · systemy przesuwne · fasady aluminiowe
+  </text>
+
+  <!-- linia i stopka z danymi firmy (jedyne potwierdzone informacje) -->
+  <path d="M96 462H1104" stroke="#ece8e1" stroke-width="1" opacity="0.18"/>
+  <text x="96" y="512" font-family="IBM Plex Mono, Consolas, monospace" font-size="24"
+        letter-spacing="1.5" fill="#9ba1a6">ALUKONCEPT SP. Z O.O.</text>
+  <text x="96" y="552" font-family="IBM Plex Mono, Consolas, monospace" font-size="24"
+        letter-spacing="1.5" fill="#9ba1a6">SOSNOWIEC · TEL. 695 704 228</text>
+
+  <rect x="96" y="452" width="120" height="4" fill="#c3a175"/>
+</svg>
