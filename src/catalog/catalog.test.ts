@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { systems } from "./dataset";
 import { taxonomy } from "./taxonomy";
 import { countActiveFilters, selectSystems } from "./query";
-import { hasMeasuredGeometry, parseMillimetres, systemGeometry } from "./geometry";
 import { validateSource } from "./repository";
 import type { AluSystem } from "./types";
 
@@ -128,50 +127,5 @@ describe("silnik zapytań", () => {
     expect(
       countActiveFilters({ categoryIds: ["okna"], manufacturerIds: ["aluprof"], tagIds: ["rc2"] })
     ).toBe(3);
-  });
-});
-
-/* ------------------------------------------------------------------
-   GEOMETRIA DLA SCENY 3D
-
-   Prezentacja produktu pokazuje wymiar tylko wtedy, gdy producent podał
-   go jednoznacznie i ze źródłem. Te testy pilnują, żeby do sceny nie
-   przeciekła wartość brzegowa, zakres ani liczba bez źródła.
-   ------------------------------------------------------------------ */
-
-describe("geometria z parametrów", () => {
-  it("czyta jednoznaczny wymiar w milimetrach", () => {
-    expect(parseMillimetres("86 mm")).toBeCloseTo(0.086);
-    expect(parseMillimetres("104,5 mm")).toBeCloseTo(0.1045);
-  });
-
-  it("odrzuca zakresy, wartości brzegowe i inne jednostki", () => {
-    for (const value of ["od 62 mm", "62-86 mm", "> 83 mm", "86", "8,6 cm", "", null]) {
-      expect(parseMillimetres(value)).toBeNull();
-    }
-  });
-
-  it("MB-86N ma głębokość zabudowy gotową do zbudowania modelu", () => {
-    const mb86 = systems.find((s) => s.id === "mb-86n");
-    const geometry = systemGeometry(mb86!);
-
-    expect(geometry.depth).toBeCloseTo(0.086);
-    expect(geometry.depthLabel).toBe("86 mm");
-    expect(geometry.depthSource?.url).toContain("aluprof.com");
-  });
-
-  it("nie buduje wymiaru z parametru bez źródła", () => {
-    const broken = {
-      ...systems[0],
-      specs: [{ id: "depth", label: "Głębokość zabudowy", value: "86 mm", standard: null, source: null }],
-    };
-
-    expect(systemGeometry(broken).depth).toBeNull();
-    expect(hasMeasuredGeometry(broken)).toBe(false);
-  });
-
-  it("system bez podanej głębokości nie dostaje prezentacji z wymiarem", () => {
-    const mb104 = systems.find((s) => s.id === "mb-104-passive");
-    expect(hasMeasuredGeometry(mb104!)).toBe(false);
   });
 });

@@ -8,7 +8,6 @@ import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import { breadcrumbJsonLd } from "../lib/jsonLd";
 import { CrossSection, getSchematic } from "../components/crosssection";
 import { SystemViewer } from "../components/product3d/SystemViewer";
-import { SystemPresentation } from "../components/product3d/SystemPresentation";
 import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
 import { siteOrigin } from "../lib/seo";
 import { NotFound } from "./NotFound";
@@ -24,7 +23,6 @@ import {
   nameStatusNote,
   sourceNote,
   specsStatusNote,
-  systemGeometry,
   useRelatedSystems,
   useSystem,
   useTaxonomy,
@@ -48,16 +46,6 @@ export function SystemDetail() {
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
   const modelType = system.model3d.type;
-
-  /* Prezentacja krokowa wymaga wymiaru odczytanego z parametrów systemu.
-     Bez niego model nie miałby czego odwzorować w skali i zostaje przy
-     dotychczasowym podglądzie typu konstrukcji. Na razie tylko okna —
-     pozostałe typy dostaną własną sekwencję, a nie kopię tej. */
-  const geometry = systemGeometry(system);
-  const presentation =
-    modelType === "okno" && geometry.depth !== null && geometry.depthLabel !== null
-      ? { ...geometry, depth: geometry.depth, depthLabel: geometry.depthLabel }
-      : null;
 
   /* Rysunek producenta, jeśli jest — inaczej schemat poglądowy dla typu konstrukcji.
      Gdy nie ma ani jednego, ani drugiego (akcesoria), sekcja się nie pojawia:
@@ -236,12 +224,10 @@ export function SystemDetail() {
         </section>
       )}
 
-      {/* MODEL 3D — tylko wtedy, gdy mamy co pokazać AKURAT dla tego systemu:
-          plik modelu od producenta albo prezentację zbudowaną z jego własnych,
-          udokumentowanych wymiarów. Sam parametryczny model typu konstrukcji
-          jest ten sam dla dziesiątek systemów i podpisany nazwą konkretnego
-          udawałby jego geometrię — dlatego nie wystarcza. */}
-      {modelType && (system.model3d.url || presentation) && (
+      {/* MODEL 3D — konstrukcja właściwa dla typu tego systemu: okno przy
+          oknach, skrzydło przesuwne przy systemach HS, słup i rygiel przy
+          fasadach. Model jest poglądowy i UI mówi o tym wprost. */}
+      {modelType && (
         <section className="grain bg-void py-20 text-limestone md:py-28">
           <div className="container-edge">
             <Reveal>
@@ -254,23 +240,12 @@ export function SystemDetail() {
             </Reveal>
 
             <Reveal delay={0.1} className="mt-12">
-              {/* Prezentacja krokowa włącza się z danych, nie z listy nazw:
-                  wymaga potwierdzonej głębokości zabudowy, bo to jedyny wymiar,
-                  który model odwzorowuje w skali. Reszta katalogu bez zmian. */}
-              {presentation ? (
-                <SystemPresentation
-                  system={system}
-                  geometry={presentation}
-                  fallbackImage={system.media.hero.src}
-                />
-              ) : (
-                <SystemViewer
-                  modelType={modelType}
-                  modelUrl={system.model3d.url}
-                  fallbackImage={system.media.hero.src}
-                  description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
-                />
-              )}
+              <SystemViewer
+                modelType={modelType}
+                modelUrl={system.model3d.url}
+                fallbackImage={system.media.hero.src}
+                description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
+              />
             </Reveal>
           </div>
         </section>
