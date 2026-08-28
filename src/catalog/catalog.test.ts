@@ -60,19 +60,26 @@ describe("silnik zapytań", () => {
   it("filtruje po kategorii", () => {
     const result = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy);
     expect(result.total).toBeGreaterThan(0);
-    expect(result.items.every((s) => s.categoryId === "okna")).toBe(true);
+    expect(result.items.every((s) => s.categoryIds.includes("okna"))).toBe(true);
   });
 
   it("łączy filtry z różnych wymiarów przez koniunkcję", () => {
     const result = selectSystems(systems, { categoryIds: ["okna"], manufacturerIds: ["aluprof"] }, taxonomy);
-    expect(result.items.every((s) => s.categoryId === "okna" && s.manufacturerId === "aluprof")).toBe(true);
+    expect(result.items.every((s) => s.categoryIds.includes("okna") && s.manufacturerId === "aluprof")).toBe(true);
   });
 
+  /* System bywa w kilku kategoriach naraz (MB-79N to okna i drzwi), więc
+     alternatywa daje SUMĘ ZBIORÓW, a nie sumę liczników. Test pilnuje obu
+     stron tej własności — i tego, że część systemów faktycznie się pokrywa. */
   it("łączy wartości w obrębie jednego wymiaru przez alternatywę", () => {
-    const okna = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy).total;
-    const drzwi = selectSystems(systems, { categoryIds: ["drzwi"] }, taxonomy).total;
-    const razem = selectSystems(systems, { categoryIds: ["okna", "drzwi"] }, taxonomy).total;
-    expect(razem).toBe(okna + drzwi);
+    const okna = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy);
+    const drzwi = selectSystems(systems, { categoryIds: ["drzwi"] }, taxonomy);
+    const razem = selectSystems(systems, { categoryIds: ["okna", "drzwi"] }, taxonomy);
+
+    const suma = new Set([...okna.items, ...drzwi.items].map((s) => s.id));
+    expect(razem.total).toBe(suma.size);
+    expect(razem.total).toBeLessThan(okna.total + drzwi.total);
+    expect(razem.total).toBeGreaterThanOrEqual(Math.max(okna.total, drzwi.total));
   });
 
   it("szuka bez względu na wielkość liter i polskie znaki", () => {
@@ -106,7 +113,7 @@ describe("silnik zapytań", () => {
   it("sortowanie „wg kategorii” trzyma porządek taksonomii, nie alfabet", () => {
     const items = selectSystems(systems, { sort: "category" }, taxonomy).items;
     const order = new Map(taxonomy.categories.map((c, i) => [c.id, i]));
-    const positions = items.map((s) => order.get(s.categoryId) ?? -1);
+    const positions = items.map((s) => order.get(s.categoryIds[0]) ?? -1);
     expect([...positions]).toEqual([...positions].sort((a, b) => a - b));
   });
 

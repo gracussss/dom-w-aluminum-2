@@ -64,7 +64,8 @@ export const offerAreas: OfferArea[] = [
   },
   {
     id: "specjalne",
-    categoryId: "specjalne",
+    // Ogrody zimowe to u producenta system fasadowy (MB-WG60)
+    categoryId: "fasady",
     name: "Ogrody zimowe i pergole",
     short: "Zabudowy i zadaszenia",
     description:
@@ -73,7 +74,7 @@ export const offerAreas: OfferArea[] = [
   },
   {
     id: "indywidualne",
-    categoryId: "specjalne",
+    categoryId: "indywidualne",
     name: "Konstrukcje indywidualne",
     short: "Nietypowe wymiary i kształty",
     description:

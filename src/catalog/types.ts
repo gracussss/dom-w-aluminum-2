@@ -167,7 +167,14 @@ export interface AluSystem {
   name: string;
 
   manufacturerId: string;
-  categoryId: string;
+  /**
+   * Kategorie, do których należy system — ZAWSZE tablica.
+   * Producent przypisuje jeden system do kilku sekcji oferty: MB-79N stoi
+   * i w oknach, i w drzwiach, MB-104 Passive dodatkowo w rozwiązaniach
+   * indywidualnych. Pojedyncze pole gubiło połowę tych przypisań.
+   * Pierwsza pozycja jest kategorią wiodącą (breadcrumbs, grupowanie).
+   */
+  categoryIds: string[];
   applicationIds: string[];
   constructionTypeId: string;
   tagIds: string[];

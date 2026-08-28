@@ -8,7 +8,7 @@ import { PageHero } from "../components/ui/PageHero";
 import { SocialIcons } from "../components/ui/SocialIcons";
 import { MapEmbed } from "../components/ui/MapEmbed";
 import { Reveal } from "../components/ui/Reveal";
-import { findCategory, findManufacturer, useSystem, useTaxonomy } from "../catalog";
+import { findManufacturer, primaryCategory, useSystem, useTaxonomy } from "../catalog";
 import { company, fullAddress, googleMapsSearchUrl } from "../data/company";
 
 const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -48,14 +48,14 @@ export function Kontakt() {
   const { data: taxonomy } = useTaxonomy();
 
   const manufacturer = system && taxonomy ? findManufacturer(taxonomy, system.manufacturerId) : undefined;
-  const category = system && taxonomy ? findCategory(taxonomy, system.categoryId) : undefined;
+  const category = system && taxonomy ? primaryCategory(taxonomy, system) : undefined;
 
   /* Temat ustawia sie na kategorie systemu, ale zostaje do zmiany przez uzytkownika. */
-  const [topic, setTopic] = useState(() => system?.categoryId ?? "okna");
+  const [topic, setTopic] = useState(() => system?.categoryIds[0] ?? "okna");
   const [lastSystemId, setLastSystemId] = useState(system?.id ?? null);
   if (system && system.id !== lastSystemId) {
     setLastSystemId(system.id);
-    setTopic(system.categoryId);
+    setTopic(system.categoryIds[0]);
   }
 
   const clearSystem = () => {

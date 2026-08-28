@@ -60,6 +60,8 @@ export {
   findManufacturer,
   findManufacturerBySlug,
   groupByCategory,
+  primaryCategory,
+  systemCategories,
 } from "./lookup";
 
 export {

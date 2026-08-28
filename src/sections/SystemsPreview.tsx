@@ -6,11 +6,7 @@ import { SectionHeading } from "../components/ui/SectionHeading";
 import { ArrowButton } from "../components/ui/ArrowButton";
 import { revealItem } from "../lib/variants";
 import { DATA_DISCLAIMER, countByCategory, useSystems, useTaxonomy } from "../catalog";
-
-function positions(n: number) {
-  if (n === 1) return "pozycja";
-  return n < 5 ? "pozycje" : "pozycji";
-}
+import { positions } from "../lib/plural";
 
 /** Liczebniki żeńskie — nagłówek ma się zgadzać z zawartością katalogu. */
 const NUMERALS = [

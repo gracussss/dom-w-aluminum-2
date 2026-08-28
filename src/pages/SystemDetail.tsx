@@ -17,7 +17,8 @@ import {
   DOCUMENT_KIND_LABEL,
   MODEL_TYPE_LABEL,
   findApplications,
-  findCategory,
+  primaryCategory,
+  systemCategories,
   findConstructionType,
   findManufacturer,
   nameStatusNote,
@@ -42,7 +43,8 @@ export function SystemDetail() {
   }
 
   const manufacturer = findManufacturer(taxonomy, system.manufacturerId);
-  const category = findCategory(taxonomy, system.categoryId);
+  const category = primaryCategory(taxonomy, system);
+  const allCategories = systemCategories(taxonomy, system);
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
   const modelType = system.model3d.type;
@@ -155,15 +157,19 @@ export function SystemDetail() {
                       {manufacturer.name}
                     </Link>
                   )}
-                  <span className="h-3 w-px bg-limestone/20" />
-                  {category && (
-                    <Link
-                      to={`/systemy/kategoria/${category.slug}`}
-                      className="label text-limestone/55 transition-colors hover:text-limestone"
-                    >
-                      {category.name}
-                    </Link>
-                  )}
+                  {/* Wszystkie kategorie, do których producent przypisał system —
+                      MB-79N to jednocześnie okna i drzwi, i tak trzeba go pokazać */}
+                  {allCategories.map((c) => (
+                    <span key={c.id} className="flex items-center gap-x-4">
+                      <span className="h-3 w-px bg-limestone/20" />
+                      <Link
+                        to={`/systemy/kategoria/${c.slug}`}
+                        className="label text-limestone/55 transition-colors hover:text-limestone"
+                      >
+                        {c.name}
+                      </Link>
+                    </span>
+                  ))}
                 </div>
               </Reveal>
 
@@ -230,8 +236,12 @@ export function SystemDetail() {
         </section>
       )}
 
-      {/* MODEL 3D — typ konstrukcji właściwy dla tego systemu */}
-      {modelType && (
+      {/* MODEL 3D — tylko wtedy, gdy mamy co pokazać AKURAT dla tego systemu:
+          plik modelu od producenta albo prezentację zbudowaną z jego własnych,
+          udokumentowanych wymiarów. Sam parametryczny model typu konstrukcji
+          jest ten sam dla dziesiątek systemów i podpisany nazwą konkretnego
+          udawałby jego geometrię — dlatego nie wystarcza. */}
+      {modelType && (system.model3d.url || presentation) && (
         <section className="grain bg-void py-20 text-limestone md:py-28">
           <div className="container-edge">
             <Reveal>
@@ -288,20 +298,27 @@ export function SystemDetail() {
                 <dt className="label text-void/70">Typ konstrukcji</dt>
                 <dd className="text-[15px] text-void/75">{construction?.name}</dd>
               </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Zastosowanie</dt>
-                <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
-              </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Warianty</dt>
-                <dd className="flex flex-wrap gap-2">
-                  {system.variants.map((variant) => (
-                    <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
-                      {variant.name}
-                    </span>
-                  ))}
-                </dd>
-              </div>
+              {applications.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Zastosowanie</dt>
+                  <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
+                </div>
+              )}
+              {/* Wykonania systemu — producent nie wylicza ich na karcie
+                  w formie nadającej się do przepisania, więc wiersz pojawia
+                  się dopiero, gdy dane wpadną do zbioru. */}
+              {system.variants.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Warianty</dt>
+                  <dd className="flex flex-wrap gap-2">
+                    {system.variants.map((variant) => (
+                      <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
+                        {variant.name}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )}
             </dl>
           </Reveal>
         </div>

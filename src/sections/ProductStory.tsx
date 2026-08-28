@@ -8,9 +8,6 @@ import { ScrollStory } from "./ScrollStory";
 // Three.js dociągany dopiero, gdy sekcja zbliża się do ekranu.
 const StoryScene = lazy(() => import("../components/product3d/StoryScene"));
 
-/** Poniżej tej szerokości zamiast sceny 3D pokazujemy wersję zdjęciową. */
-const MIN_WIDTH_3D = 768;
-
 const steps = [
   {
     no: "01",
@@ -147,10 +144,12 @@ function Story3D() {
         {/* Siatka rysunku technicznego pod sceną — widoczna, zanim model się pojawi */}
         <div className="blueprint-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden />
 
-        {/* Warstwy tonalne pod typografię — mocne od lewej, gdzie stoi tekst,
-            delikatne nad samą sceną, żeby aluminium nie zgasło. */}
+        {/* Warstwy tonalne pod typografię. Pionowa działa wszędzie — tekst
+            zawsze siedzi u dołu. Pozioma chroni tekst stojący po lewej, więc
+            na wąskim ekranie jej nie ma: tam model jest wyśrodkowany i taki
+            gradient tylko gasiłby aluminium. */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/85 via-void/15 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void/90 via-void/10 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-void/90 via-void/10 to-transparent md:block" />
         <div className="grain pointer-events-none absolute inset-0" />
 
         <div className="container-edge pointer-events-none relative flex h-full flex-col justify-between py-24 md:py-28">
@@ -213,13 +212,18 @@ function Story3D() {
  * Wybór wariantu robiony raz, przy pierwszym renderze — przełączanie w locie
  * przestawiałoby ScrollTriggery w trakcie scrolla.
  *
- * Bez WebGL, przy prefers-reduced-motion i na wąskich ekranach zostaje wersja
- * zdjęciowa: to pełnoprawna sekcja, nie okrojona namiastka.
+ * Scena idzie na KAŻDĄ szerokość ekranu. Wcześniej poniżej 768 px właczała się
+ * wersja zdjęciowa, przez co telefon — czyli większość ruchu — nie widział
+ * najlepszej części strony. Sekwencja na to stać: kadr trzyma `position: sticky`
+ * (nie pinowanie ScrollTriggera), scena montuje się dopiero przy wejściu
+ * w widok, rysuje w trybie `demand` i całkiem staje, gdy sekcja wyjdzie
+ * z ekranu. Kadrowanie dopasowuje się do proporcji ekranu w `StoryScene`.
+ *
+ * Wersja zdjęciowa zostaje dla braku WebGL i dla prefers-reduced-motion —
+ * to wybór użytkownika, a nie ograniczenie sprzętu, i musi być uszanowany.
  */
 export function ProductStory() {
-  const [use3d] = useState(
-    () => canRunWebGL() && typeof window !== "undefined" && window.innerWidth >= MIN_WIDTH_3D
-  );
+  const [use3d] = useState(() => canRunWebGL());
 
   return use3d ? <Story3D /> : <ScrollStory />;
 }

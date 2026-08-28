@@ -9,7 +9,7 @@ import type { AluSystem, DocumentKind, SystemDataStatus } from "./types";
 
 /** Zastrzeżenie na poziomie całego katalogu. */
 export const DATA_DISCLAIMER =
-  "Zestawienie poglądowe. Parametry oznaczone źródłem pochodzą z publicznych materiałów producenta; pozostałe pozycje czekają na weryfikację. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
+  "Nazwy systemów i parametry pochodzą z publicznych kart systemów ALUPROF — przy każdej wartości podajemy źródło i datę dostępu. Zdjęcia są poglądowe, przekroje to rysunki własne. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
 
 export const TBD = "Do uzupełnienia";
 
