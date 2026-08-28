@@ -36,9 +36,6 @@ export type {
   Verification,
 } from "./types";
 
-export type { SystemGeometry } from "./geometry";
-export { hasMeasuredGeometry, parseMillimetres, systemGeometry } from "./geometry";
-
 export type { CatalogRepository, LocalSource } from "./repository";
 export { createHttpRepository, createLocalRepository, validateSource } from "./repository";
 
@@ -60,6 +57,8 @@ export {
   findManufacturer,
   findManufacturerBySlug,
   groupByCategory,
+  primaryCategory,
+  systemCategories,
 } from "./lookup";
 
 export {

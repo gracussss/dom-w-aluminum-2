@@ -262,15 +262,16 @@ i potwierdzone przez klienta.
 
 ## 9. Stan pokrycia danymi
 
-| Pozycji w katalogu | 20 |
+| Pozycji w katalogu | 86 systemów ALUPROF |
 |---|---|
-| Nazwy potwierdzone u producenta | 3 (MB-79N, MB-86N, MB-104 Passive) |
-| Parametry z podanym źródłem | 12 wartości w 3 systemach |
+| Kategorie | 7, wg sekcji oferty producenta |
+| Nazwy potwierdzone u producenta | 86 z 86 |
+| Parametry z podanym źródłem | ~300 wartości; średnio 3–4 na system |
+| Systemy bez parametrów u producenta | 5 (MB-79N US, MB-45 OFFICE, MB-Slide, OpenSlide, MB-SR60 NY) |
 | Schematy poglądowe (własne) | 4 — okno, drzwi, przesuwne, fasada |
-| Przekroje producenta | 0 |
+| Przekroje producenta | 0 (pliki istnieją, brak zgody na publikację) |
 | Modele 3D producenta | 0 |
 | Zdjęcia własne | 0 |
-
 ---
 
 ## 10. Adresy katalogu
@@ -324,3 +325,99 @@ kategoria pojawia się tam sama.
 > Pamiętaj: `public/robots.txt` blokuje indeksowanie całej strony na czas dema.
 > Dane strukturalne zaczną działać dopiero po jego usunięciu — razem z meta
 > robots w `index.html` i `X-Robots-Tag` w `vercel.json`.
+
+---
+
+## 11. Katalog ALUPROF — jak jest zbudowany
+
+Dane zebrane 2026-08-28 z sekcji oferty (`aluprof.com/pl/oferta/*`)
+i publicznych kart systemów (`aluprof.com/produkt/<slug>`).
+
+### System należy do WIELU kategorii
+
+Producent przypisuje jeden system do kilku sekcji oferty — MB-79N stoi
+i w oknach, i w drzwiach, i w rozwiązaniach indywidualnych. Dlatego pole
+w modelu to `categoryIds: string[]`, a nie pojedyncze `categoryId`.
+Pierwsza pozycja jest kategorią wiodącą: po niej idzie grupowanie w katalogu
+i ścieżka nawigacyjna. Suma liczników kategorii (113) jest większa niż liczba
+systemów (86) — to nie błąd, tylko konsekwencja przypisań producenta.
+
+### Czego świadomie nie ma
+
+| Pole | Dlaczego puste |
+|---|---|
+| `applicationIds` | producent nie przypisuje systemów do typów budynków; filtr sam się ukrywa |
+| `variants` | karta systemu nie wylicza wykonań w formie nadającej się do przepisania |
+| `depth` | poza MB-86N („profile o głębokości 86 mm”) nie pada w blokach parametrów |
+| `crossSections` | pliki są u producenta, publikacja wymaga pisemnej zgody |
+| `model3d.url` | brak plików; sekcja 3D na karcie systemu pojawia się dopiero z realnym modelem |
+
+### Czego NIE ma w ofercie Aluprofa
+
+Sprawdzone w całym menu oferty: **nie istnieje kategoria „szkło
+przeciwpożarowe”**. Aluprof ma systemy ppoż. (MB-78EI, MB-86EI, MB-118EI),
+a szkło jest wypełnieniem dobieranym do konstrukcji. Nie zakładamy tej
+kategorii bez innego źródła.
+
+Sekcja oferty „Systemy antywłamaniowe” to **cecha, nie kategoria** — wszystkie
+jej pozycje (MB-104 Passive, MB-77HS, MB-SR50N, MB-70) to systemy obecne już
+w oknach, drzwiach i fasadach. Stąd tag `antywlamaniowe`, nie ósma kategoria.
+
+### Jak dopisać kolejny system
+
+Jedno wejście w tablicy `INPUTS` w `src/catalog/dataset.ts`:
+
+```ts
+{
+  id: "mb-86ei",                      // nasz slug
+  name: "MB-86EI",
+  aluprof: "mb-86ei",                 // slug karty u producenta
+  summary: "Okna, drzwi i ścianki przeciwpożarowe klasy EI15, EW30, EI30",
+  cats: ["ppoz", "drzwi"],            // pierwsza = wiodąca
+  ct: "rozwierne",
+  specs: [["Odporność ogniowa", "klasa EI30 | EN 13501-2:2016-07"]],
+}
+```
+
+Po pionowej kresce producent podaje raz **jednostkę**, raz **normę**.
+`splitTail()` rozdziela je po treści: jednostka dokleja się do wartości,
+norma trafia do własnej rubryki. Nie wpisuj jednostki tam, gdzie ma być norma.
+
+Źródło (`aluprof.com/produkt/<slug>` + data dostępu) dopisuje się samo do
+każdego parametru — walidator w trybie deweloperskim zgłasza wartość bez źródła
+jako błąd, a test `catalog.test.ts` pilnuje tego przy każdym uruchomieniu.
+
+### Poza zakresem fazy 1
+
+Osłony przeciwsłoneczne (żaluzje, pergole, screeny, rolety, moskitiery,
+markizy), bramy, kraty handlowe i klamki. To ~80 dalszych pozycji o innym
+charakterze — produkt gotowy, nie system profili — i wymagają innej karty.
+
+---
+
+## 12. Sekwencja 3D na stronie głównej
+
+`ProductStory` wybiera raz przy pierwszym renderze: scena 3D albo wersja
+zdjęciowa (`ScrollStory`).
+
+**Scena idzie na każdą szerokość ekranu.** Wcześniej poniżej 768 px właczała
+się wersja zdjęciowa — telefon, czyli większość ruchu, nie widział najlepszej
+części strony. Warunki, na których to stoi:
+
+- kadr trzyma `position: sticky`, a nie pinowanie ScrollTriggera — to jedyna
+  technika, która na dotyku nie szarpie,
+- scena montuje się dopiero przy wejściu w widok (`IntersectionObserver`),
+- `frameloop="demand"` — rysuje wyłącznie przy zmianie scrolla, nie 60 fps,
+- `frameloop="never"`, gdy sekcja wyjdzie z ekranu — GPU zwalnia całkiem,
+- poniżej 768 px pułap DPR spada do 1,25 i wyłącza się wygładzanie krawędzi,
+- postęp sekwencji żyje w `ref`, React renderuje się 6 razy na całą sekcję.
+
+**Kadrowanie zależy od proporcji ekranu** (`StoryScene`, funkcja `Rig`): ujęcia
+są komponowane pod szeroki widok, gdzie model stoi po prawej, a lewa połowa
+zostaje na typografię. Poniżej 900 px model wraca na środek, unosi się nad blok
+tekstu, a kamera cofa się — pionowy kadr przy `fov 38°` obcinałby konstrukcję
+o proporcjach 1,9 × 2,45 m. Przejście jest płynne, nie skokowe.
+
+Wersja zdjęciowa zostaje dla **braku WebGL** i dla **prefers-reduced-motion** —
+to wybór użytkownika, nie ograniczenie sprzętu, i musi być uszanowany.
+

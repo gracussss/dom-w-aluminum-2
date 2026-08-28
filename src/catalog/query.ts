@@ -39,7 +39,7 @@ function selected(ids: string[] | undefined): string[] {
  */
 function passes(system: AluSystem, query: SystemQuery, skip?: Dimension): boolean {
   const categories = selected(query.categoryIds);
-  if (skip !== "category" && categories.length > 0 && !categories.includes(system.categoryId)) {
+  if (skip !== "category" && categories.length > 0 && !categories.some((id) => system.categoryIds.includes(id))) {
     return false;
   }
 
@@ -119,7 +119,7 @@ function sortSystems(items: AluSystem[], sort: SortKey, taxonomy: Taxonomy): Alu
   if (sort === "category") {
     const order = new Map(taxonomy.categories.map((c, i) => [c.id, i]));
     return [...items].sort(
-      (a, b) => (order.get(a.categoryId) ?? 99) - (order.get(b.categoryId) ?? 99)
+      (a, b) => (order.get(a.categoryIds[0]) ?? 99) - (order.get(b.categoryIds[0]) ?? 99)
     );
   }
   return [...items].sort(SORTERS[sort]);
@@ -154,7 +154,7 @@ function buildFacets(dataset: AluSystem[], query: SystemQuery, taxonomy: Taxonom
       query,
       "category",
       selected(query.categoryIds),
-      (s, id) => s.categoryId === id
+      (s, id) => s.categoryIds.includes(id)
     ),
     manufacturers: buildFacet(
       taxonomy.manufacturers,

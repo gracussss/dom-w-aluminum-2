@@ -8,7 +8,6 @@ import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import { breadcrumbJsonLd } from "../lib/jsonLd";
 import { CrossSection, getSchematic } from "../components/crosssection";
 import { SystemViewer } from "../components/product3d/SystemViewer";
-import { SystemPresentation } from "../components/product3d/SystemPresentation";
 import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
 import { siteOrigin } from "../lib/seo";
 import { NotFound } from "./NotFound";
@@ -17,13 +16,13 @@ import {
   DOCUMENT_KIND_LABEL,
   MODEL_TYPE_LABEL,
   findApplications,
-  findCategory,
+  primaryCategory,
+  systemCategories,
   findConstructionType,
   findManufacturer,
   nameStatusNote,
   sourceNote,
   specsStatusNote,
-  systemGeometry,
   useRelatedSystems,
   useSystem,
   useTaxonomy,
@@ -42,20 +41,11 @@ export function SystemDetail() {
   }
 
   const manufacturer = findManufacturer(taxonomy, system.manufacturerId);
-  const category = findCategory(taxonomy, system.categoryId);
+  const category = primaryCategory(taxonomy, system);
+  const allCategories = systemCategories(taxonomy, system);
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
   const modelType = system.model3d.type;
-
-  /* Prezentacja krokowa wymaga wymiaru odczytanego z parametrów systemu.
-     Bez niego model nie miałby czego odwzorować w skali i zostaje przy
-     dotychczasowym podglądzie typu konstrukcji. Na razie tylko okna —
-     pozostałe typy dostaną własną sekwencję, a nie kopię tej. */
-  const geometry = systemGeometry(system);
-  const presentation =
-    modelType === "okno" && geometry.depth !== null && geometry.depthLabel !== null
-      ? { ...geometry, depth: geometry.depth, depthLabel: geometry.depthLabel }
-      : null;
 
   /* Rysunek producenta, jeśli jest — inaczej schemat poglądowy dla typu konstrukcji.
      Gdy nie ma ani jednego, ani drugiego (akcesoria), sekcja się nie pojawia:
@@ -155,15 +145,19 @@ export function SystemDetail() {
                       {manufacturer.name}
                     </Link>
                   )}
-                  <span className="h-3 w-px bg-limestone/20" />
-                  {category && (
-                    <Link
-                      to={`/systemy/kategoria/${category.slug}`}
-                      className="label text-limestone/55 transition-colors hover:text-limestone"
-                    >
-                      {category.name}
-                    </Link>
-                  )}
+                  {/* Wszystkie kategorie, do których producent przypisał system —
+                      MB-79N to jednocześnie okna i drzwi, i tak trzeba go pokazać */}
+                  {allCategories.map((c) => (
+                    <span key={c.id} className="flex items-center gap-x-4">
+                      <span className="h-3 w-px bg-limestone/20" />
+                      <Link
+                        to={`/systemy/kategoria/${c.slug}`}
+                        className="label text-limestone/55 transition-colors hover:text-limestone"
+                      >
+                        {c.name}
+                      </Link>
+                    </span>
+                  ))}
                 </div>
               </Reveal>
 
@@ -230,7 +224,9 @@ export function SystemDetail() {
         </section>
       )}
 
-      {/* MODEL 3D — typ konstrukcji właściwy dla tego systemu */}
+      {/* MODEL 3D — konstrukcja właściwa dla typu tego systemu: okno przy
+          oknach, skrzydło przesuwne przy systemach HS, słup i rygiel przy
+          fasadach. Model jest poglądowy i UI mówi o tym wprost. */}
       {modelType && (
         <section className="grain bg-void py-20 text-limestone md:py-28">
           <div className="container-edge">
@@ -244,23 +240,12 @@ export function SystemDetail() {
             </Reveal>
 
             <Reveal delay={0.1} className="mt-12">
-              {/* Prezentacja krokowa włącza się z danych, nie z listy nazw:
-                  wymaga potwierdzonej głębokości zabudowy, bo to jedyny wymiar,
-                  który model odwzorowuje w skali. Reszta katalogu bez zmian. */}
-              {presentation ? (
-                <SystemPresentation
-                  system={system}
-                  geometry={presentation}
-                  fallbackImage={system.media.hero.src}
-                />
-              ) : (
-                <SystemViewer
-                  modelType={modelType}
-                  modelUrl={system.model3d.url}
-                  fallbackImage={system.media.hero.src}
-                  description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
-                />
-              )}
+              <SystemViewer
+                modelType={modelType}
+                modelUrl={system.model3d.url}
+                fallbackImage={system.media.hero.src}
+                description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
+              />
             </Reveal>
           </div>
         </section>
@@ -288,20 +273,27 @@ export function SystemDetail() {
                 <dt className="label text-void/70">Typ konstrukcji</dt>
                 <dd className="text-[15px] text-void/75">{construction?.name}</dd>
               </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Zastosowanie</dt>
-                <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
-              </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Warianty</dt>
-                <dd className="flex flex-wrap gap-2">
-                  {system.variants.map((variant) => (
-                    <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
-                      {variant.name}
-                    </span>
-                  ))}
-                </dd>
-              </div>
+              {applications.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Zastosowanie</dt>
+                  <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
+                </div>
+              )}
+              {/* Wykonania systemu — producent nie wylicza ich na karcie
+                  w formie nadającej się do przepisania, więc wiersz pojawia
+                  się dopiero, gdy dane wpadną do zbioru. */}
+              {system.variants.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Warianty</dt>
+                  <dd className="flex flex-wrap gap-2">
+                    {system.variants.map((variant) => (
+                      <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
+                        {variant.name}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )}
             </dl>
           </Reveal>
         </div>

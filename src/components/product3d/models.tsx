@@ -47,7 +47,7 @@ type Vec = { x: number; y: number; z: number };
  *
  * Zwraca `true`, dopóki ruch trwa.
  */
-export function approach(obj: Vec | null | undefined, axis: Axis, target: number, delta: number, rate = RATE) {
+function approach(obj: Vec | null | undefined, axis: Axis, target: number, delta: number, rate = RATE) {
   if (!obj) return false;
   const current = obj[axis];
   if (current === target) return false;
@@ -63,7 +63,7 @@ export function approach(obj: Vec | null | undefined, axis: Axis, target: number
  * potrafi skoczyć do sekund) i mówi, czy coś jeszcze jedzie — jeśli tak,
  * zamawiamy kolejną klatkę.
  */
-export function useSceneFrame(step: (delta: number) => boolean) {
+function useSceneFrame(step: (delta: number) => boolean) {
   const invalidate = useThree((s) => s.invalidate);
   useFrame((_, delta) => {
     if (step(Math.min(delta, 0.05))) invalidate();
