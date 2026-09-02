@@ -1,5 +1,7 @@
+import { PHOTO_TONE } from "../lib/responsiveImage";
+
 function img(id: string, params = "w=1600&q=80&auto=format&fit=crop") {
-  return `https://images.unsplash.com/${id}?${params}`;
+  return `https://images.unsplash.com/${id}?${params}&${PHOTO_TONE}`;
 }
 
 export interface OfferArea {
@@ -64,7 +66,8 @@ export const offerAreas: OfferArea[] = [
   },
   {
     id: "specjalne",
-    categoryId: "specjalne",
+    // Ogrody zimowe to u producenta system fasadowy (MB-WG60)
+    categoryId: "fasady",
     name: "Ogrody zimowe i pergole",
     short: "Zabudowy i zadaszenia",
     description:
@@ -73,7 +76,7 @@ export const offerAreas: OfferArea[] = [
   },
   {
     id: "indywidualne",
-    categoryId: "specjalne",
+    categoryId: "indywidualne",
     name: "Konstrukcje indywidualne",
     short: "Nietypowe wymiary i kształty",
     description:

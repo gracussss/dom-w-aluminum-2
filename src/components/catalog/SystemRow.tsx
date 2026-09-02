@@ -9,8 +9,14 @@ import type { AluSystem, Taxonomy } from "../../catalog";
  * Wiersz metryki technicznej — etykieta w monospace, wartość obok.
  * Na wąskich ekranach pary układają się w linii i zawijają, żeby wiersz
  * katalogu nie urósł do wysokości pół ekranu.
+ *
+ * Brak wartości = brak pary. Etykieta z samym myślnikiem, powtórzona przy
+ * każdej z osiemdziesięciu kilku pozycji, zajmowała wiersz i nie mówiła nic
+ * ponad to, co i tak stoi w zastrzeżeniu pod listą.
  */
-function Meta({ label, value }: { label: string; value: string }) {
+function Meta({ label, value }: { label: string; value: string | null | undefined }) {
+  if (!value) return null;
+
   return (
     <div className="flex items-baseline gap-2.5 lg:gap-3">
       <dt className="label-sm shrink-0 text-void/70 lg:w-[94px]">{label}</dt>
@@ -82,10 +88,10 @@ export function SystemRow({ system, no, taxonomy, showManufacturer = true }: Sys
         {/* Metryka techniczna */}
         <dl className="flex flex-wrap gap-x-6 gap-y-2 lg:col-span-4 lg:flex-col lg:gap-2.5">
           {showManufacturer && (
-            <Meta label="Producent" value={findManufacturer(taxonomy, system.manufacturerId)?.name ?? "—"} />
+            <Meta label="Producent" value={findManufacturer(taxonomy, system.manufacturerId)?.name} />
           )}
-          <Meta label="Konstrukcja" value={construction?.name ?? "—"} />
-          <Meta label="Zastosowanie" value={applications || "—"} />
+          <Meta label="Konstrukcja" value={construction?.name} />
+          <Meta label="Zastosowanie" value={applications} />
           {/* Na stronie producenta miejsce po producencie zajmuje stan danych */}
           {!showManufacturer && (
             <Meta

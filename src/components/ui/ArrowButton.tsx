@@ -42,9 +42,15 @@ export function ArrowButton({
 
   const content = (
     <>
+      {/* Wypełnienie NIE może mieć ujemnego z-index. Przycisk jest `relative`
+          z `z-index: auto`, więc nie tworzy kontekstu układania — element
+          z `-z-10` lądował pod tłem sekcji i był niewidoczny. Na ciemnym tle
+          dawało to znikający przycisk: tekst przechodził na `text-void`,
+          a brąz, który miał wjechać pod spód, nigdy się nie pokazywał.
+          Treść jest nad wypełnieniem dzięki `relative z-10` poniżej. */}
       {variant !== "ghost" && (
         <span
-          className="absolute inset-0 -z-10 origin-left scale-x-0 bg-bronze-light transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-x-100"
+          className="absolute inset-0 origin-left scale-x-0 bg-bronze-light transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-x-100"
           aria-hidden
         />
       )}

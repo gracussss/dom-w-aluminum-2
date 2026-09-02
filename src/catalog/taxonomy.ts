@@ -13,13 +13,21 @@ import type {
    Listy referencyjne, do których odwołują się systemy. Dodanie nowego
    producenta czy kategorii to dopisanie pozycji tutaj — komponenty
    czytają taksonomię z repozytorium i nie znają jej zawartości.
+
+   Podział kategorii odwzorowuje sekcje oferty producenta
+   (aluprof.com/pl/oferta), a nie nasz własny pomysł na porządek.
    ------------------------------------------------------------------ */
 
 /**
- * UWAGA PRAWNA: `relationship: "none"` przy każdym producencie.
+ * UWAGA PRAWNA: `relationship: "none"`.
  * Obecność producenta w katalogu oznacza wyłącznie, że firma wykonuje
  * konstrukcje w jego systemach — nie oznacza autoryzacji ani partnerstwa.
  * Zmiana tej wartości wymaga pisemnego potwierdzenia od producenta.
+ *
+ * Lista jest jednoelementowa świadomie: katalog prezentuje dziś wyłącznie
+ * ALUPROF. Architektura wieloproducencka zostaje nietknięta — dodanie
+ * kolejnego producenta to dopisanie pozycji tutaj i systemów w `dataset.ts`.
+ * Interfejs sam pokaże filtr producenta, gdy pozycji będzie więcej niż jedna.
  */
 export const manufacturers: Manufacturer[] = [
   {
@@ -27,20 +35,6 @@ export const manufacturers: Manufacturer[] = [
     slug: "aluprof",
     name: "ALUPROF",
     website: "https://aluprof.com",
-    relationship: "none",
-  },
-  {
-    id: "aliplast",
-    slug: "aliplast",
-    name: "Aliplast",
-    website: null,
-    relationship: "none",
-  },
-  {
-    id: "schueco",
-    slug: "schueco",
-    name: "Schüco",
-    website: null,
     relationship: "none",
   },
 ];
@@ -51,59 +45,64 @@ export const categories: SystemCategory[] = [
     slug: "okna",
     name: "Okna",
     short: "Okna",
-    description: "Konstrukcje okienne — od pojedynczych otworów po przeszklenia wielkoformatowe.",
+    description:
+      "Systemy okienne — od serii standardowych po wąskoprofilowe i pasywne, w tym okna dachowe i konstrukcje renowacyjne.",
   },
   {
     id: "drzwi",
     slug: "drzwi",
     name: "Drzwi",
     short: "Drzwi",
-    description: "Drzwi wejściowe, techniczne i wewnętrzne w konstrukcji aluminiowej.",
+    description:
+      "Systemy drzwiowe: wejściowe, panelowe, obrotowe i do obiektów o dużym natężeniu ruchu.",
   },
   {
     id: "przesuwne",
     slug: "drzwi-przesuwne",
     name: "Drzwi przesuwne",
     short: "Przesuwne",
-    description: "Systemy podnoszono-przesuwne i przesuwne do dużych przeszkleń.",
+    description:
+      "Konstrukcje podnoszono-przesuwne, przesuwne i harmonijkowe — wyjścia na taras w dużym formacie.",
   },
   {
     id: "fasady",
     slug: "fasady",
     name: "Fasady",
     short: "Fasady",
-    description: "Ściany osłonowe: słupowo-ryglowe, strukturalne i elementowe.",
+    description:
+      "Ściany osłonowe słupowo-ryglowe, elementowe i strukturalne, wraz z rozwiązaniami zintegrowanymi.",
   },
   {
     id: "wewnetrzne",
-    slug: "systemy-wewnetrzne",
-    name: "Systemy wewnętrzne",
+    slug: "sciany-wewnetrzne",
+    name: "Ściany wewnętrzne",
     short: "Wewnętrzne",
-    description: "Przeszklone ścianki działowe i drzwi wewnętrzne.",
+    description: "Przeszklone ściany działowe i systemy podziału wnętrz biurowych.",
   },
   {
     id: "ppoz",
     slug: "systemy-przeciwpozarowe",
     name: "Systemy przeciwpożarowe",
     short: "Przeciwpożarowe",
-    description: "Konstrukcje o określonej odporności ogniowej — klasyfikacja z dokumentów producenta.",
+    description:
+      "Przegrody, drzwi i przeszklenia o określonej odporności ogniowej oraz konstrukcje oddymiające.",
   },
   {
-    id: "specjalne",
-    slug: "systemy-specjalne",
-    name: "Systemy specjalne",
-    short: "Specjalne",
-    description: "Ogrody zimowe, świetliki, pergole i konstrukcje nietypowe.",
-  },
-  {
-    id: "akcesoria",
-    slug: "akcesoria",
-    name: "Akcesoria",
-    short: "Akcesoria",
-    description: "Okucia, klamki, systemy ryglowania i automatyka.",
+    id: "indywidualne",
+    slug: "rozwiazania-indywidualne",
+    name: "Rozwiązania indywidualne",
+    short: "Indywidualne",
+    description:
+      "Fasady elementowe i strukturalne projektowane pod konkretną inwestycję, poza katalogiem standardowym.",
   },
 ];
 
+/**
+ * Zastosowanie budynkowe. Producent NIE publikuje takiego przypisania przy
+ * systemach, więc żaden system nie ma tu dziś wartości — filtr sam się
+ * ukrywa, dopóki nie pojawi się źródło. Wpisanie tego „na oko” byłoby
+ * zmyślaniem, a nie uzupełnianiem katalogu.
+ */
 export const applications: Application[] = [
   { id: "mieszkaniowe", name: "Budownictwo mieszkaniowe", short: "Mieszkaniowe" },
   { id: "komercyjne", name: "Obiekty komercyjne", short: "Komercyjne" },
@@ -119,11 +118,19 @@ export const constructionTypes: ConstructionType[] = [
 ];
 
 /**
- * Cechy przekrojowe (np. „antywłamaniowe RC2”, „pasywne”) świadomie puste.
- * Każdy tag byłby twierdzeniem technicznym — uzupełniamy wyłącznie na
- * podstawie kart katalogowych. Filtr po tagach ukrywa się, gdy lista jest pusta.
+ * Cechy przekrojowe. Każda musi mieć oparcie w materiałach producenta —
+ * `antywlamaniowe` pochodzi z sekcji oferty „Systemy antywłamaniowe”,
+ * `renowacja` z podtytułów systemów RENO. Nie dopisujemy tu cech
+ * „z wyczucia”: tag to twierdzenie techniczne jak każde inne.
+ *
+ * Antywłamaniowość celowo NIE jest kategorią — wszystkie pozycje z tej
+ * sekcji oferty to systemy okienne, drzwiowe albo fasadowe, obecne już
+ * w swoich kategoriach. Kategoria dublowałaby te same systemy.
  */
-export const tags: Tag[] = [];
+export const tags: Tag[] = [
+  { id: "antywlamaniowe", name: "Antywłamaniowe" },
+  { id: "renowacja", name: "Renowacyjne" },
+];
 
 export const taxonomy: Taxonomy = {
   manufacturers,

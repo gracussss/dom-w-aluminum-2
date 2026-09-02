@@ -46,17 +46,32 @@ export function RevealGroup({ children, className = "", stagger = 0.1 }: RevealG
 }
 
 const maskedLine = {
-  hidden: { y: "108%" },
+  hidden: { y: "130%" },
   visible: { y: "0%" },
 };
 
 /**
  * Nagłówek wjeżdżający zza krawędzi — maska zamiast zwykłego fade.
  *
- * Obserwowana jest MASKA, nie sam tekst. Tekst startuje przesunięty o 108%
- * swojej wysokości, czyli całkowicie poza obszar przycięcia rodzica —
- * IntersectionObserver nigdy nie uznałby go za widoczny i nagłówek zostałby
- * schowany na zawsze.
+ * Obserwowana jest MASKA, nie sam tekst. Tekst startuje przesunięty poniżej
+ * dolnej krawędzi przycięcia — IntersectionObserver nigdy nie uznałby go
+ * za widoczny i nagłówek zostałby schowany na zawsze.
+ *
+ * DLACZEGO `overflow-clip` z marginesem, a nie `overflow-hidden`:
+ * maska ma wysokość dokładnie jednego line-boxa, a `.display` składa się
+ * interlinią 0.92. Przy takiej interlinii pod linią bazową zostaje ~0.12 em,
+ * a descender potrzebuje 0.19 em (Archivo) i 0.22 em (Instrument Serif) —
+ * ogonki „j y g p ą ę" były ścinane płasko, do 8,9 px przy 1920. Sam
+ * `line-height` byłby nieszkodliwy; ucinało dopiero przycięcie.
+ *
+ * `overflow-clip-margin` poszerza OBSZAR PRZYCIĘCIA nie ruszając layoutu —
+ * inaczej niż padding z ujemnym marginesem, który psuje rytm składu, bo
+ * sąsiadujące ujemne marginesy się zlewają (bierze się najbardziej ujemny,
+ * nie sumę). Przeglądarka bez wsparcia wraca do zachowania sprzed poprawki.
+ *
+ * Przesunięcie startowe MUSI być większe niż poszerzony obszar przycięcia:
+ * 100% × (1 + 0.18/0.92) = 119,6%, stąd 130%. Przy 108% wierzchołek ukrytej
+ * linii wystawałby spod maski przed animacją.
  */
 export function RevealText({
   children,
@@ -72,7 +87,7 @@ export function RevealText({
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT}
-      className="block overflow-hidden"
+      className="block overflow-clip [overflow-clip-margin:0.18em]"
     >
       <motion.span
         variants={maskedLine}

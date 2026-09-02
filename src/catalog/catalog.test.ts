@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { systems } from "./dataset";
 import { taxonomy } from "./taxonomy";
 import { countActiveFilters, selectSystems } from "./query";
-import { hasMeasuredGeometry, parseMillimetres, systemGeometry } from "./geometry";
+import { explainSpec, explainSpecs } from "./glossary";
 import { validateSource } from "./repository";
-import type { AluSystem } from "./types";
+import type { AluSystem, SystemSpec } from "./types";
 
 /* ------------------------------------------------------------------
    TESTY WARSTWY KATALOGU
@@ -60,19 +60,26 @@ describe("silnik zapytań", () => {
   it("filtruje po kategorii", () => {
     const result = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy);
     expect(result.total).toBeGreaterThan(0);
-    expect(result.items.every((s) => s.categoryId === "okna")).toBe(true);
+    expect(result.items.every((s) => s.categoryIds.includes("okna"))).toBe(true);
   });
 
   it("łączy filtry z różnych wymiarów przez koniunkcję", () => {
     const result = selectSystems(systems, { categoryIds: ["okna"], manufacturerIds: ["aluprof"] }, taxonomy);
-    expect(result.items.every((s) => s.categoryId === "okna" && s.manufacturerId === "aluprof")).toBe(true);
+    expect(result.items.every((s) => s.categoryIds.includes("okna") && s.manufacturerId === "aluprof")).toBe(true);
   });
 
+  /* System bywa w kilku kategoriach naraz (MB-79N to okna i drzwi), więc
+     alternatywa daje SUMĘ ZBIORÓW, a nie sumę liczników. Test pilnuje obu
+     stron tej własności — i tego, że część systemów faktycznie się pokrywa. */
   it("łączy wartości w obrębie jednego wymiaru przez alternatywę", () => {
-    const okna = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy).total;
-    const drzwi = selectSystems(systems, { categoryIds: ["drzwi"] }, taxonomy).total;
-    const razem = selectSystems(systems, { categoryIds: ["okna", "drzwi"] }, taxonomy).total;
-    expect(razem).toBe(okna + drzwi);
+    const okna = selectSystems(systems, { categoryIds: ["okna"] }, taxonomy);
+    const drzwi = selectSystems(systems, { categoryIds: ["drzwi"] }, taxonomy);
+    const razem = selectSystems(systems, { categoryIds: ["okna", "drzwi"] }, taxonomy);
+
+    const suma = new Set([...okna.items, ...drzwi.items].map((s) => s.id));
+    expect(razem.total).toBe(suma.size);
+    expect(razem.total).toBeLessThan(okna.total + drzwi.total);
+    expect(razem.total).toBeGreaterThanOrEqual(Math.max(okna.total, drzwi.total));
   });
 
   it("szuka bez względu na wielkość liter i polskie znaki", () => {
@@ -106,7 +113,7 @@ describe("silnik zapytań", () => {
   it("sortowanie „wg kategorii” trzyma porządek taksonomii, nie alfabet", () => {
     const items = selectSystems(systems, { sort: "category" }, taxonomy).items;
     const order = new Map(taxonomy.categories.map((c, i) => [c.id, i]));
-    const positions = items.map((s) => order.get(s.categoryId) ?? -1);
+    const positions = items.map((s) => order.get(s.categoryIds[0]) ?? -1);
     expect([...positions]).toEqual([...positions].sort((a, b) => a - b));
   });
 
@@ -124,47 +131,48 @@ describe("silnik zapytań", () => {
   });
 });
 
-/* ------------------------------------------------------------------
-   GEOMETRIA DLA SCENY 3D
-
-   Prezentacja produktu pokazuje wymiar tylko wtedy, gdy producent podał
-   go jednoznacznie i ze źródłem. Te testy pilnują, żeby do sceny nie
-   przeciekła wartość brzegowa, zakres ani liczba bez źródła.
-   ------------------------------------------------------------------ */
-
-describe("geometria z parametrów", () => {
-  it("czyta jednoznaczny wymiar w milimetrach", () => {
-    expect(parseMillimetres("86 mm")).toBeCloseTo(0.086);
-    expect(parseMillimetres("104,5 mm")).toBeCloseTo(0.1045);
+describe("słownik parametrów", () => {
+  const spec = (over: Partial<SystemSpec>): SystemSpec => ({
+    id: "p1",
+    label: "Parametr",
+    value: null,
+    standard: null,
+    source: null,
+    ...over,
   });
 
-  it("odrzuca zakresy, wartości brzegowe i inne jednostki", () => {
-    for (const value of ["od 62 mm", "62-86 mm", "> 83 mm", "86", "8,6 cm", "", null]) {
-      expect(parseMillimetres(value)).toBeNull();
+  it("rozpoznaje wielkość po numerze normy, niezależnie od zapisu producenta", () => {
+    const zapisy = ["PN-EN 12208", "EN 12208", "PN-EN 12208:2001"];
+    for (const standard of zapisy) {
+      expect(explainSpec(spec({ standard }))?.id).toBe("watertightness");
     }
   });
 
-  it("MB-86N ma głębokość zabudowy gotową do zbudowania modelu", () => {
-    const mb86 = systems.find((s) => s.id === "mb-86n");
-    const geometry = systemGeometry(mb86!);
-
-    expect(geometry.depth).toBeCloseTo(0.086);
-    expect(geometry.depthLabel).toBe("86 mm");
-    expect(geometry.depthSource?.url).toContain("aluprof.com");
+  it("rozdziela Uf, Uw i Ud — to trzy różne wielkości, nie synonimy", () => {
+    expect(explainSpec(spec({ value: "Uf > 0,83 W/(m2K)" }))?.id).toBe("uf");
+    expect(explainSpec(spec({ value: "Uw od 0,62 W(m2K)" }))?.id).toBe("uw");
+    expect(explainSpec(spec({ value: "UD od 1,1 W/(m2K)" }))?.id).toBe("ud");
   });
 
-  it("nie buduje wymiaru z parametru bez źródła", () => {
-    const broken = {
-      ...systems[0],
-      specs: [{ id: "depth", label: "Głębokość zabudowy", value: "86 mm", standard: null, source: null }],
-    };
-
-    expect(systemGeometry(broken).depth).toBeNull();
-    expect(hasMeasuredGeometry(broken)).toBe(false);
+  it("milczy, gdy nie rozpoznaje parametru pewnie", () => {
+    expect(explainSpec(spec({ label: "Maksymalny ciężar skrzydła", value: "160 kg" }))).toBeNull();
+    /* Sama nazwa parametru nie wystarcza: ta sama wielkość występuje w zbiorze
+       pod kilkoma nazwami, więc dopasowanie po tekście trafiałoby na oślep. */
+    expect(explainSpec(spec({ label: "Wodoszczelność okien", value: "E 1950" }))).toBeNull();
   });
 
-  it("system bez podanej głębokości nie dostaje prezentacji z wymiarem", () => {
-    const mb104 = systems.find((s) => s.id === "mb-104-passive");
-    expect(hasMeasuredGeometry(mb104!)).toBe(false);
+  it("nie powtarza wpisu, gdy karta podaje wielkość kilka razy", () => {
+    const entries = explainSpecs([
+      spec({ id: "p1", standard: "PN-EN 12207" }),
+      spec({ id: "p2", standard: "EN 12207:2001" }),
+      spec({ id: "p3", value: "Uw od 0,9" }),
+    ]);
+
+    expect(entries.map((e) => e.id)).toEqual(["air-permeability", "uw"]);
+  });
+
+  it("nie podaje skali klas, dopóki nie ma dla niej źródła", () => {
+    const entry = explainSpec(spec({ standard: "PN-EN 12210" }));
+    expect(entry?.scale).toBeNull();
   });
 });

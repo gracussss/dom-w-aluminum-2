@@ -11,6 +11,7 @@ import { siteOrigin } from "../../lib/seo";
 import { SystemRow } from "./SystemRow";
 import { DATA_DISCLAIMER } from "../../catalog";
 import type { AluSystem, Taxonomy } from "../../catalog";
+import { positions } from "../../lib/plural";
 
 /* ------------------------------------------------------------------
    WSPÓLNY UKŁAD STRON PRZEKROJOWYCH KATALOGU
@@ -19,11 +20,6 @@ import type { AluSystem, Taxonomy } from "../../catalog";
    nagłówka i doborem pozycji — lista ma się czytać identycznie jak
    w pełnym katalogu, więc korzysta z tego samego wiersza.
    ------------------------------------------------------------------ */
-
-function positions(n: number) {
-  if (n === 1) return "pozycja";
-  return n < 5 ? "pozycje" : "pozycji";
-}
 
 export interface CatalogLandingProps {
   breadcrumbs: Crumb[];
@@ -83,6 +79,7 @@ export function CatalogLanding({
         title={title}
         description={description}
         breadcrumbs={<Breadcrumbs items={breadcrumbs} tone="light" />}
+        variant="index"
       />
 
       <section className="bg-limestone py-14 text-void md:py-20">
@@ -105,10 +102,7 @@ export function CatalogLanding({
                   strokeWidth={1.5}
                 />
               </Link>
-              <PlaceholderTag
-                label="Zdjęcia poglądowe"
-                className="border-void/15 bg-transparent text-void/70 backdrop-blur-none"
-              />
+              <PlaceholderTag label="Zdjęcia poglądowe" tone="light" />
             </div>
           </div>
 

@@ -8,11 +8,19 @@ import { ArrowButton } from "../components/ui/ArrowButton";
 import { realizations } from "../data/realizations";
 
 /** Asymetryczny układ — świadome łamanie siatki zamiast równego gridu. */
+/* Proporcje kadru dotyczą UKŁADU EDITORIAL, a ten istnieje dopiero od `lg`.
+   Poniżej tego progu każdy kafel jest pełnej szerokości kontenera, więc
+   pionowy kadr 3/4 dawał przy 900 px obraz 811 x 1081 px — wyższy niż okno.
+   Sześć takich pozycji to sześć ekranów samego zdjęcia. Kadr poziomy jest
+   niżej domyślny, pionowy wraca razem z wąskimi kolumnami. Ten sam wzorzec
+   stosuje już `SystemViewer`. */
+const BASE_RATIO = "aspect-[4/3]";
+
 const layout = [
-  "lg:col-span-7 lg:mt-0 aspect-[4/3]",
-  "lg:col-span-4 lg:col-start-9 lg:-mt-28 aspect-[3/4]",
-  "lg:col-span-5 lg:col-start-2 lg:mt-8 aspect-[3/4]",
-  "lg:col-span-6 lg:col-start-7 lg:mt-32 aspect-[16/10]",
+  "lg:col-span-7 lg:mt-0",
+  "lg:col-span-4 lg:col-start-9 lg:-mt-28 lg:aspect-[3/4]",
+  "lg:col-span-5 lg:col-start-2 lg:mt-8 lg:aspect-[3/4]",
+  "lg:col-span-6 lg:col-start-7 lg:mt-32 lg:aspect-[16/10]",
 ];
 
 export function FeaturedRealizations() {
@@ -33,7 +41,7 @@ export function FeaturedRealizations() {
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-x-8">
           {featured.map((item, i) => (
-            <Reveal key={item.id} delay={(i % 2) * 0.06} className={`group ${layout[i]}`}>
+            <Reveal key={item.id} delay={(i % 2) * 0.06} className={`group ${BASE_RATIO} ${layout[i]}`}>
               <Link to={`/realizacje/${item.slug}`} className="relative block h-full w-full overflow-hidden">
                 <ParallaxImage
                   src={item.cover}

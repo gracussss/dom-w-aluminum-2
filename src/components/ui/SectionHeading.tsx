@@ -61,8 +61,15 @@ export function SectionHeading({
         <div className="mt-9">{title}</div>
         {description && (
           <Reveal delay={0.12} className="mt-10 grid lg:grid-cols-12">
+            {/* Poniżej `lg` kolumna znika i akapit rozlałby się na całą
+                szerokość kontenera — miara wiersza dochodziła do 95 znaków. */}
+            {/* Kolumny 9–12, czyli równo z prawą krawędzią kontenera.
+                Przy `col-start-8` akapit kończył się na kolumnie 11 i zostawiał
+                173 px luzu do krawędzi — nie trafiał ani w nagłówek po lewej,
+                ani w krawędź po prawej, więc wyglądał na zawieszony w środku
+                wiersza. Widoczne w sekcji „Proces" i na stronie Oferty. */}
             <p
-              className={`text-pretty text-sm leading-relaxed md:text-base lg:col-span-4 lg:col-start-8 ${bodyText}`}
+              className={`max-w-xl text-pretty text-sm leading-relaxed md:text-base lg:col-span-4 lg:col-start-9 lg:max-w-none ${bodyText}`}
             >
               {description}
             </p>

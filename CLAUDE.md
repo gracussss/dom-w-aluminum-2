@@ -48,9 +48,13 @@ Indeksowanie **nie jest przełącznikiem ręcznym**: wynika z danych
 (`nameStatus`, `verified`). Uzupełnienie danych samo włącza `index`, wpis
 w sitemapie i blok `Product`.
 
-Cała witryna jest teraz zablokowana przed indeksowaniem w trzech miejscach
-(`robots.txt`, `index.html`, `vercel.json`). **Nie zdejmuj tej blokady** bez
-wyraźnej decyzji — patrz `SEO.md`, sekcja 8.
+Cała witryna jest teraz zablokowana przed indeksowaniem w czterech miejscach
+(`robots.txt`, `index.html`, `public/_headers` dla Netlify, `vercel.json`).
+Wdrożenie stoi na Netlify, więc **działają trzy pierwsze** — `vercel.json` nie
+jest tam czytany. **Nie zdejmuj blokady** bez wyraźnej decyzji — checklista
+w `SEO.md`, sekcja 9. Dlatego też wynik SEO w PageSpeed to ~69: blokada jest
+jedynym nieprzechodzącym audytem i tak ma być do czasu publikacji (`SEO.md`,
+sekcja 8).
 
 ---
 

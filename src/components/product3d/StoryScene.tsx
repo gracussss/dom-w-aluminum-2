@@ -96,12 +96,27 @@ function Rig({ progress }: { progress: RefObject<number> }) {
   const sash = useRef<Group>(null);
   const glass = useRef<Group>(null);
   const look = useMemo(() => new Vector3(), []);
+  const eye = useMemo(() => new Vector3(), []);
 
-  useFrame(({ camera }) => {
+  useFrame(({ camera, size }) => {
     const s = sample(progress.current ?? 0);
 
-    camera.position.set(s.px, s.py, s.pz);
-    look.set(s.lx, s.ly, s.lz);
+    /* Kadr dopasowany do proporcji ekranu. Ujęcia są komponowane pod szeroki
+       widok: model stoi po prawej, lewa połowa zostaje na typografię. Na wąskim
+       ekranie żadnej „lewej połowy” nie ma — model wraca na środek, unosi się
+       nad blok tekstu, a kamera cofa się, bo pionowy kadr przy fov 38°
+       obcinałby konstrukcję o proporcjach 1,9 × 2,45 m.
+       0 przy 900 px i szerzej, 1 przy 400 px i węziej. */
+    const narrow = Math.min(1, Math.max(0, (900 - size.width) / 500));
+
+    look.set(s.lx * (1 - narrow), s.ly - 0.4 * narrow, s.lz);
+    eye
+      .set(s.px, s.py, s.pz)
+      .sub(look)
+      .multiplyScalar(1 + 0.5 * narrow)
+      .add(look);
+
+    camera.position.copy(eye);
     camera.lookAt(look);
 
     if (outer.current) outer.current.position.z = SHELL_Z + SHELL_SPREAD * s.explode;
@@ -169,12 +184,18 @@ interface StorySceneProps {
 }
 
 export default function StoryScene({ progress, active, bind }: StorySceneProps) {
+  /* Telefony mają gęste ekrany i słabsze GPU, a scena zajmuje cały kadr:
+     na małych szerokościach ścinamy pułap DPR i wyłączamy wygładzanie
+     krawędzi. Liczone raz, przy montażu — scena montuje się dopiero przy
+     wejściu w widok i nie przeżywa obrotu ekranu w trakcie sekwencji. */
+  const small = typeof window !== "undefined" && window.innerWidth < 768;
+
   return (
     <Canvas
       /* Scena zajmuje cały ekran, więc pułap DPR niżej niż w podglądzie karty. */
-      dpr={[1, 1.6]}
+      dpr={[1, small ? 1.25 : 1.6]}
       camera={{ position: KEYS[0].pos, fov: 38 }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      gl={{ antialias: !small, powerPreference: "high-performance" }}
       frameloop={active ? "demand" : "never"}
     >
       <color attach="background" args={["#141618"]} />
@@ -188,11 +209,16 @@ export default function StoryScene({ progress, active, bind }: StorySceneProps) 
       <directionalLight position={[0, 1.5, 6]} intensity={0.9} />
       <directionalLight position={[-5, 2, -3]} intensity={0.7} color="#9db4c7" />
 
-      <Environment resolution={192}>
-        <Lightformer intensity={3} position={[0, 4, -4]} scale={[12, 6, 1]} color="#ffffff" />
-        <Lightformer intensity={1.5} position={[-5, 0, 2]} scale={[3, 10, 1]} color="#c8d4dd" />
-        <Lightformer intensity={1.8} position={[5, 1, 2]} scale={[3, 10, 1]} color="#ffffff" />
-        <Lightformer intensity={0.9} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
+      {/* Ten sam rig co na karcie systemu, tylko jaśniejszy — patrz komentarz
+          w `SystemScene`. Modele są wspólne, więc i otoczenie musi być spójne,
+          inaczej ten sam profil ma na dwóch stronach dwa różne materiały. */}
+      <Environment resolution={256}>
+        <Lightformer intensity={5.2} position={[0, 4, 2.4]} scale={[9, 1.1, 1]} color="#ffffff" />
+        <Lightformer intensity={2} position={[0, 3, -6]} scale={[14, 8, 1]} color="#c3c9cd" />
+        <Lightformer intensity={3.4} position={[5, 1, 2]} scale={[2, 9, 1]} color="#ffffff" />
+        <Lightformer intensity={1.2} position={[-5.5, 0, 1]} scale={[4, 9, 1]} color="#8b9095" />
+        <Lightformer intensity={2.2} position={[0, 1, 7]} scale={[10, 8, 1]} color="#dfe3e6" />
+        <Lightformer intensity={0.8} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
       </Environment>
 
       <Rig progress={progress} />

@@ -58,6 +58,7 @@ export function Cookies() {
         eyebrow="Dokument"
         title="Polityka cookies"
         description="Poniżej opisujemy, co dokładnie zapisujemy w Twojej przeglądarce i jak zarządzać zgodą."
+        variant="quiet"
       />
 
       <section className="bg-limestone py-16 text-void md:py-20">

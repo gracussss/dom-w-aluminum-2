@@ -21,7 +21,10 @@ export function ONas() {
             <ParallaxImage
               src={images.about}
               alt="Precyzja wykonania — zdjęcie poglądowe"
-              className="aspect-[4/5] w-full"
+              /* 4/5 ma sens w kolumnie 5/12 na desktopie. Na pełnej szerokości
+                 kontenera dawało przy 941 px kadr 887 x 1108 px — jeden ekran
+                 zdjęcia przed pierwszym zdaniem o firmie. */
+              className="aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-[4/5]"
             />
             <PlaceholderTag className="absolute right-3 top-3" />
           </div>

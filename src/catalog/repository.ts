@@ -155,8 +155,13 @@ export function validateSource(source: LocalSource): string[] {
     if (!manufacturerIds.has(system.manufacturerId)) {
       problems.push(where + ": nieznany producent " + system.manufacturerId + ".");
     }
-    if (!categoryIds.has(system.categoryId)) {
-      problems.push(where + ": nieznana kategoria " + system.categoryId + ".");
+    if (system.categoryIds.length === 0) {
+      problems.push(where + ": brak kategorii.");
+    }
+    for (const category of system.categoryIds) {
+      if (!categoryIds.has(category)) {
+        problems.push(where + ": nieznana kategoria " + category + ".");
+      }
     }
     if (!constructionIds.has(system.constructionTypeId)) {
       problems.push(where + ": nieznany typ konstrukcji " + system.constructionTypeId + ".");

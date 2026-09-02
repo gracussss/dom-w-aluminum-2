@@ -42,7 +42,21 @@ export function findApplications(taxonomy: Taxonomy, ids: string[]): Application
   return taxonomy.applications.filter((a) => ids.includes(a.id));
 }
 
-/** Systemy pogrupowane w kolejności taksonomii — bez pustych grup. */
+/** Kategoria wiodąca systemu — pierwsza z listy. Do breadcrumbs i grupowania. */
+export function primaryCategory(taxonomy: Taxonomy, system: AluSystem): SystemCategory | undefined {
+  return findCategory(taxonomy, system.categoryIds[0]);
+}
+
+/** Wszystkie kategorie systemu, w kolejności taksonomii. */
+export function systemCategories(taxonomy: Taxonomy, system: AluSystem): SystemCategory[] {
+  return taxonomy.categories.filter((c) => system.categoryIds.includes(c.id));
+}
+
+/**
+ * Systemy pogrupowane w kolejności taksonomii — bez pustych grup.
+ * UWAGA: system należący do kilku kategorii pojawi się w każdej z nich.
+ * W katalogu numerację nadajemy po deduplikacji, żeby licznik się zgadzał.
+ */
 export function groupByCategory(
   systems: AluSystem[],
   taxonomy: Taxonomy
@@ -50,7 +64,7 @@ export function groupByCategory(
   return taxonomy.categories
     .map((category) => ({
       category,
-      items: systems.filter((s) => s.categoryId === category.id),
+      items: systems.filter((s) => s.categoryIds.includes(category.id)),
     }))
     .filter((group) => group.items.length > 0);
 }
@@ -59,7 +73,7 @@ export function groupByCategory(
 export function countByCategory(systems: AluSystem[], taxonomy: Taxonomy): Map<string, number> {
   const counts = new Map<string, number>();
   for (const category of taxonomy.categories) {
-    counts.set(category.id, systems.filter((s) => s.categoryId === category.id).length);
+    counts.set(category.id, systems.filter((s) => s.categoryIds.includes(category.id)).length);
   }
   return counts;
 }

@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ArrowUpRight, ChevronDown, Search, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { PageHero } from "../components/ui/PageHero";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
@@ -15,7 +15,8 @@ import {
   useSystems,
   useTaxonomy,
 } from "../catalog";
-import type { FacetOption, SortKey, SystemQuery } from "../catalog";
+import type { AluSystem, FacetOption, SortKey, SystemQuery, Taxonomy } from "../catalog";
+import { positions, systemsWord } from "../lib/plural";
 
 /* ------------------------------------------------------------------
    Stan katalogu żyje w adresie URL — komplet filtrów, fraza i sortowanie.
@@ -35,15 +36,8 @@ const PARAM = {
 
 const SORT_KEYS = Object.keys(SORT_LABELS) as SortKey[];
 
-function positions(n: number) {
-  if (n === 1) return "pozycja";
-  return n < 5 ? "pozycje" : "pozycji";
-}
-
-function results(n: number) {
-  if (n === 1) return "system";
-  return n < 5 ? "systemy" : "systemów";
-}
+/** Ile pozycji pokazujemy na start i o ile dokłada przycisk. */
+const PAGE = 24;
 
 interface FilterRowProps {
   label: string;
@@ -55,9 +49,14 @@ interface FilterRowProps {
 /**
  * Wiersz filtra. Każda opcja niesie liczbę wyników, jakie da po kliknięciu —
  * opcje prowadzące donikąd są wyłączone, więc nie da się kliknąć w pustkę.
+ *
+ * Cały wiersz znika, gdy nie ma czym filtrować: jedna opcja niczego nie
+ * zawęża, a same zera znaczą, że danych po prostu jeszcze nie ma.
  */
 function FilterRow({ label, options, onToggle, onClear }: FilterRowProps) {
   const anySelected = options.some((o) => o.selected);
+  const usable = options.length > 1 && options.some((o) => o.count > 0);
+  if (!usable) return null;
 
   return (
     <div
@@ -96,13 +95,122 @@ function FilterRow({ label, options, onToggle, onClear }: FilterRowProps) {
             }`}
           >
             {option.name}
-            <span className={`ml-2 tabular-nums ${option.selected ? "text-limestone/70" : "text-void/70"}`}>
+            <span className={`ml-2 tabular-nums ${option.selected ? "text-limestone/60" : "text-void/45"}`}>
               {option.count}
             </span>
           </button>
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * Kategorie jako nawigacja, nie jako filtr. Przy siedmiu kategoriach
+ * i osiemdziesięciu kilku systemach to one są pierwszym krokiem —
+ * prowadzą na własne adresy, które da się podlinkować i zaindeksować.
+ *
+ * Siedem jednakowych kafli nie mówiło nic o tym, gdzie naprawdę jest oferta:
+ * najliczniejsza kategoria ma pięć razy więcej pozycji niż najmniejsza,
+ * a wyglądały tak samo. Trzy wiodące dostają duże pole z liczbą pozycji jako
+ * numerałem, reszta zostaje kompaktowym rzędem. Podział wynika z danych,
+ * nie z kolejności w taksonomii — po dołożeniu systemów sam się przestawi.
+ *
+ * Przy okazji oba rzędy wypełniają się na dużym ekranie równo (3 i 4
+ * kolumny), czego siedem kafli w czterech kolumnach nie robiło.
+ */
+function CategoryNav({ taxonomy, counts }: { taxonomy: Taxonomy; counts: Map<string, number> }) {
+  const entries = taxonomy.categories.map((category, order) => ({
+    category,
+    order,
+    no: String(order + 1).padStart(2, "0"),
+    count: counts.get(category.id) ?? 0,
+  }));
+
+  /* Remis rozstrzyga kolejność w taksonomii, żeby układ był powtarzalny. */
+  const leadingIds = new Set(
+    [...entries]
+      .sort((a, b) => b.count - a.count || a.order - b.order)
+      .slice(0, 3)
+      .map((entry) => entry.category.id)
+  );
+  const leading = entries.filter((entry) => leadingIds.has(entry.category.id));
+  const rest = entries.filter((entry) => !leadingIds.has(entry.category.id));
+
+  /* Siatka na obramowaniach, nie na tle z odstępami: brakująca komórka
+     w ostatnim rzędzie nie zostawia wtedy pustego szarego prostokąta. */
+  const cell =
+    "group flex flex-col justify-between border-b border-r border-void/12 transition-colors duration-500 hover:bg-void";
+
+  return (
+    <nav aria-label="Kategorie systemów">
+      {/* Kategorie wiodące */}
+      <div className="grid grid-cols-1 border-l border-t border-void/12 sm:grid-cols-2 lg:grid-cols-3">
+        {leading.map(({ category, no, count }) => (
+          <Link
+            key={category.id}
+            to={`/systemy/kategoria/${category.slug}`}
+            /* Na telefonie kafle stoją jeden pod drugim — pełna wysokość
+               zostawiałaby w środku martwe pole i spychała resztę kategorii
+               poza ekran. Waga typograficzna niesie hierarchię i bez niej. */
+            className={`${cell} min-h-[148px] p-5 sm:min-h-[190px] md:min-h-[220px] md:p-6`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
+                {no}
+              </span>
+              <div className="text-right">
+                <span className="display block text-4xl leading-none text-void/50 transition-colors duration-500 group-hover:text-bronze-light md:text-5xl">
+                  {count}
+                </span>
+                <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
+                  {positions(count)}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-end justify-between gap-4">
+              <h3 className="display text-2xl leading-none tracking-[-0.03em] text-void transition-colors duration-500 group-hover:text-limestone md:text-[28px]">
+                {category.name}
+              </h3>
+              <ArrowUpRight
+                className="h-5 w-5 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
+                strokeWidth={1.3}
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Pozostałe — ten sam kafel, mniejsza waga */}
+      <div className="grid grid-cols-1 border-l border-void/12 sm:grid-cols-2 lg:grid-cols-4">
+        {rest.map(({ category, no, count }) => (
+          <Link
+            key={category.id}
+            to={`/systemy/kategoria/${category.slug}`}
+            className={`${cell} min-h-[132px] p-5 md:p-6`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
+                {no}
+              </span>
+              <ArrowUpRight
+                className="h-4 w-4 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
+                strokeWidth={1.4}
+              />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em] text-void transition-colors duration-500 group-hover:text-limestone">
+                {category.name}
+              </h3>
+              <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
+                {count} {positions(count)}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 }
 
@@ -118,8 +226,6 @@ export function Systemy() {
       manufacturerIds: params.getAll(PARAM.manufacturer),
       applicationIds: params.getAll(PARAM.application),
       constructionTypeIds: params.getAll(PARAM.construction),
-      /* Bez tej linii filtr cech zapisywał się do adresu i nic nie robił —
-         zapytanie nigdy go nie widziało. */
       tagIds: params.getAll(PARAM.tag),
       sort: SORT_KEYS.includes(sort as SortKey) ? (sort as SortKey) : DEFAULT_SORT,
     };
@@ -127,6 +233,19 @@ export function Systemy() {
 
   const taxonomyState = useTaxonomy();
   const listState = useSystems(query);
+
+  /* Liczniki przy nawigacji mają pokazywać zawartość kategorii, a nie
+     zawartość kategorii po nałożeniu filtrów — stąd osobne zapytanie. */
+  const allState = useSystems();
+
+  /* Doładowywanie: nowy zestaw filtrów zaczyna od pierwszej porcji. */
+  const key = JSON.stringify(query);
+  const [visible, setVisible] = useState(PAGE);
+  const [lastKey, setLastKey] = useState(key);
+  if (key !== lastKey) {
+    setLastKey(key);
+    setVisible(PAGE);
+  }
 
   const update = useCallback(
     (mutate: (next: URLSearchParams) => void) => {
@@ -138,19 +257,19 @@ export function Systemy() {
   );
 
   const toggle = useCallback(
-    (key: string, id: string) =>
+    (key2: string, id: string) =>
       update((next) => {
-        const current = next.getAll(key);
-        next.delete(key);
+        const current = next.getAll(key2);
+        next.delete(key2);
         for (const value of current) {
-          if (value !== id) next.append(key, value);
+          if (value !== id) next.append(key2, value);
         }
-        if (!current.includes(id)) next.append(key, id);
+        if (!current.includes(id)) next.append(key2, id);
       }),
     [update]
   );
 
-  const clear = useCallback((key: string) => update((next) => next.delete(key)), [update]);
+  const clear = useCallback((key2: string) => update((next) => next.delete(key2)), [update]);
 
   const setSearch = useCallback(
     (value: string) =>
@@ -175,106 +294,93 @@ export function Systemy() {
   const taxonomy = taxonomyState.data;
   const list = listState.data;
 
-  /**
-   * Wyniki jako indeks techniczny: przy sortowaniu „wg kategorii” pozycje
-   * grupują się nagłówkami, przy pozostałych układają się w jedną listę.
-   * Numeracja jest ciągła przez cały zestaw wyników.
-   */
-  const sections = useMemo(() => {
-    if (!list || !taxonomy) return [];
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const option of allState.data?.facets.categories ?? []) counts.set(option.id, option.count);
+    return counts;
+  }, [allState.data]);
 
-    if (query.sort === "category") {
+  /* Widoczna porcja wyników — reszta czeka na przycisk. */
+  const shown: AluSystem[] = useMemo(() => (list ? list.items.slice(0, visible) : []), [list, visible]);
+
+  /**
+   * Nagłówki kategorii mają sens tylko wtedy, gdy patrzymy na cały katalog.
+   * Przy aktywnym filtrze kategorii lista idzie płasko — system bywa
+   * przypisany do kilku kategorii i nagłówek „Okna” nad wynikiem
+   * filtrowania po drzwiach wprowadzałby w błąd.
+   */
+  const grouped = query.sort === "category" && (query.categoryIds ?? []).length === 0;
+
+  const sections = useMemo(() => {
+    if (!taxonomy) return [];
+
+    if (grouped) {
       let n = 0;
-      return groupByCategory(list.items, taxonomy).map(({ category, items }) => ({
-        id: category.id,
-        title: category.name,
-        items: items.map((system) => ({ system, no: String(++n).padStart(2, "0") })),
-      }));
+      return groupByCategory(shown, taxonomy)
+        .map(({ category, items }) => ({
+          id: category.id,
+          title: category.name,
+          /* Grupujemy po kategorii wiodącej, żeby system nie powtórzył się
+             w dwóch sekcjach i numeracja zgadzała się z licznikiem. */
+          items: items
+            .filter((s) => s.categoryIds[0] === category.id)
+            .map((system) => ({ system, no: String(++n).padStart(2, "0") })),
+        }))
+        .filter((section) => section.items.length > 0);
     }
 
     return [
       {
         id: "all",
-        title: SORT_LABELS[query.sort ?? DEFAULT_SORT],
-        items: list.items.map((system, i) => ({
-          system,
-          no: String(i + 1).padStart(2, "0"),
-        })),
+        title: "Wyniki",
+        items: shown.map((system, i) => ({ system, no: String(i + 1).padStart(2, "0") })),
       },
     ];
-  }, [list, taxonomy, query.sort]);
+  }, [shown, taxonomy, grouped]);
 
   const activeCount = countActiveFilters(query);
-  const searchParam = params.get(PARAM.search) ?? "";
+  const searchValue = params.get(PARAM.search) ?? "";
   const total = list?.total ?? 0;
-
-  /* ----------------------------------------------------------------
-     Pole wyszukiwania pisze do adresu z opóźnieniem.
-
-     Wcześniej każda litera przepisywała URL i przeliczała facety —
-     „przesuwne" to dziesięć przeliczeń całego katalogu. Teraz w polu
-     żyje własny stan, a adres (czyli to, co da się wysłać linkiem)
-     dogania go po 250 ms ciszy.
-     ---------------------------------------------------------------- */
-  const [searchDraft, setSearchDraft] = useState(searchParam);
-  /** Ostatnia fraza, którą brudnopis i adres miały wspólną. */
-  const [syncedSearch, setSyncedSearch] = useState(searchParam);
-
-  // Zmiana z zewnątrz („Wyczyść filtry", przycisk wstecz) wygrywa z brudnopisem.
-  if (searchParam !== syncedSearch) {
-    setSyncedSearch(searchParam);
-    setSearchDraft(searchParam);
-  }
-
-  useEffect(() => {
-    if (searchDraft === syncedSearch) return;
-    const id = window.setTimeout(() => {
-      setSyncedSearch(searchDraft);
-      setSearch(searchDraft);
-    }, 250);
-    return () => window.clearTimeout(id);
-  }, [searchDraft, syncedSearch, setSearch]);
+  const manyManufacturers = (taxonomy?.manufacturers.length ?? 0) > 1;
 
   return (
     <>
       <Seo
-        title="Katalog systemów aluminiowych"
-        description="Systemy okienne, drzwiowe, przesuwne, fasadowe i przeciwpożarowe — z filtrowaniem po producencie, kategorii, zastosowaniu i typie konstrukcji."
-        /* Filtry żyją w zapytaniu (?producent=…). Każde ich ustawienie to ten sam
-           zbiór treści, więc kanoniczny pozostaje adres katalogu bez parametrów. */
+        title="Katalog systemów aluminiowych ALUPROF"
+        description="Okna, drzwi, konstrukcje przesuwne, fasady, ściany wewnętrzne i systemy przeciwpożarowe ALUPROF. Katalog z wyszukiwarką, filtrami i kartą techniczną każdego systemu."
         canonicalPath="/systemy"
       />
       <PageHero
         eyebrow="Katalog"
         title="Systemy aluminiowe"
-        description="Zestawienie systemów w podziale na kategorie i zastosowania. Karty techniczne uzupełniamy w miarę potwierdzania danych u producentów."
+        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów — przy każdej wartości podajemy źródło."
+        variant="index"
       />
 
       <section className="bg-limestone py-14 text-void md:py-20">
         <div className="container-edge">
+          {/* Kategorie — pierwszy krok, przed filtrami */}
+          {taxonomy && <CategoryNav taxonomy={taxonomy} counts={categoryCounts} />}
+
           {/* Wyszukiwarka */}
-          <div className="flex items-center gap-3 border border-void/15 px-4 py-3.5 md:px-5">
+          <div className="mt-12 flex items-center gap-3 border border-void/15 px-4 py-3.5 md:px-5">
             <Search className="h-4 w-4 shrink-0 text-void/60" strokeWidth={1.5} />
             <input
               type="search"
-              value={searchDraft}
-              onChange={(e) => setSearchDraft(e.target.value)}
-              placeholder="Szukaj systemu…"
+              value={searchValue}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Szukaj systemu — np. MB-86N, przesuwne, przeciwpożarowe…"
               aria-label="Szukaj systemu"
               className="w-full bg-transparent text-[15px] text-void outline-none placeholder:text-void/60"
             />
-            {searchDraft && (
-              <button
-                onClick={() => setSearchDraft("")}
-                aria-label="Wyczyść wyszukiwanie"
-                className="-m-2 p-2 text-void/60 hover:text-void"
-              >
+            {searchValue && (
+              <button onClick={() => setSearch("")} aria-label="Wyczyść" className="text-void/60 hover:text-void">
                 <X className="h-4 w-4" strokeWidth={1.5} />
               </button>
             )}
           </div>
 
-          {/* Filtry — budowane z facetów zwróconych przez repozytorium */}
+          {/* Filtry — budowane z facetów; puste wymiary same się chowają */}
           {taxonomy && list && (
             <div className="mt-8 border-t border-void/12">
               <FilterRow
@@ -283,11 +389,25 @@ export function Systemy() {
                 onToggle={(id) => toggle(PARAM.category, id)}
                 onClear={() => clear(PARAM.category)}
               />
+              {manyManufacturers && (
+                <FilterRow
+                  label="Producent"
+                  options={list.facets.manufacturers}
+                  onToggle={(id) => toggle(PARAM.manufacturer, id)}
+                  onClear={() => clear(PARAM.manufacturer)}
+                />
+              )}
               <FilterRow
-                label="Producent"
-                options={list.facets.manufacturers}
-                onToggle={(id) => toggle(PARAM.manufacturer, id)}
-                onClear={() => clear(PARAM.manufacturer)}
+                label="Typ konstrukcji"
+                options={list.facets.constructionTypes}
+                onToggle={(id) => toggle(PARAM.construction, id)}
+                onClear={() => clear(PARAM.construction)}
+              />
+              <FilterRow
+                label="Cechy"
+                options={list.facets.tags}
+                onToggle={(id) => toggle(PARAM.tag, id)}
+                onClear={() => clear(PARAM.tag)}
               />
               <FilterRow
                 label="Zastosowanie"
@@ -295,56 +415,48 @@ export function Systemy() {
                 onToggle={(id) => toggle(PARAM.application, id)}
                 onClear={() => clear(PARAM.application)}
               />
-              <FilterRow
-                label="Typ konstrukcji"
-                options={list.facets.constructionTypes}
-                onToggle={(id) => toggle(PARAM.construction, id)}
-                onClear={() => clear(PARAM.construction)}
-              />
-              {/* Filtr cech pojawi się, gdy taksonomia tagów zostanie uzupełniona */}
-              {list.facets.tags.length > 0 && (
-                <FilterRow
-                  label="Cechy"
-                  options={list.facets.tags}
-                  onToggle={(id) => toggle(PARAM.tag, id)}
-                  onClear={() => clear(PARAM.tag)}
-                />
-              )}
             </div>
           )}
 
           <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
             <p className="label text-void/70" role="status" aria-live="polite">
-              {total} {results(total)}
+              {total} {systemsWord(total)}
               {activeCount > 0 && ` · filtry: ${activeCount}`}
             </p>
 
             <div className="flex flex-wrap items-center gap-6">
               <label className="flex items-center gap-2.5">
                 <span className="label text-void/70">Sortuj</span>
-                <select
-                  value={query.sort ?? DEFAULT_SORT}
-                  onChange={(e) => setSort(e.target.value as SortKey)}
-                  className="label border border-void/18 bg-transparent px-3 py-2 text-void/80 outline-none transition-colors hover:border-void/50 focus-visible:border-void"
-                >
-                  {SORT_KEYS.map((key) => (
-                    <option key={key} value={key}>
-                      {SORT_LABELS[key]}
-                    </option>
-                  ))}
-                </select>
+                {/* `appearance-none` zdejmuje własną chromę przeglądarki.
+                    Bez tego Chrome rysował jasnoszare pole ze swoją strzałką —
+                    jedyny element na stronie w obcej konwencji, stojący tuż
+                    obok pigułek filtrów. Strzałkę rysujemy sami. */}
+                <span className="relative inline-flex items-center">
+                  <select
+                    value={query.sort ?? DEFAULT_SORT}
+                    onChange={(e) => setSort(e.target.value as SortKey)}
+                    className="label appearance-none border border-void/18 bg-transparent py-2 pl-3 pr-9 text-void/80 outline-none transition-colors hover:border-void/50 focus-visible:border-void"
+                  >
+                    {SORT_KEYS.filter((k) => k !== "manufacturer" || manyManufacturers).map((key2) => (
+                      <option key={key2} value={key2}>
+                        {SORT_LABELS[key2]}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    aria-hidden
+                    className="pointer-events-none absolute right-3 h-3.5 w-3.5 text-void/60"
+                    strokeWidth={1.6}
+                  />
+                </span>
               </label>
 
-              {(activeCount > 0 || searchDraft) && (
+              {(activeCount > 0 || searchValue) && (
                 <button onClick={resetAll} className="label text-void/70 underline underline-offset-4 hover:text-void">
                   Wyczyść filtry
                 </button>
               )}
-              {/* Jedna etykieta na całą listę zamiast znacznika przy każdej pozycji */}
-              <PlaceholderTag
-                label="Zdjęcia poglądowe"
-                className="border-void/15 bg-transparent text-void/70 backdrop-blur-none"
-              />
+              <PlaceholderTag label="Zdjęcia poglądowe" tone="light" />
             </div>
           </div>
 
@@ -358,35 +470,46 @@ export function Systemy() {
           ) : total === 0 ? (
             <p className="mt-16 text-center text-void/70">Brak systemów spełniających wybrane kryteria.</p>
           ) : (
-            <div className="mt-12">
-              {sections.map((section) => (
-                <Reveal key={section.id} className="mt-16 first:mt-0">
-                  {/* Nagłówek sekcji — znacznik w monospace, nie tytuł
-                      konkurujący z nazwami systemów. Hierarchia: marker → pozycje. */}
-                  {/* Nagłówek dla czytnika mówi, czym jest lista; na ekranie
-                      zostaje sam marker, żeby nie konkurował z nazwami systemów. */}
-                  <h2 className="sr-only">
-                    {query.sort === "category"
-                      ? `Kategoria: ${section.title}`
-                      : `Wyniki — ${section.title}`}
-                  </h2>
-                  <div className="flex items-baseline justify-between gap-6 border-b border-void/30 pb-3.5">
-                    <p className="label text-[13px] text-void" aria-hidden>
-                      {section.title}
-                    </p>
-                    <span className="label text-void/70">
-                      {section.items.length} {positions(section.items.length)}
-                    </span>
-                  </div>
+            <>
+              <div className="mt-12">
+                {sections.map((section) => (
+                  <Reveal key={section.id} className="mt-16 first:mt-0">
+                    <div className="flex items-baseline justify-between gap-6 border-b border-void/30 pb-3.5">
+                      <h2 className="label text-[13px] text-void">{section.title}</h2>
+                      <span className="label text-void/70">
+                        {section.items.length} {positions(section.items.length)}
+                      </span>
+                    </div>
 
-                  <ul>
-                    {section.items.map(({ system, no }) => (
-                      <SystemRow key={system.id} system={system} no={no} taxonomy={taxonomy!} />
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
-            </div>
+                    <ul>
+                      {section.items.map(({ system, no }) => (
+                        <SystemRow
+                          key={system.id}
+                          system={system}
+                          no={no}
+                          taxonomy={taxonomy!}
+                          showManufacturer={manyManufacturers}
+                        />
+                      ))}
+                    </ul>
+                  </Reveal>
+                ))}
+              </div>
+
+              {visible < total && (
+                <div className="mt-12 flex flex-col items-center gap-3">
+                  <button
+                    onClick={() => setVisible((v) => v + PAGE)}
+                    className="border border-void px-8 py-4 label text-void transition-colors hover:bg-void hover:text-limestone"
+                  >
+                    Pokaż kolejne systemy
+                  </button>
+                  <span className="label-sm text-void/60">
+                    {Math.min(visible, total)} z {total}
+                  </span>
+                </div>
+              )}
+            </>
           )}
 
           <p className="mt-14 max-w-3xl text-xs leading-relaxed text-void/70">{DATA_DISCLAIMER}</p>

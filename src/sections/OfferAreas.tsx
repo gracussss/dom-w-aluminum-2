@@ -11,7 +11,11 @@ import { responsiveSrcSet } from "../lib/responsiveImage";
 
 export function OfferAreas() {
   const [hovered, setHovered] = useState<string | null>(null);
-  const active = offerAreas.find((a) => a.id === hovered);
+  /* Stan spoczynkowy: pierwszy obszar. Wcześniej podgląd pojawiał się dopiero
+     po najechaniu, więc dopóki użytkownik nie ruszył myszą, prawe 38% sekcji
+     było puste — a na ekranie dotykowym, gdzie `hover` nie istnieje, puste
+     zostawało zawsze. */
+  const active = offerAreas.find((a) => a.id === hovered) ?? offerAreas[0];
 
   return (
     <section id="oferta" className="grain relative overflow-hidden bg-void py-24 text-limestone md:py-36">
@@ -60,7 +64,10 @@ export function OfferAreas() {
             </div>
           </div>
 
-          <ul className="relative z-10 border-t border-limestone/12">
+          {/* Lista kończy się przed kolumną podglądu zamiast biec pod nią.
+              Przy stałym podglądzie nakładka trwale zasłaniałaby tytuły
+              wierszy — teraz to dwie sąsiadujące kolumny, nie warstwy. */}
+          <ul className="relative z-10 border-t border-limestone/12 lg:w-[57%]">
             {offerAreas.map((area, i) => (
               <li key={area.id}>
                 <Reveal delay={Math.min(i * 0.04, 0.2)}>

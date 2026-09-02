@@ -60,9 +60,26 @@ export function Loader({ onOpen, onDone }: LoaderProps) {
   const reduced = useReducedMotion();
   const [opening, setOpening] = useState(false);
 
-  // Sekwencja: budowa ramy → szyba → refleks → nazwa → otwarcie.
-  const HOLD = reduced ? 250 : 1300;
-  const MAX_WAIT = reduced ? 400 : 2200;
+  /* Sekwencja: budowa ramy → szyba → refleks → nazwa → otwarcie.
+
+     Czasy skrócone (2026-08-31) po pomiarze PageSpeed: ekran startowy jest
+     pierwszym malowaniem treści, więc jego długość wchodzi wprost w FCP i LCP
+     — przy poprzednich wartościach (HOLD 1300, MAX_WAIT 2200) obie metryki
+     lądowały na profilu mobilnym w czerwonym.
+
+     Choreografia została w całości: TEMPO skaluje wszystkie opóźnienia
+     i czasy animacji znaku, więc rama nadal składa się z profili, szyba
+     dostaje refleks, a nazwa wjeżdża — tylko szybciej.
+
+     Dobór dwóch liczb, które muszą do siebie pasować:
+     sekwencja znaku trwa (0.88 + 0.4) × TEMPO = 0.70 s, a HOLD = 0.8 s.
+     HOLD **musi** być większy — inaczej skrzydła ruszają w połowie animacji
+     marki. Nadwyżka 100 ms to celowy oddech na złożonym znaku; przy zerowej
+     różnicy otwarcie deptało po ostatniej klatce i całość wyglądała na
+     pośpiech. Zmieniając jedno, przelicz drugie. */
+  const TEMPO = 0.55;
+  const HOLD = reduced ? 250 : 800;
+  const MAX_WAIT = reduced ? 400 : 1600;
   const OPEN = reduced ? 200 : 620;
 
   const opened = useRef(false);
@@ -117,7 +134,7 @@ export function Loader({ onOpen, onDone }: LoaderProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const d = reduced ? 0 : 1;
+  const d = reduced ? 0 : TEMPO;
 
   return (
     /* Od chwili rozsunięcia skrzydeł ekran startowy przestaje przechwytywać

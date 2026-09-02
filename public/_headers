@@ -1,0 +1,19 @@
+# Nagłówki dla Netlify (odpowiednik sekcji "headers" z vercel.json —
+# vercel.json na Netlify NIE działa, a wdrożenie stoi właśnie tam).
+#
+# WERSJA DEMO: X-Robots-Tag dubluje blokadę z robots.txt i index.html.
+# Nagłówek działa też dla plików, których meta nie obejmuje (PDF, obrazy).
+# PRZED PUBLIKACJĄ PRODUKCYJNĄ usunąć całą regułę /* razem z komentarzem —
+# checklista w SEO.md, punkt 3.
+
+/*
+  X-Robots-Tag: noindex, nofollow
+
+# Zasoby z hashem w nazwie nigdy nie zmieniają treści — mogą leżeć w cache
+# przeglądarki bez odpytywania serwera.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Kroje pisma z własnej domeny — ta sama zasada, nazwy są stałe.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

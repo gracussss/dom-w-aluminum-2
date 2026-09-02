@@ -8,7 +8,6 @@ import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import { breadcrumbJsonLd } from "../lib/jsonLd";
 import { CrossSection, getSchematic } from "../components/crosssection";
 import { SystemViewer } from "../components/product3d/SystemViewer";
-import { SystemPresentation } from "../components/product3d/SystemPresentation";
 import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
 import { siteOrigin } from "../lib/seo";
 import { NotFound } from "./NotFound";
@@ -16,14 +15,15 @@ import {
   DATA_DISCLAIMER,
   DOCUMENT_KIND_LABEL,
   MODEL_TYPE_LABEL,
+  explainSpecs,
   findApplications,
-  findCategory,
+  primaryCategory,
+  systemCategories,
   findConstructionType,
   findManufacturer,
   nameStatusNote,
   sourceNote,
   specsStatusNote,
-  systemGeometry,
   useRelatedSystems,
   useSystem,
   useTaxonomy,
@@ -42,20 +42,32 @@ export function SystemDetail() {
   }
 
   const manufacturer = findManufacturer(taxonomy, system.manufacturerId);
-  const category = findCategory(taxonomy, system.categoryId);
+  const category = primaryCategory(taxonomy, system);
+  const allCategories = systemCategories(taxonomy, system);
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
-  const modelType = system.model3d.type;
+  /* Legenda mówi o wielkościach, które faktycznie stoją wyżej w siatce —
+     nie o całym słowniku. Parametry nierozpoznane pewnie nie dostają wpisu. */
+  const glossary = explainSpecs(system.specs);
 
-  /* Prezentacja krokowa wymaga wymiaru odczytanego z parametrów systemu.
-     Bez niego model nie miałby czego odwzorować w skali i zostaje przy
-     dotychczasowym podglądzie typu konstrukcji. Na razie tylko okna —
-     pozostałe typy dostaną własną sekwencję, a nie kopię tej. */
-  const geometry = systemGeometry(system);
-  const presentation =
-    modelType === "okno" && geometry.depth !== null && geometry.depthLabel !== null
-      ? { ...geometry, depth: geometry.depth, depthLabel: geometry.depthLabel }
-      : null;
+  /* Ostatnia komórka domyka rząd parametrów.
+
+     Siatka rysuje linie techniką „gap-px na tle kontenera": odstęp między
+     komórkami odsłania tło i to ono jest hairline'em. Gdy liczba parametrów
+     nie dzieli się przez liczbę kolumn, brakujące pole zostaje odsłoniętym
+     tłem — czyta się jak brakujący kafelek, a nie jak koniec zestawienia.
+     Rozciągnięcie ostatniej pozycji na wolne kolumny zamyka rząd.
+     `lg:col-span-1` jest potrzebne, żeby zdjąć rozciągnięcie z `sm`. */
+  const specsFillLast = [
+    system.specs.length % 2 === 1 ? "sm:col-span-2" : "",
+    system.specs.length % 3 === 1
+      ? "lg:col-span-3"
+      : system.specs.length % 3 === 2
+        ? "lg:col-span-2"
+        : "lg:col-span-1",
+  ].join(" ");
+
+  const modelType = system.model3d.type;
 
   /* Rysunek producenta, jeśli jest — inaczej schemat poglądowy dla typu konstrukcji.
      Gdy nie ma ani jednego, ani drugiego (akcesoria), sekcja się nie pojawia:
@@ -155,15 +167,19 @@ export function SystemDetail() {
                       {manufacturer.name}
                     </Link>
                   )}
-                  <span className="h-3 w-px bg-limestone/20" />
-                  {category && (
-                    <Link
-                      to={`/systemy/kategoria/${category.slug}`}
-                      className="label text-limestone/55 transition-colors hover:text-limestone"
-                    >
-                      {category.name}
-                    </Link>
-                  )}
+                  {/* Wszystkie kategorie, do których producent przypisał system —
+                      MB-79N to jednocześnie okna i drzwi, i tak trzeba go pokazać */}
+                  {allCategories.map((c) => (
+                    <span key={c.id} className="flex items-center gap-x-4">
+                      <span className="h-3 w-px bg-limestone/20" />
+                      <Link
+                        to={`/systemy/kategoria/${c.slug}`}
+                        className="label text-limestone/55 transition-colors hover:text-limestone"
+                      >
+                        {c.name}
+                      </Link>
+                    </span>
+                  ))}
                 </div>
               </Reveal>
 
@@ -230,7 +246,9 @@ export function SystemDetail() {
         </section>
       )}
 
-      {/* MODEL 3D — typ konstrukcji właściwy dla tego systemu */}
+      {/* MODEL 3D — konstrukcja właściwa dla typu tego systemu: okno przy
+          oknach, skrzydło przesuwne przy systemach HS, słup i rygiel przy
+          fasadach. Model jest poglądowy i UI mówi o tym wprost. */}
       {modelType && (
         <section className="grain bg-void py-20 text-limestone md:py-28">
           <div className="container-edge">
@@ -244,23 +262,12 @@ export function SystemDetail() {
             </Reveal>
 
             <Reveal delay={0.1} className="mt-12">
-              {/* Prezentacja krokowa włącza się z danych, nie z listy nazw:
-                  wymaga potwierdzonej głębokości zabudowy, bo to jedyny wymiar,
-                  który model odwzorowuje w skali. Reszta katalogu bez zmian. */}
-              {presentation ? (
-                <SystemPresentation
-                  system={system}
-                  geometry={presentation}
-                  fallbackImage={system.media.hero.src}
-                />
-              ) : (
-                <SystemViewer
-                  modelType={modelType}
-                  modelUrl={system.model3d.url}
-                  fallbackImage={system.media.hero.src}
-                  description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
-                />
-              )}
+              <SystemViewer
+                modelType={modelType}
+                modelUrl={system.model3d.url}
+                fallbackImage={system.media.hero.src}
+                description={`Model odpowiada typowi konstrukcji tego systemu (${MODEL_TYPE_LABEL[modelType].toLowerCase()}).`}
+              />
             </Reveal>
           </div>
         </section>
@@ -288,20 +295,27 @@ export function SystemDetail() {
                 <dt className="label text-void/70">Typ konstrukcji</dt>
                 <dd className="text-[15px] text-void/75">{construction?.name}</dd>
               </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Zastosowanie</dt>
-                <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
-              </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
-                <dt className="label text-void/70">Warianty</dt>
-                <dd className="flex flex-wrap gap-2">
-                  {system.variants.map((variant) => (
-                    <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
-                      {variant.name}
-                    </span>
-                  ))}
-                </dd>
-              </div>
+              {applications.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Zastosowanie</dt>
+                  <dd className="text-[15px] text-void/75">{applications.map((a) => a.name).join(" · ")}</dd>
+                </div>
+              )}
+              {/* Wykonania systemu — producent nie wylicza ich na karcie
+                  w formie nadającej się do przepisania, więc wiersz pojawia
+                  się dopiero, gdy dane wpadną do zbioru. */}
+              {system.variants.length > 0 && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[190px_1fr]">
+                  <dt className="label text-void/70">Warianty</dt>
+                  <dd className="flex flex-wrap gap-2">
+                    {system.variants.map((variant) => (
+                      <span key={variant.id} className="border border-void/18 px-3 py-1.5 text-xs text-void/65">
+                        {variant.name}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )}
             </dl>
           </Reveal>
         </div>
@@ -335,8 +349,11 @@ export function SystemDetail() {
 
           <Reveal delay={0.12}>
             <div className="mt-12 grid grid-cols-1 gap-px border border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-3">
-              {system.specs.map((spec) => (
-                <div key={spec.id} className="bg-void p-6">
+              {system.specs.map((spec, i) => (
+                <div
+                  key={spec.id}
+                  className={`bg-void p-6 ${i === system.specs.length - 1 ? specsFillLast : ""}`}
+                >
                   <p className="label text-limestone/55">{spec.label}</p>
                   {spec.value ? (
                     <>
@@ -356,6 +373,52 @@ export function SystemDetail() {
               ))}
             </div>
           </Reveal>
+
+          {glossary.length > 0 && (
+            <Reveal delay={0.13}>
+              <div className="mt-12 border-t border-limestone/12 pt-10">
+                <p className="label text-limestone/70">Co oznaczają te parametry</p>
+
+                <dl className="mt-8 grid gap-px bg-limestone/12 sm:grid-cols-2">
+                  {/* `first` trafiało tylko w pierwszy kafelek, więc lewa kolumna
+                      od drugiego rzędu w dół dostawała wcięcie, którego nie miał
+                      rząd pierwszy. Przy dwóch kolumnach lewą stronę wyznacza
+                      parzystość, nie pozycja. */}
+                  {glossary.map((entry) => (
+                    <div key={entry.id} className="bg-void py-6 sm:px-6 sm:odd:pl-0">
+                      <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <span className="text-base font-semibold tracking-[-0.02em]">{entry.term}</span>
+                        {entry.standard && (
+                          <span className="label-sm text-limestone/70">{entry.standard}</span>
+                        )}
+                      </dt>
+                      <dd className="mt-3 max-w-md text-sm leading-relaxed text-limestone/70">
+                        {entry.what}
+                      </dd>
+                      {/* Treść normy to źródło, którego nie mamy w repozytorium —
+                          skala klas czeka na nie tak samo jak brakujący parametr. */}
+                      <dd className="mt-3">
+                        {entry.scale ? (
+                          <span className="text-sm leading-relaxed text-limestone/70">{entry.scale}</span>
+                        ) : (
+                          <span className="label-sm inline-flex items-center gap-2 text-limestone/55">
+                            <Clock className="h-3.5 w-3.5 shrink-0 text-bronze-light/70" strokeWidth={1.5} />
+                            Skala klas — do uzupełnienia
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <p className="mt-8 max-w-2xl text-xs leading-relaxed text-limestone/70">
+                  Objaśnienia dotyczą samych wielkości, nie tego konkretnego systemu.
+                  Zakresy klas uzupełnimy po sięgnięciu do treści norm — tak jak każdą
+                  inną wartość techniczną, razem ze wskazaniem źródła.
+                </p>
+              </div>
+            </Reveal>
+          )}
 
           <Reveal delay={0.14}>
             {specsSource && (
@@ -472,7 +535,10 @@ export function SystemDetail() {
                   to={quote?.href ?? "/kontakt"}
                   className="group inline-flex items-center gap-3 bg-limestone px-7 py-4 label text-void transition-colors hover:bg-bronze-light"
                 >
-                  {quote?.label ?? "Zapytaj o wycenę"}
+                  {/* Zapasowa etykieta musi mówić to samo co ta z danych —
+                      inaczej pozycja bez własnego CTA wracałaby do ogólnego
+                      napisu z headera i kontekst systemu by się gubił. */}
+                  {quote?.label ?? "Wyceń ten system"}
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={1.5}
