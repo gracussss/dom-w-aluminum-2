@@ -79,6 +79,7 @@ export function CatalogLanding({
         title={title}
         description={description}
         breadcrumbs={<Breadcrumbs items={breadcrumbs} tone="light" />}
+        variant="index"
       />
 
       <section className="bg-limestone py-14 text-void md:py-20">
@@ -101,10 +102,7 @@ export function CatalogLanding({
                   strokeWidth={1.5}
                 />
               </Link>
-              <PlaceholderTag
-                label="Zdjęcia poglądowe"
-                className="border-void/15 bg-transparent text-void/70 backdrop-blur-none"
-              />
+              <PlaceholderTag label="Zdjęcia poglądowe" tone="light" />
             </div>
           </div>
 

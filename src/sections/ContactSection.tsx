@@ -46,11 +46,13 @@ export function ContactSection() {
 
             <Reveal delay={0.24}>
               <div className="mt-11 flex flex-wrap gap-4">
+                {/* Akapit obok mówi „opisz projekt, a wrócimy…” — przycisk
+                    powtarza to samo słowo, żeby czynność i obietnica się zgadzały. */}
                 <Link
                   to="/kontakt"
                   className="group inline-flex items-center gap-3 bg-limestone px-8 py-4.5 label text-void transition-colors duration-300 hover:bg-bronze-light"
                 >
-                  Zapytaj o wycenę
+                  Opisz projekt
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={1.5}

@@ -23,7 +23,10 @@ const ticker = [
 /* Warianty wejścia. Stan „out” trwa dopóki loader zasłania ekran — dzięki
    temu napisy wjeżdżają dokładnie wtedy, gdy rozsuwa się aluminiowa rama,
    a nie za nią (wcześniej cała animacja hero kończyła się niewidoczna). */
-const rise = { out: { y: "108%" }, in: { y: "0%" } };
+/* 130%, nie 108%: maski niżej mają poszerzony obszar przycięcia
+   (patrz RevealText), więc ukryta linia musi startować pod jego
+   dolną krawędzią — inaczej wystaje przed animacją. */
+const rise = { out: { y: "130%" }, in: { y: "0%" } };
 const fadeUp = { out: { opacity: 0, y: 14 }, in: { opacity: 1, y: 0 } };
 const fadeUpFar = { out: { opacity: 0, y: 18 }, in: { opacity: 1, y: 0 } };
 const settle = { out: { scale: 1.14 }, in: { scale: 1 } };
@@ -69,10 +72,19 @@ export function Hero() {
 
       <motion.div
         style={{ y: contentY, opacity: fade }}
-        className="container-edge relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 md:pb-14"
+        /* Zapas u dołu na dużych ekranach: treść hero jest dosunięta do dołu
+           (`justify-end`), a pas zgody na cookies stoi na tej samej krawędzi.
+           Bez tego zapasu przy pierwszej wizycie pas ścinał ogonki kursywy
+           w trzeciej linii nagłówka. */
+        className="container-edge relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 md:pb-14 lg:pb-20"
       >
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
-          <div className="max-w-4xl">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+          {/* Blok nagłówka bierze całą wolną szerokość zamiast twardego
+              `max-w-4xl`. Przy 1440 px ograniczenie do 896 px łamało linię
+              kursywy na dwie, przez co człon podrzędny („dla nowoczesnej
+              architektury") zajmował połowę nagłówka i zrównywał się wagą
+              z głównym zdaniem. */}
+          <div className="max-w-4xl lg:max-w-none lg:flex-1">
             <motion.div
               variants={fadeUp}
               initial="out"
@@ -84,8 +96,11 @@ export function Hero() {
               <span className="label text-limestone/60">Producent stolarki aluminiowej</span>
             </motion.div>
 
-            <h1 className="display display-tight text-[13.5vw] leading-[0.88] text-limestone sm:text-[9vw] lg:text-[6.6rem] xl:text-[7.6rem]">
-              <span className="block overflow-hidden">
+            {/* Maski linii: `overflow-clip` z marginesem zamiast `overflow-hidden`.
+                Przy interlinii 0.88 line-box jest niższy niż tusz kroju i ogonki
+                „j" w „nowoczesnej" oraz „y" w „architektury" były ścinane płasko. */}
+            <h1 className="display display-tight text-[13.5vw] leading-[0.88] text-limestone sm:text-[9vw] lg:text-[6.2rem] xl:text-[6.9rem] 2xl:text-[7.4rem]">
+              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
                 <motion.span
                   variants={rise}
                   initial="out"
@@ -96,7 +111,7 @@ export function Hero() {
                   STOLARKA
                 </motion.span>
               </span>
-              <span className="block overflow-hidden">
+              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
                 <motion.span
                   variants={rise}
                   initial="out"
@@ -107,7 +122,7 @@ export function Hero() {
                   ALUMINIOWA
                 </motion.span>
               </span>
-              <span className="block overflow-hidden">
+              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
                 <motion.span
                   variants={rise}
                   initial="out"
@@ -133,12 +148,16 @@ export function Hero() {
               pojedynczego okna po kompletną fasadę budynku.
             </p>
 
+            {/* „Opisz projekt”, nie „Zapytaj o wycenę”: ten drugi przycisk stoi
+                w headerze i na pierwszym ekranie byłby widoczny dwa razy z tym
+                samym napisem. Etykieta mówi też, czego naprawdę potrzebujemy,
+                żeby wycenić — opisu, nie samego zapytania. */}
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 to="/kontakt"
                 className="group inline-flex items-center gap-2.5 bg-limestone px-6 py-3.5 label text-void transition-colors duration-300 hover:bg-bronze-light"
               >
-                Zapytaj o wycenę
+                Opisz projekt
                 <ArrowUpRight
                   className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={1.5}

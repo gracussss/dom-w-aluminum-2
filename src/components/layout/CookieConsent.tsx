@@ -8,6 +8,13 @@ import {
 } from "../../lib/cookieConsent";
 import type { ConsentState } from "../../lib/cookieConsent";
 
+/** Jeden styl dla wszystkich przycisków, które zapisują decyzję o zgodzie. */
+/* Na wąskim ekranie przyciski i tak układają się w kolumnę, więc każdy piksel
+   wysokości mnoży się przez trzy. Stąd ciaśniejsze `px/py` do `sm` — pas
+   zajmował 322 px z 812 px ekranu (40%) i zakrywał oba CTA hero. */
+const CONSENT_BUTTON =
+  "border border-limestone/35 px-4 py-2.5 sm:px-6 sm:py-3 label text-xs uppercase text-limestone transition-colors duration-300 hover:border-limestone hover:bg-limestone hover:text-void";
+
 /**
  * Baner zgody na cookies.
  *
@@ -83,7 +90,12 @@ export function CookieConsent() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-0 bottom-0 z-[70] p-4 md:p-6"
+          /* Pas dosunięty do dolnej krawędzi, oddzielony hairline'em.
+             Wcześniej był to pływający prostokąt z `shadow-2xl` i `backdrop-blur`
+             — jedyne miękkie cienie i jedyne „szkło" w całym projekcie, przez co
+             wyglądał jak wklejony z gotowego szablonu. Reszta strony rozdziela
+             warstwy wyłącznie linią włosową i tłem. */
+          className="fixed inset-x-0 bottom-0 z-[70] border-t border-limestone/12 bg-anthracite"
         >
           <div className="container-edge">
             <div
@@ -92,23 +104,69 @@ export function CookieConsent() {
               aria-labelledby="cookie-consent-title"
               aria-describedby="cookie-consent-desc"
               tabIndex={-1}
-              className="mx-auto max-w-3xl border border-limestone/10 bg-anthracite/95 p-6 shadow-2xl backdrop-blur-md outline-none md:p-8"
+              className="py-4 outline-none sm:py-5 md:py-6"
             >
-              <p id="cookie-consent-title" className="label text-bronze-light">
-                Pliki cookies
-              </p>
-              <p id="cookie-consent-desc" className="mt-3 text-sm leading-relaxed text-limestone/70">
-                Używamy plików cookies niezbędnych do działania strony oraz —
-                za Twoją zgodą — analitycznych i marketingowych. Szczegóły
-                znajdziesz w{" "}
-                <Link to="/cookies" className="underline underline-offset-2 hover:text-limestone">
-                  polityce cookies
-                </Link>
-                .
-              </p>
+              {/* Pas zgody stoi na pierwszym ekranie, więc w stanie zwiniętym
+                  układa się w JEDEN rząd: treść po lewej, decyzje po prawej.
+                  Wcześniej był to stos (nagłówek → akapit → przyciski), który
+                  na 1440×900 zabierał ~200 px dołu hero i zasłaniał trzecią
+                  linię nagłówka razem z oboma CTA. */}
+              <div className="flex flex-col gap-4 sm:gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+                <div className="lg:max-w-xl">
+                  <p id="cookie-consent-title" className="label text-bronze-light">
+                    Pliki cookies
+                  </p>
+                  <p
+                    id="cookie-consent-desc"
+                    className="mt-2.5 text-sm leading-relaxed text-limestone/70"
+                  >
+                    Używamy plików cookies niezbędnych do działania strony oraz —
+                    za Twoją zgodą — analitycznych i marketingowych. Szczegóły
+                    znajdziesz w{" "}
+                    <Link to="/cookies" className="underline underline-offset-2 hover:text-limestone">
+                      polityce cookies
+                    </Link>
+                    .
+                  </p>
+                </div>
+
+                {/* Zgoda i odmowa mają IDENTYCZNY styl. Wcześniej „Akceptuj"
+                    było wypełnionym przyciskiem, a „Odrzuć" samym tekstem —
+                    odmowa wymagała większego wysiłku niż zgoda, czego RODO
+                    zabrania (zgoda ma być dobrowolna, a wycofanie równie łatwe).
+                    Niższą wagę ma tylko „Ustawienia": otwarcie panelu nie jest
+                    decyzją o zgodzie. Zapis własnego wyboru już nią jest,
+                    więc dostaje wagę pozostałych dwóch. */}
+                <div className="flex flex-wrap gap-2.5 sm:gap-3 lg:shrink-0 lg:justify-end lg:pt-1">
+                  <button
+                    onClick={() => save({ analytics: true, marketing: true })}
+                    className={CONSENT_BUTTON}
+                  >
+                    Akceptuj wszystkie
+                  </button>
+                  <button
+                    onClick={() => save({ analytics: false, marketing: false })}
+                    className={CONSENT_BUTTON}
+                  >
+                    Odrzuć niekonieczne
+                  </button>
+                  {settingsOpen ? (
+                    <button onClick={() => save({ analytics, marketing })} className={CONSENT_BUTTON}>
+                      Zapisz ustawienia
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setSettingsOpen(true)}
+                      className="px-6 py-3 label text-xs uppercase text-limestone/70 underline underline-offset-4 transition-colors hover:text-limestone"
+                    >
+                      Ustawienia
+                    </button>
+                  )}
+                </div>
+              </div>
 
               {settingsOpen && (
-                <div className="mt-5 space-y-3 border-t border-limestone/10 pt-5">
+                <div className="mt-5 max-w-2xl space-y-3 border-t border-limestone/10 pt-5">
                   <label className="flex items-center justify-between gap-4 py-1 text-sm text-limestone/70">
                     <span>Niezbędne — zawsze aktywne</span>
                     <input type="checkbox" checked disabled className="h-4 w-4 accent-bronze" />
@@ -134,35 +192,6 @@ export function CookieConsent() {
                 </div>
               )}
 
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button
-                  onClick={() => save({ analytics: true, marketing: true })}
-                  className="bg-limestone px-6 py-3 label text-xs uppercase text-void transition-colors hover:bg-bronze-light"
-                >
-                  Akceptuj wszystkie
-                </button>
-                {settingsOpen ? (
-                  <button
-                    onClick={() => save({ analytics, marketing })}
-                    className="border border-limestone/35 px-6 py-3 label text-xs uppercase text-limestone transition-colors hover:border-limestone"
-                  >
-                    Zapisz ustawienia
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setSettingsOpen(true)}
-                    className="border border-limestone/35 px-6 py-3 label text-xs uppercase text-limestone transition-colors hover:border-limestone"
-                  >
-                    Ustawienia
-                  </button>
-                )}
-                <button
-                  onClick={() => save({ analytics: false, marketing: false })}
-                  className="px-6 py-3 label text-xs uppercase text-limestone/55 transition-colors hover:text-limestone"
-                >
-                  Odrzuć niekonieczne
-                </button>
-              </div>
             </div>
           </div>
         </motion.div>

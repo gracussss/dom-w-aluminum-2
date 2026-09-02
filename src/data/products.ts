@@ -1,5 +1,7 @@
+import { PHOTO_TONE } from "../lib/responsiveImage";
+
 function img(id: string, params = "w=1600&q=80&auto=format&fit=crop") {
-  return `https://images.unsplash.com/${id}?${params}`;
+  return `https://images.unsplash.com/${id}?${params}&${PHOTO_TONE}`;
 }
 
 export interface OfferArea {

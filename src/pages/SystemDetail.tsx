@@ -15,6 +15,7 @@ import {
   DATA_DISCLAIMER,
   DOCUMENT_KIND_LABEL,
   MODEL_TYPE_LABEL,
+  explainSpecs,
   findApplications,
   primaryCategory,
   systemCategories,
@@ -45,6 +46,27 @@ export function SystemDetail() {
   const allCategories = systemCategories(taxonomy, system);
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
+  /* Legenda mówi o wielkościach, które faktycznie stoją wyżej w siatce —
+     nie o całym słowniku. Parametry nierozpoznane pewnie nie dostają wpisu. */
+  const glossary = explainSpecs(system.specs);
+
+  /* Ostatnia komórka domyka rząd parametrów.
+
+     Siatka rysuje linie techniką „gap-px na tle kontenera": odstęp między
+     komórkami odsłania tło i to ono jest hairline'em. Gdy liczba parametrów
+     nie dzieli się przez liczbę kolumn, brakujące pole zostaje odsłoniętym
+     tłem — czyta się jak brakujący kafelek, a nie jak koniec zestawienia.
+     Rozciągnięcie ostatniej pozycji na wolne kolumny zamyka rząd.
+     `lg:col-span-1` jest potrzebne, żeby zdjąć rozciągnięcie z `sm`. */
+  const specsFillLast = [
+    system.specs.length % 2 === 1 ? "sm:col-span-2" : "",
+    system.specs.length % 3 === 1
+      ? "lg:col-span-3"
+      : system.specs.length % 3 === 2
+        ? "lg:col-span-2"
+        : "lg:col-span-1",
+  ].join(" ");
+
   const modelType = system.model3d.type;
 
   /* Rysunek producenta, jeśli jest — inaczej schemat poglądowy dla typu konstrukcji.
@@ -327,8 +349,11 @@ export function SystemDetail() {
 
           <Reveal delay={0.12}>
             <div className="mt-12 grid grid-cols-1 gap-px border border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-3">
-              {system.specs.map((spec) => (
-                <div key={spec.id} className="bg-void p-6">
+              {system.specs.map((spec, i) => (
+                <div
+                  key={spec.id}
+                  className={`bg-void p-6 ${i === system.specs.length - 1 ? specsFillLast : ""}`}
+                >
                   <p className="label text-limestone/55">{spec.label}</p>
                   {spec.value ? (
                     <>
@@ -348,6 +373,52 @@ export function SystemDetail() {
               ))}
             </div>
           </Reveal>
+
+          {glossary.length > 0 && (
+            <Reveal delay={0.13}>
+              <div className="mt-12 border-t border-limestone/12 pt-10">
+                <p className="label text-limestone/70">Co oznaczają te parametry</p>
+
+                <dl className="mt-8 grid gap-px bg-limestone/12 sm:grid-cols-2">
+                  {/* `first` trafiało tylko w pierwszy kafelek, więc lewa kolumna
+                      od drugiego rzędu w dół dostawała wcięcie, którego nie miał
+                      rząd pierwszy. Przy dwóch kolumnach lewą stronę wyznacza
+                      parzystość, nie pozycja. */}
+                  {glossary.map((entry) => (
+                    <div key={entry.id} className="bg-void py-6 sm:px-6 sm:odd:pl-0">
+                      <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <span className="text-base font-semibold tracking-[-0.02em]">{entry.term}</span>
+                        {entry.standard && (
+                          <span className="label-sm text-limestone/70">{entry.standard}</span>
+                        )}
+                      </dt>
+                      <dd className="mt-3 max-w-md text-sm leading-relaxed text-limestone/70">
+                        {entry.what}
+                      </dd>
+                      {/* Treść normy to źródło, którego nie mamy w repozytorium —
+                          skala klas czeka na nie tak samo jak brakujący parametr. */}
+                      <dd className="mt-3">
+                        {entry.scale ? (
+                          <span className="text-sm leading-relaxed text-limestone/70">{entry.scale}</span>
+                        ) : (
+                          <span className="label-sm inline-flex items-center gap-2 text-limestone/55">
+                            <Clock className="h-3.5 w-3.5 shrink-0 text-bronze-light/70" strokeWidth={1.5} />
+                            Skala klas — do uzupełnienia
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <p className="mt-8 max-w-2xl text-xs leading-relaxed text-limestone/70">
+                  Objaśnienia dotyczą samych wielkości, nie tego konkretnego systemu.
+                  Zakresy klas uzupełnimy po sięgnięciu do treści norm — tak jak każdą
+                  inną wartość techniczną, razem ze wskazaniem źródła.
+                </p>
+              </div>
+            </Reveal>
+          )}
 
           <Reveal delay={0.14}>
             {specsSource && (
@@ -464,7 +535,10 @@ export function SystemDetail() {
                   to={quote?.href ?? "/kontakt"}
                   className="group inline-flex items-center gap-3 bg-limestone px-7 py-4 label text-void transition-colors hover:bg-bronze-light"
                 >
-                  {quote?.label ?? "Zapytaj o wycenę"}
+                  {/* Zapasowa etykieta musi mówić to samo co ta z danych —
+                      inaczej pozycja bez własnego CTA wracałaby do ogólnego
+                      napisu z headera i kontekst systemu by się gubił. */}
+                  {quote?.label ?? "Wyceń ten system"}
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={1.5}

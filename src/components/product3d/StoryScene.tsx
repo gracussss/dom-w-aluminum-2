@@ -209,11 +209,16 @@ export default function StoryScene({ progress, active, bind }: StorySceneProps) 
       <directionalLight position={[0, 1.5, 6]} intensity={0.9} />
       <directionalLight position={[-5, 2, -3]} intensity={0.7} color="#9db4c7" />
 
-      <Environment resolution={192}>
-        <Lightformer intensity={3} position={[0, 4, -4]} scale={[12, 6, 1]} color="#ffffff" />
-        <Lightformer intensity={1.5} position={[-5, 0, 2]} scale={[3, 10, 1]} color="#c8d4dd" />
-        <Lightformer intensity={1.8} position={[5, 1, 2]} scale={[3, 10, 1]} color="#ffffff" />
-        <Lightformer intensity={0.9} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
+      {/* Ten sam rig co na karcie systemu, tylko jaśniejszy — patrz komentarz
+          w `SystemScene`. Modele są wspólne, więc i otoczenie musi być spójne,
+          inaczej ten sam profil ma na dwóch stronach dwa różne materiały. */}
+      <Environment resolution={256}>
+        <Lightformer intensity={5.2} position={[0, 4, 2.4]} scale={[9, 1.1, 1]} color="#ffffff" />
+        <Lightformer intensity={2} position={[0, 3, -6]} scale={[14, 8, 1]} color="#c3c9cd" />
+        <Lightformer intensity={3.4} position={[5, 1, 2]} scale={[2, 9, 1]} color="#ffffff" />
+        <Lightformer intensity={1.2} position={[-5.5, 0, 1]} scale={[4, 9, 1]} color="#8b9095" />
+        <Lightformer intensity={2.2} position={[0, 1, 7]} scale={[10, 8, 1]} color="#dfe3e6" />
+        <Lightformer intensity={0.8} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
       </Environment>
 
       <Rig progress={progress} />

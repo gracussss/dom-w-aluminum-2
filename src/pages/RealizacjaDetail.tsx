@@ -141,13 +141,14 @@ export function RealizacjaDetail() {
                 <Reveal
                   key={src}
                   delay={(i % 2) * 0.06}
-                  className={
+                  /* Kadr pionowy dopiero od `lg` — patrz komentarz w `Realizacje`. */
+                  className={`aspect-[4/3] ${
                     i % 3 === 0
-                      ? "lg:col-span-7 aspect-[4/3]"
+                      ? "lg:col-span-7"
                       : i % 3 === 1
-                        ? "lg:col-span-5 lg:mt-16 aspect-[3/4]"
-                        : "lg:col-span-6 lg:col-start-4 aspect-[16/10]"
-                  }
+                        ? "lg:col-span-5 lg:mt-16 lg:aspect-[3/4]"
+                        : "lg:col-span-6 lg:col-start-4 lg:aspect-[16/10]"
+                  }`}
                 >
                   <div className="relative h-full w-full overflow-hidden">
                     <ParallaxImage src={src} alt={`${item.title} — detal ${i + 1}`} className="h-full w-full" />

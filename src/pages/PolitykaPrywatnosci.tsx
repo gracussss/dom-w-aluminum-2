@@ -95,6 +95,7 @@ export function PolitykaPrywatnosci() {
         eyebrow="Dokument"
         title="Polityka prywatności"
         description="Poniższy dokument ma charakter roboczy — treści oznaczone jako placeholder wymagają uzupełnienia przed publikacją produkcyjną."
+        variant="quiet"
       />
 
       <section className="bg-limestone py-16 text-void md:py-20">

@@ -122,12 +122,33 @@ export default function SystemScene({ mode, modelType, modelUrl, active = true, 
       <directionalLight position={[4, 6, 5]} intensity={1.5} />
       <directionalLight position={[-5, 2, -3]} intensity={0.5} color="#9db4c7" />
 
-      {/* Mapa otoczenia budowana w scenie — bez pobierania plików HDR z sieci */}
-      <Environment resolution={192}>
-        <Lightformer intensity={2.4} position={[0, 4, -4]} scale={[12, 6, 1]} color="#ffffff" />
-        <Lightformer intensity={1.1} position={[-5, 0, 2]} scale={[3, 10, 1]} color="#c8d4dd" />
-        <Lightformer intensity={1.4} position={[5, 1, 2]} scale={[3, 10, 1]} color="#ffffff" />
-        <Lightformer intensity={0.7} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
+      {/* Mapa otoczenia budowana w scenie — bez pobierania plików HDR z sieci.
+
+          Cztery równomierne, białawe płaszczyzny dawały odbicie bez struktury:
+          każda ściana profilu miała tę samą wartość i konstrukcja wyglądała
+          jak odlew z jasnego tworzywa. Metal potrzebuje ZRÓŻNICOWANEGO
+          otoczenia — jasne pasmo, ciemniejsza strona przeciwna — bo to jego
+          odbicie, a nie własna barwa, niesie wrażenie materiału. */}
+      <Environment resolution={256}>
+        {/* Wąskie jasne pasmo nad konstrukcją i PRZED nią. Lico profilu jest
+            zwrócone do kamery i zachowuje się jak lustro — refleks widać tylko
+            wtedy, gdy źródło stoi po tej samej stronie co patrzący. */}
+        <Lightformer intensity={4.2} position={[0, 4, 2.4]} scale={[9, 1.1, 1]} color="#ffffff" />
+        {/* Wypełnienie z tyłu. Neutralne, nie błękitne: aluminium prawie nie
+            ma własnej barwy i przyjmuje kolor otoczenia — przy błękitnym
+            wypełnieniu cały profil wychodził na niebiesko lakierowany. */}
+        <Lightformer intensity={1.6} position={[0, 3, -6]} scale={[14, 8, 1]} color="#c3c9cd" />
+        {/* Klucz z prawej węższy i mocniejszy niż wypełnienie z lewej.
+            Różnica między bokami jest tym, co oko czyta jako metal. */}
+        <Lightformer intensity={2.8} position={[5, 1, 2]} scale={[2, 9, 1]} color="#ffffff" />
+        <Lightformer intensity={1} position={[-5.5, 0, 1]} scale={[4, 9, 1]} color="#8b9095" />
+        {/* Duży, miękki panel ZA kamerą. Lico profilu jest zwrócone do
+            patrzącego, więc odbija to, co stoi za nim — bez tego źródła
+            największa powierzchnia konstrukcji nie miała czego odbić
+            i zostawała ciemna niezależnie od reszty rigu. */}
+        <Lightformer intensity={1.8} position={[0, 1, 7]} scale={[10, 8, 1]} color="#dfe3e6" />
+        {/* Odbicie od posadzki — ciepłe, żeby dolna krawędź nie była martwa. */}
+        <Lightformer intensity={0.6} position={[0, -4, 1]} scale={[10, 3, 1]} color="#8a7a63" />
       </Environment>
 
       <Suspense fallback={null}>

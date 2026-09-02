@@ -61,6 +61,9 @@ export {
   systemCategories,
 } from "./lookup";
 
+export type { GlossaryEntry } from "./glossary";
+export { explainSpec, explainSpecs } from "./glossary";
+
 export {
   DATA_DISCLAIMER,
   DOCUMENT_KIND_LABEL,

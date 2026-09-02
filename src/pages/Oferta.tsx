@@ -10,14 +10,27 @@ import { ArrowButton } from "../components/ui/ArrowButton";
 import { offerAreas } from "../data/products";
 import { findCategory, useTaxonomy } from "../catalog";
 
-/** Zakres decyzji, które obejmie przyszła wycena online. */
-const configuratorSteps = [
+/**
+ * Z czego składa się wycena konstrukcji aluminiowej.
+ *
+ * To NIE jest zapowiedź funkcji, tylko opis tego, co ustalamy dzisiaj —
+ * i dopiero w drugiej kolejności zakres, który docelowo poprowadzi wycena
+ * online. Wcześniej ta sekcja była odwrotnie: nagłówek obiecywał
+ * konfigurator, a strona oferty kończyła się zapowiedzią zamiast
+ * działającym kanałem kontaktu.
+ */
+const quoteFactors = [
   { label: "System", body: "Seria profili dobrana do otworu i wymagań inwestycji." },
   { label: "Konstrukcja", body: "Sposób otwierania, podziały i kierunki skrzydeł." },
   { label: "Szklenie", body: "Pakiet szybowy — termika, akustyka, bezpieczeństwo." },
   { label: "Wykończenie", body: "Kolor z palety RAL lub anoda, struktura powierzchni." },
   { label: "Wymiar", body: "Wymiar z pomiaru na budowie, nie z projektu." },
 ];
+
+/* Nieparzysta liczba pozycji zostawiała w układzie dwukolumnowym pustą
+   komórkę — przy hairline'ach rysowanych odstępem widać ją jako dziurę.
+   Na pięciu kolumnach rząd wychodzi równo, więc rozciągnięcie znika. */
+const factorsFillLast = quoteFactors.length % 2 === 1 ? "sm:col-span-2 lg:col-span-1" : "";
 
 export function Oferta() {
   /* Slug kategorii bierzemy z taksonomii — obszar oferty wskazuje id. */
@@ -83,49 +96,53 @@ export function Oferta() {
         </div>
       </section>
 
-      {/* Zapowiedź konfiguratora — oś wyboru zamiast kart z ceną „na zapytanie” */}
+      {/* Na czym stoi wycena — pas decyzji, zamknięty kontaktem */}
       <section className="grain bg-void py-20 text-limestone md:py-28">
         <div className="container-edge">
           <SectionHeading
-            eyebrow="Wycena online"
+            eyebrow="Wycena"
             tone="light"
             variant="stacked"
             titleClassName="max-w-3xl text-[9vw] leading-[0.94] sm:text-5xl md:text-6xl"
-            lines={["Konfigurator", "w przygotowaniu"]}
-            description="Docelowo wycena prowadzona krok po kroku — od serii profili po wymiar z pomiaru. Poniżej zakres decyzji, które obejmie."
+            lines={["Cena powstaje", "po pomiarze"]}
+            description="Konstrukcja aluminiowa nie ma ceny katalogowej. Składa się na nią pięć decyzji, które ustalamy dla konkretnego otworu i konkretnego budynku."
           />
 
-          {/* Kroki konfiguratora */}
+          {/* Pas decyzji */}
           <Reveal delay={0.1}>
             <ol className="mt-14 grid grid-cols-1 gap-px border-y border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-5 lg:border">
-              {configuratorSteps.map((step, i) => (
-                <li key={step.label} className="flex flex-col gap-6 bg-void p-6 md:p-7">
+              {quoteFactors.map((factor, i) => (
+                <li
+                  key={factor.label}
+                  className={`flex flex-col gap-6 bg-void p-6 md:p-7 ${
+                    i === quoteFactors.length - 1 ? factorsFillLast : ""
+                  }`}
+                >
                   <span className="label text-bronze-light">{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <h3 className="text-lg font-semibold tracking-[-0.02em]">{step.label}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-limestone/60">{step.body}</p>
+                    <h3 className="text-lg font-semibold tracking-[-0.02em]">{factor.label}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-limestone/60">{factor.body}</p>
                   </div>
                 </li>
               ))}
             </ol>
           </Reveal>
 
-          <Reveal delay={0.14} className="mt-12 flex flex-wrap gap-4">
-            <ArrowButton href="/systemy" variant="solid" tone="dark">
-              Katalog systemów
-            </ArrowButton>
-            <ArrowButton href="/kontakt" variant="outline" tone="dark">
-              Zapytaj o wycenę
-            </ArrowButton>
+          {/* Konfigurator schodzi do przypisu — jest planem, nie ofertą */}
+          <Reveal delay={0.14}>
+            <p className="mt-8 max-w-2xl text-sm leading-relaxed text-limestone/60">
+              Ten sam zakres poprowadzi docelowo wycena online. Dziś przechodzimy
+              przez niego w rozmowie i podczas pomiaru na budowie.
+            </p>
           </Reveal>
 
-          <Reveal delay={0.18}>
-            <p className="mt-10 max-w-2xl text-xs leading-relaxed text-limestone/60">
-              Do czasu uruchomienia konfiguratora każdą pozycję wyceniamy
-              indywidualnie — na podstawie projektu i pomiaru na budowie.
-              Cen katalogowych nie podajemy, bo w konstrukcjach aluminiowych
-              nie istnieją.
-            </p>
+          <Reveal delay={0.18} className="mt-10 flex flex-wrap gap-4">
+            <ArrowButton href="/kontakt" variant="solid" tone="dark">
+              Opisz projekt
+            </ArrowButton>
+            <ArrowButton href="/systemy" variant="outline" tone="dark">
+              Katalog systemów
+            </ArrowButton>
           </Reveal>
         </div>
       </section>

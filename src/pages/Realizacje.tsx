@@ -8,13 +8,21 @@ import { Reveal } from "../components/ui/Reveal";
 import { PORTFOLIO_DISCLAIMER, PORTFOLIO_SEO_DESCRIPTION, realizations } from "../data/realizations";
 
 /** Celowo nierówny rytm — układ editorial, nie siatka 3×3. */
+/* Proporcje kadru dotyczą UKŁADU EDITORIAL, a ten istnieje dopiero od `lg`.
+   Poniżej tego progu każdy kafel jest pełnej szerokości kontenera, więc
+   pionowy kadr 3/4 dawał przy 900 px obraz 811 x 1081 px — wyższy niż okno.
+   Sześć takich pozycji to sześć ekranów samego zdjęcia. Kadr poziomy jest
+   niżej domyślny, pionowy wraca razem z wąskimi kolumnami. Ten sam wzorzec
+   stosuje już `SystemViewer`. */
+const BASE_RATIO = "aspect-[4/3]";
+
 const layout = [
-  "lg:col-span-7 aspect-[4/3]",
-  "lg:col-span-4 lg:col-start-9 lg:-mt-24 aspect-[3/4]",
-  "lg:col-span-5 lg:col-start-2 lg:mt-10 aspect-[3/4]",
-  "lg:col-span-6 lg:col-start-7 lg:mt-28 aspect-[16/10]",
-  "lg:col-span-6 lg:col-start-1 lg:mt-10 aspect-[4/3]",
-  "lg:col-span-5 lg:col-start-8 lg:mt-20 aspect-[4/5]",
+  "lg:col-span-7",
+  "lg:col-span-4 lg:col-start-9 lg:-mt-24 lg:aspect-[3/4]",
+  "lg:col-span-5 lg:col-start-2 lg:mt-10 lg:aspect-[3/4]",
+  "lg:col-span-6 lg:col-start-7 lg:mt-28 lg:aspect-[16/10]",
+  "lg:col-span-6 lg:col-start-1 lg:mt-10",
+  "lg:col-span-5 lg:col-start-8 lg:mt-20 lg:aspect-[4/5]",
 ];
 
 export function Realizacje() {
@@ -35,7 +43,7 @@ export function Realizacje() {
         <div className="container-edge">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-x-8">
             {realizations.map((item, i) => (
-              <Reveal key={item.id} delay={(i % 2) * 0.06} className={`group ${layout[i % layout.length]}`}>
+              <Reveal key={item.id} delay={(i % 2) * 0.06} className={`group ${BASE_RATIO} ${layout[i % layout.length]}`}>
                 <Link to={`/realizacje/${item.slug}`} className="relative block h-full w-full overflow-hidden">
                   <ParallaxImage
                     src={item.cover}

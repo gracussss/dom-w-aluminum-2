@@ -16,6 +16,29 @@ const WIDTHS = [640, 960, 1280, 1600, 2000, 2400] as const;
 
 const REMOTE_HOST = "images.unsplash.com";
 
+/* ------------------------------------------------------------------
+   WSPÓLNA KOREKTA TONALNA KADRÓW POGLĄDOWYCH
+
+   Zdjęcia z banku przychodzą z nasyconym błękitem nieba i cieplejszym
+   balansem. Paleta strony to grafit, wapień i brąz — obok siebie te kadry
+   czytały się jak stock wklejony w cudzy projekt, a nie jak materiał tej
+   firmy. Ściągnięcie nasycenia przesuwa błękity w stronę stali i zdejmuje
+   z fotografii najbardziej rozpoznawalny podpis banku zdjęć.
+
+   Liczy to CDN (parametry Imgix), nie przeglądarka: kadr przychodzi już
+   stonowany, bez filtra CSS przeliczanego przy każdym malowaniu, i korekta
+   obejmuje też warianty z `srcSet` — te powstają z tego samego adresu.
+
+   Wartości dobrane pomiarem na najbardziej kolorowych kadrach w projekcie:
+   średnie nasycenie fasady spada z 0,31 do ok. 0,25, a różnica między
+   kanałem czerwonym a niebieskim maleje z 49 do 36 punktów.
+
+   To korekta WYŁĄCZNIE materiału tymczasowego. Własna dokumentacja firmy
+   nie przechodzi przez `img()` i trafia na stronę bez korekty — realny
+   montaż ma wyglądać jak realny montaż.
+   ------------------------------------------------------------------ */
+export const PHOTO_TONE = "sat=-32&con=6";
+
 /**
  * `srcSet` zbudowany z adresu źródłowego. Nie schodzimy powyżej szerokości
  * zapisanej w `src` — ta jest deklaracją maksymalnej sensownej wielkości

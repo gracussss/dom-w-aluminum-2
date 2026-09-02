@@ -150,6 +150,13 @@ function Story3D() {
             gradient tylko gasiłby aluminium. */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/85 via-void/15 to-transparent" />
         <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-void/90 via-void/10 to-transparent md:block" />
+        {/* Górny stopień tonalny pod nagłówek sekcji i etykietę modelu.
+            Gradient pionowy gaśnie ku górze (`to-transparent`), więc przy
+            kadrach, w których jasne aluminium wjeżdża pod górną krawędź,
+            „03 — Jak powstaje konstrukcja" leżało białym monospace'em na
+            niemal białym profilu. Dotyczy tylko warstwy nad płótnem —
+            scena i jej animacja zostają bez zmian. */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-void/75 via-void/25 to-transparent" />
         <div className="grain pointer-events-none absolute inset-0" />
 
         <div className="container-edge pointer-events-none relative flex h-full flex-col justify-between py-24 md:py-28">

@@ -30,6 +30,7 @@ Potwierdzone są trzy rzeczy: nazwa firmy, adres i telefon (`src/data/company.ts
 | `src/lib/jsonLd.ts` | `BreadcrumbList`, `HomeAndConstructionBusiness`, `ItemList` |
 | `vite.config.ts` (plugin `dwa-sitemap`) | `sitemap.xml` generowany przy buildzie z danych katalogu |
 | `public/robots.txt` | blokada demo + gotowy blok produkcyjny |
+| `public/_headers` | nagłówki Netlify: `X-Robots-Tag` (demo) i cache zasobów |
 | `index.html` | wartości domyślne meta dla robotów bez JavaScriptu |
 | `public/og-default.svg` | obraz podglądu przy udostępnianiu (1200×630) |
 | `src/fonts.css` + `public/fonts/` | kroje pisma hostowane lokalnie — bez `fonts.googleapis.com` |
@@ -135,6 +136,13 @@ VITE_SITE_URL=https://twoja-domena.pl npm run build
 Bez `VITE_SITE_URL` plugin wypisuje ostrzeżenie i **nie tworzy** `sitemap.xml`.
 Domeny nie zgadujemy — mapa ze zmyślonym adresem jest gorsza niż jej brak.
 
+> **Stan na dziś (wdrożenie Netlify):** zmienna nie jest ustawiona, więc
+> `sitemap.xml` nie powstaje, a `/sitemap.xml` trafia w regułę z `_redirects`
+> i zwraca `index.html` z nagłówkiem `text/html`. Ustawienie zmiennej
+> w Netlify (Site configuration → Environment variables → `VITE_SITE_URL`)
+> i ponowny deploy załatwiają sprawę — Netlify serwuje istniejący plik
+> statyczny przed regułami przepisania.
+
 W mapie: 8 adresów stałych, kategorie, producenci, karty systemów
 z potwierdzonymi danymi (`nameStatus: "confirmed"`) i karty realizacji
 z potwierdzonymi (`verified: true`).
@@ -157,14 +165,66 @@ architektury — do decyzji klienta, poza zakresem warstwy treści.
 
 ---
 
-## 8. Checklista przed publikacją produkcyjną
+## 8. PageSpeed / Lighthouse — jak czytać wynik
+
+Sprawdzenie z 2026-08-31 na `domwaluminum.netlify.app`: **SEO 69**.
+
+Ta liczba nie jest usterką treści. W kategorii SEO nie przechodzi jeden
+audyt — „Page is blocked from indexing" — i to on ścina wynik z ~100 do ~69.
+Blokada jest celowa (`robots.txt`, meta robots, `X-Robots-Tag`) i zdejmuje ją
+checklista niżej. **Dopóki strona jest wersją demo, 69 to sufit i pogoń za
+wyższym wynikiem oznaczałaby wypuszczenie dema do wyszukiwarki.**
+
+Pozostałe audyty SEO są spełnione — sprawdzone na wdrożonej stronie:
+
+| Audyt | Stan |
+|---|---|
+| `<title>`, `meta description` | unikalne na każdej podstronie |
+| `canonical` | ustawiany, katalog z filtrami wskazuje `/systemy` |
+| `lang="pl"`, `viewport` | są |
+| Obrazy z `alt` | 9/9 (dekoracyjne mają `alt=""` — poprawnie) |
+| Linki z tekstem | 100%, żadnego „kliknij tutaj" |
+| Dane strukturalne | bez błędów składni |
+| `sitemap.xml` | **nie działa** — patrz sekcja 6, brakuje `VITE_SITE_URL` |
+
+Wydajność (73) nie zależy od treści, tylko od ekranu startowego: `Loader`
+trzyma kadr, czeka na zdekodowanie tła hero i dopiero potem rozsuwa ramę.
+Pierwsze malowanie treści następuje po tej sekwencji, a Lighthouse liczy je
+jako FCP i LCP.
+
+**Zrobione 2026-08-31:** `HOLD` 1300 → 800 ms, `MAX_WAIT` 2200 → 1600 ms,
+a `TEMPO` (0.55) skraca proporcjonalnie całą choreografię znaku. Animacja
+została w komplecie, intro trwa ~1,4 s zamiast 1,9–2,8 s. Zasada przy
+kolejnych zmianach: `HOLD` musi być dłuższy niż sekwencja znaku, czyli
+(0.88 + 0.4) × `TEMPO`.
+
+Co nadal kosztuje, a nie zostało ruszone:
+
+- **wjazd nagłówka hero** — ~1,05 s animacji z opóźnieniem 0,28 s; dopóki
+  `h1` jest poza kadrem, nie liczy się jako LCP,
+- **kroje pisma** — 6 plików `.woff2`, ~235 KB, największa pozycja transferu;
+  podzestaw do znaków polskich zdejmuje mniej więcej połowę,
+- **dwa warianty tła hero naraz** — `<link rel="preload">` bierze z `srcSet`
+  inną szerokość niż `<img>` w hero (zmierzone: 960 px i 1280 px), ~53 KB
+  nadmiaru na starcie.
+
+To decyzje projektowe i buildowe, nie treściowe — lista jest punktem wyjścia
+do rozmowy, nie zgodą na dalsze skracanie intro.
+
+---
+
+## 9. Checklista przed publikacją produkcyjną
 
 1. `public/robots.txt` — usunąć `Disallow: /`, odkomentować blok produkcyjny
    i wstawić prawdziwy adres sitemapy.
 2. `index.html` — usunąć `<meta name="robots" content="noindex, nofollow">`.
-3. `vercel.json` — usunąć nagłówek `X-Robots-Tag`.
-4. Ustawić `VITE_SITE_URL` w zmiennych środowiskowych hostingu (bez ukośnika
-   na końcu) — daje canonical, adresy w danych strukturalnych i sitemapę.
+3. Nagłówki `X-Robots-Tag` — usunąć regułę `/*` z `public/_headers`
+   (wdrożenie na Netlify) **oraz** nagłówek z `vercel.json` (gdyby projekt
+   wrócił na Vercel). `vercel.json` na Netlify nie jest w ogóle czytany.
+4. Ustawić `VITE_SITE_URL` w zmiennych środowiskowych hostingu, bez ukośnika
+   na końcu (Netlify: Site configuration → Environment variables) — daje
+   canonical, adresy w danych strukturalnych i sitemapę. **Do zrobienia już
+   teraz**, niezależnie od reszty listy: bez tego `/sitemap.xml` zwraca HTML.
 5. `public/og-default.svg` → wyeksportować do **PNG 1200×630**, wgrać jako
    `public/og-default.png` i zmienić `OG_IMAGE` w `src/lib/seo.ts`
    (Facebook i LinkedIn nie renderują SVG). Zaktualizować też `og:image`
@@ -188,7 +248,7 @@ architektury — do decyzji klienta, poza zakresem warstwy treści.
 11. Po podpięciu Google Analytics / Meta Pixel: dopisać inicjalizację
    w `storeConsent` (`src/lib/cookieConsent.ts`) **i** uzupełnić wykaz
    na `/cookies` — dokument opisuje stan faktyczny, nie plan.
-10. Google Search Console: zgłosić domenę i `sitemap.xml`, sprawdzić raport
+12. Google Search Console: zgłosić domenę i `sitemap.xml`, sprawdzić raport
     „Strony” i test wyników z elementami rozszerzonymi.
-11. Wizytówka Google (Profil Firmy) dla adresu w Sosnowcu — dane muszą być
+13. Wizytówka Google (Profil Firmy) dla adresu w Sosnowcu — dane muszą być
     identyczne jak w `company.ts` i w danych strukturalnych.

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { AlertCircle, ArrowUpRight, CheckCircle2, MapPin, Phone, X } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, MapPin, Phone, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { organizationJsonLd } from "../lib/jsonLd";
 import { PageHero } from "../components/ui/PageHero";
@@ -31,8 +31,13 @@ const PHONE_PATTERN = "[+()0-9 \\-]{9,20}";
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
 
-const field =
-  "mt-2 w-full border border-void/20 bg-transparent px-4 py-3.5 text-[15px] text-void outline-none transition-colors focus:border-void";
+/* Rozdzielone, bo pole wyboru siedzi w kontenerze rysującym własną strzałkę:
+   odstęp musi wtedy trafić na kontener, nie na sam `select` — inaczej margines
+   zbiega się z rodzicem i strzałka przestaje stać w osi pola. */
+const fieldBase =
+  "w-full border border-void/20 bg-transparent px-4 py-3.5 text-[15px] text-void outline-none transition-colors focus:border-void";
+
+const field = `mt-2 ${fieldBase}`;
 
 export function Kontakt() {
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -252,19 +257,28 @@ export function Kontakt() {
                   <span className="label text-void/70">Czego dotyczy zapytanie?</span>
                   {/* Lista tematów wprost z taksonomii katalogu — nowa kategoria
                       pojawi się tu bez dotykania formularza */}
-                  <select
-                    name="topic"
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    className={field}
-                  >
-                    {taxonomy?.categories.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                    <option value="indywidualne">Konstrukcja indywidualna</option>
-                  </select>
+                  {/* Jak przy sortowaniu w katalogu: zdejmujemy chromę
+                      przeglądarki, żeby pole nie odstawało od reszty formularza. */}
+                  <span className="relative mt-2 block">
+                    <select
+                      name="topic"
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                      className={`${fieldBase} appearance-none pr-12`}
+                    >
+                      {taxonomy?.categories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                      ))}
+                      <option value="indywidualne">Konstrukcja indywidualna</option>
+                    </select>
+                    <ChevronDown
+                      aria-hidden
+                      className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-void/60"
+                      strokeWidth={1.5}
+                    />
+                  </span>
                 </label>
 
                 <label className="block">

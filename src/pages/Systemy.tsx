@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowUpRight, Search, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Search, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { PageHero } from "../components/ui/PageHero";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
@@ -109,41 +109,107 @@ function FilterRow({ label, options, onToggle, onClear }: FilterRowProps) {
  * Kategorie jako nawigacja, nie jako filtr. Przy siedmiu kategoriach
  * i osiemdziesięciu kilku systemach to one są pierwszym krokiem —
  * prowadzą na własne adresy, które da się podlinkować i zaindeksować.
+ *
+ * Siedem jednakowych kafli nie mówiło nic o tym, gdzie naprawdę jest oferta:
+ * najliczniejsza kategoria ma pięć razy więcej pozycji niż najmniejsza,
+ * a wyglądały tak samo. Trzy wiodące dostają duże pole z liczbą pozycji jako
+ * numerałem, reszta zostaje kompaktowym rzędem. Podział wynika z danych,
+ * nie z kolejności w taksonomii — po dołożeniu systemów sam się przestawi.
+ *
+ * Przy okazji oba rzędy wypełniają się na dużym ekranie równo (3 i 4
+ * kolumny), czego siedem kafli w czterech kolumnach nie robiło.
  */
 function CategoryNav({ taxonomy, counts }: { taxonomy: Taxonomy; counts: Map<string, number> }) {
+  const entries = taxonomy.categories.map((category, order) => ({
+    category,
+    order,
+    no: String(order + 1).padStart(2, "0"),
+    count: counts.get(category.id) ?? 0,
+  }));
+
+  /* Remis rozstrzyga kolejność w taksonomii, żeby układ był powtarzalny. */
+  const leadingIds = new Set(
+    [...entries]
+      .sort((a, b) => b.count - a.count || a.order - b.order)
+      .slice(0, 3)
+      .map((entry) => entry.category.id)
+  );
+  const leading = entries.filter((entry) => leadingIds.has(entry.category.id));
+  const rest = entries.filter((entry) => !leadingIds.has(entry.category.id));
+
+  /* Siatka na obramowaniach, nie na tle z odstępami: brakująca komórka
+     w ostatnim rzędzie nie zostawia wtedy pustego szarego prostokąta. */
+  const cell =
+    "group flex flex-col justify-between border-b border-r border-void/12 transition-colors duration-500 hover:bg-void";
+
   return (
-    /* Siatka na obramowaniach, nie na tle z odstępami: siedmiu kafli nie da
-       się rozłożyć równo na dwie ani cztery kolumny, a przy technice „gap-px
-       na tle” brakująca komórka rysowała się jako pusty szary prostokąt. */
-    <nav
-      aria-label="Kategorie systemów"
-      className="grid grid-cols-1 border-l border-t border-void/12 sm:grid-cols-2 lg:grid-cols-4"
-    >
-      {taxonomy.categories.map((category, i) => (
-        <Link
-          key={category.id}
-          to={`/systemy/kategoria/${category.slug}`}
-          className="group flex min-h-[132px] flex-col justify-between border-b border-r border-void/12 p-5 transition-colors duration-500 hover:bg-void md:p-6"
-        >
-          <div className="flex items-start justify-between gap-4">
-            <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <ArrowUpRight
-              className="h-4 w-4 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
-              strokeWidth={1.4}
-            />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em] text-void transition-colors duration-500 group-hover:text-limestone">
-              {category.name}
-            </h3>
-            <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
-              {counts.get(category.id) ?? 0} {positions(counts.get(category.id) ?? 0)}
-            </span>
-          </div>
-        </Link>
-      ))}
+    <nav aria-label="Kategorie systemów">
+      {/* Kategorie wiodące */}
+      <div className="grid grid-cols-1 border-l border-t border-void/12 sm:grid-cols-2 lg:grid-cols-3">
+        {leading.map(({ category, no, count }) => (
+          <Link
+            key={category.id}
+            to={`/systemy/kategoria/${category.slug}`}
+            /* Na telefonie kafle stoją jeden pod drugim — pełna wysokość
+               zostawiałaby w środku martwe pole i spychała resztę kategorii
+               poza ekran. Waga typograficzna niesie hierarchię i bez niej. */
+            className={`${cell} min-h-[148px] p-5 sm:min-h-[190px] md:min-h-[220px] md:p-6`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
+                {no}
+              </span>
+              <div className="text-right">
+                <span className="display block text-4xl leading-none text-void/50 transition-colors duration-500 group-hover:text-bronze-light md:text-5xl">
+                  {count}
+                </span>
+                <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
+                  {positions(count)}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-end justify-between gap-4">
+              <h3 className="display text-2xl leading-none tracking-[-0.03em] text-void transition-colors duration-500 group-hover:text-limestone md:text-[28px]">
+                {category.name}
+              </h3>
+              <ArrowUpRight
+                className="h-5 w-5 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
+                strokeWidth={1.3}
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Pozostałe — ten sam kafel, mniejsza waga */}
+      <div className="grid grid-cols-1 border-l border-void/12 sm:grid-cols-2 lg:grid-cols-4">
+        {rest.map(({ category, no, count }) => (
+          <Link
+            key={category.id}
+            to={`/systemy/kategoria/${category.slug}`}
+            className={`${cell} min-h-[132px] p-5 md:p-6`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
+                {no}
+              </span>
+              <ArrowUpRight
+                className="h-4 w-4 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
+                strokeWidth={1.4}
+              />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em] text-void transition-colors duration-500 group-hover:text-limestone">
+                {category.name}
+              </h3>
+              <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
+                {count} {positions(count)}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }
@@ -288,6 +354,7 @@ export function Systemy() {
         eyebrow="Katalog"
         title="Systemy aluminiowe"
         description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów — przy każdej wartości podajemy źródło."
+        variant="index"
       />
 
       <section className="bg-limestone py-14 text-void md:py-20">
@@ -360,17 +427,28 @@ export function Systemy() {
             <div className="flex flex-wrap items-center gap-6">
               <label className="flex items-center gap-2.5">
                 <span className="label text-void/70">Sortuj</span>
-                <select
-                  value={query.sort ?? DEFAULT_SORT}
-                  onChange={(e) => setSort(e.target.value as SortKey)}
-                  className="label border border-void/18 bg-transparent px-3 py-2 text-void/80 outline-none transition-colors hover:border-void/50 focus-visible:border-void"
-                >
-                  {SORT_KEYS.filter((k) => k !== "manufacturer" || manyManufacturers).map((key2) => (
-                    <option key={key2} value={key2}>
-                      {SORT_LABELS[key2]}
-                    </option>
-                  ))}
-                </select>
+                {/* `appearance-none` zdejmuje własną chromę przeglądarki.
+                    Bez tego Chrome rysował jasnoszare pole ze swoją strzałką —
+                    jedyny element na stronie w obcej konwencji, stojący tuż
+                    obok pigułek filtrów. Strzałkę rysujemy sami. */}
+                <span className="relative inline-flex items-center">
+                  <select
+                    value={query.sort ?? DEFAULT_SORT}
+                    onChange={(e) => setSort(e.target.value as SortKey)}
+                    className="label appearance-none border border-void/18 bg-transparent py-2 pl-3 pr-9 text-void/80 outline-none transition-colors hover:border-void/50 focus-visible:border-void"
+                  >
+                    {SORT_KEYS.filter((k) => k !== "manufacturer" || manyManufacturers).map((key2) => (
+                      <option key={key2} value={key2}>
+                        {SORT_LABELS[key2]}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    aria-hidden
+                    className="pointer-events-none absolute right-3 h-3.5 w-3.5 text-void/60"
+                    strokeWidth={1.6}
+                  />
+                </span>
               </label>
 
               {(activeCount > 0 || searchValue) && (
@@ -378,10 +456,7 @@ export function Systemy() {
                   Wyczyść filtry
                 </button>
               )}
-              <PlaceholderTag
-                label="Zdjęcia poglądowe"
-                className="border-void/15 bg-transparent text-void/70 backdrop-blur-none"
-              />
+              <PlaceholderTag label="Zdjęcia poglądowe" tone="light" />
             </div>
           </div>
 

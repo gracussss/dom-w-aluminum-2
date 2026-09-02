@@ -1,3 +1,4 @@
+import { PHOTO_TONE } from "../lib/responsiveImage";
 import type {
   AluSystem,
   DataSource,
@@ -68,7 +69,7 @@ function splitTail(raw: string): { value: string; standard: string | null } {
 /* --------------------------- ZDJĘCIA --------------------------- */
 
 function img(id: string, params = "w=1600&q=80&auto=format&fit=crop") {
-  return "https://images.unsplash.com/" + id + "?" + params;
+  return "https://images.unsplash.com/" + id + "?" + params + "&" + PHOTO_TONE;
 }
 
 /**
@@ -195,7 +196,10 @@ function defineSystem(input: SystemInput): AluSystem {
 
     pricing: { mode: "on-request", note: null },
     cta: [
-      { id: "quote", label: "Zapytaj o wycenę", href: "/kontakt?system=" + input.id, kind: "quote" },
+      /* Etykieta mówi o TEJ pozycji — użytkownik stoi na karcie konkretnego
+         systemu, a nie na ogólnym zaproszeniu do kontaktu. Nazwy systemów
+         sięgają 34 znaków, więc nie wchodzą do etykiety przycisku. */
+      { id: "quote", label: "Wyceń ten system", href: "/kontakt?system=" + input.id, kind: "quote" },
     ],
 
     model3d: { type: MODEL_BY_CATEGORY[lead] ?? null, url: null },

@@ -7,9 +7,14 @@ import { DoubleSide } from "three";
 
 export type SceneMode = "full" | "open" | "exploded";
 
-/* Wspólne materiały i wymiary warstw profilu. */
-export const ALU = "#b6bbbf";
-export const ALU_DEEP = "#8f9599";
+/* Wspólne materiały i wymiary warstw profilu.
+
+   Barwa zestrojona z tokenem `--color-aluminium` (#9ba1a6). Wcześniej profil
+   był o kilka wartości jaśniejszy od aluminium reszty strony i wychodził
+   prawie biały — a metal, który nie ma ciemniejszej wartości bazowej, nie ma
+   też miejsca na jasny refleks i czyta się jak malowany plastik. */
+export const ALU = "#a9aeb2";
+export const ALU_DEEP = "#7e848a";
 export const BREAK_COLOR = "#463c30";
 
 const SHELL_D = 0.055;
@@ -99,7 +104,7 @@ export function ProfileFrame({
   t,
   d = SHELL_D,
   color = ALU,
-  roughness = 0.3,
+  roughness = 0.24,
 }: {
   w: number;
   h: number;
@@ -108,8 +113,12 @@ export function ProfileFrame({
   color?: string;
   roughness?: number;
 }) {
+  /* Metal widać po odbiciu otoczenia, nie po rozproszeniu światła: przy
+     `metalness` bliskim 1 składowa rozproszona prawie nie istnieje. Stąd
+     ostrzejsze odbicie (niższa chropowatość) i mocniejsza mapa otoczenia —
+     to one dają kierunkowy połysk, ten sam, który opisuje klasa `.brushed`. */
   const mat = (
-    <meshStandardMaterial color={color} metalness={0.92} roughness={roughness} envMapIntensity={1.15} />
+    <meshStandardMaterial color={color} metalness={0.92} roughness={roughness} envMapIntensity={1.45} />
   );
   return (
     <group>
