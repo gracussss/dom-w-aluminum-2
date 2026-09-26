@@ -48,69 +48,81 @@ export function Oferta() {
         description="Od pojedynczego okna po kompletną kopertę budynku. Każdą pozycję wyceniamy indywidualnie na podstawie projektu i pomiaru."
       />
 
-      {/* Obszary oferty — naprzemienny układ, bez powtarzalnej siatki kart */}
-      <section className="bg-limestone py-16 text-void md:py-24">
-        <div className="container-edge space-y-20 md:space-y-28">
-          {offerAreas.map((area, i) => (
-            <Reveal key={area.id}>
-              <article
-                id={area.id}
-                className={`grid scroll-mt-32 items-center gap-8 lg:grid-cols-12 lg:gap-12 ${
-                  i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                }`}
-              >
-                <div className="relative aspect-[4/3] overflow-hidden lg:col-span-7">
-                  <img
-                    src={area.image}
-                    srcSet={responsiveSrcSet(area.image)}
-                    sizes="(min-width: 1024px) 58vw, 100vw"
-                    alt={area.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                  <PlaceholderTag className="absolute right-4 top-4" />
-                </div>
-
-                <div className="lg:col-span-4">
-                  <span className="label text-bronze">{String(i + 1).padStart(2, "0")}</span>
-                  <h2 className="display display-tight mt-5 text-4xl sm:text-5xl">{area.name}</h2>
-                  <p className="mt-5 text-pretty leading-relaxed text-void/60">{area.description}</p>
-                  <Link
-                    to={
-                      taxonomy
-                        ? `/systemy/kategoria/${findCategory(taxonomy, area.categoryId)?.slug ?? ""}`
-                        : "/systemy"
-                    }
-                    className="group mt-7 inline-flex items-center gap-2.5 label text-void transition-colors hover:text-bronze"
+      {/* Obszary oferty — naprzemienny układ, bez powtarzalnej siatki kart.
+          Zdjęcie zawsze dochodzi do krawędzi kontenera: po lewej w wierszach
+          parzystych, po prawej w nieparzystych. Wcześniej w wierszach
+          odwróconych kończyło się kolumnę przed krawędzią i prawy margines
+          był większy od lewego (uwaga klientki: „dwa takie same mają być”). */}
+      <section className="bg-limestone py-14 text-void md:py-20">
+        <div className="container-edge space-y-16 md:space-y-20">
+          {offerAreas.map((area, i) => {
+            const flipped = i % 2 === 1;
+            return (
+              <Reveal key={area.id}>
+                <article
+                  id={area.id}
+                  className="grid scroll-mt-32 items-center gap-8 lg:grid-cols-12 lg:gap-12"
+                >
+                  <div
+                    className={`relative aspect-[4/3] overflow-hidden lg:col-span-7 lg:row-start-1 ${
+                      flipped ? "lg:col-start-6" : "lg:col-start-1"
+                    }`}
                   >
-                    Zobacz systemy
-                    <ArrowUpRight
-                      className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      strokeWidth={1.5}
+                    <img
+                      src={area.image}
+                      srcSet={responsiveSrcSet(area.image)}
+                      sizes="(min-width: 1024px) 58vw, 100vw"
+                      alt={area.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
                     />
-                  </Link>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                    <PlaceholderTag className="absolute right-4 top-4" />
+                  </div>
+
+                  <div
+                    className={`lg:col-span-4 lg:row-start-1 ${flipped ? "lg:col-start-1" : "lg:col-start-9"}`}
+                  >
+                    <span className="display text-3xl leading-none text-bronze">{String(i + 1).padStart(2, "0")}</span>
+                    <h2 className="display display-tight mt-4 text-4xl sm:text-[2.75rem]">{area.name}</h2>
+                    <p className="mt-5 text-pretty text-lg leading-relaxed text-void/65">{area.description}</p>
+                    <Link
+                      to={
+                        taxonomy
+                          ? `/systemy/kategoria/${findCategory(taxonomy, area.categoryId)?.slug ?? ""}`
+                          : "/systemy"
+                      }
+                      className="group mt-7 inline-flex items-center gap-2.5 label text-void transition-colors hover:text-bronze"
+                    >
+                      Zobacz systemy
+                      <ArrowUpRight
+                        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        strokeWidth={1.5}
+                      />
+                    </Link>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
       {/* Na czym stoi wycena — pas decyzji, zamknięty kontaktem */}
-      <section className="grain bg-void py-20 text-limestone md:py-28">
+      <section className="grain bg-void pb-14 pt-20 text-limestone md:pb-16 md:pt-24">
         <div className="container-edge">
+          {/* Tytuł i akapit w jednym wierszu, akapit na wysokości środka
+              tytułu — tak jak prosiła klientka („w jednym wierszu, na środku”). */}
           <SectionHeading
             eyebrow="Wycena"
             tone="light"
-            variant="stacked"
-            titleClassName="max-w-3xl text-[9vw] leading-[0.94] sm:text-5xl md:text-6xl"
+            variant="split"
             lines={["Cena powstaje", "po pomiarze"]}
             description="Konstrukcja aluminiowa nie ma ceny katalogowej. Składa się na nią pięć decyzji, które ustalamy dla konkretnego otworu i konkretnego budynku."
           />
 
           {/* Pas decyzji */}
           <Reveal delay={0.1}>
-            <ol className="mt-14 grid grid-cols-1 gap-px border-y border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-5 lg:border">
+            <ol className="mt-10 grid grid-cols-1 gap-px border-y border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-5 lg:border">
               {quoteFactors.map((factor, i) => (
                 <li
                   key={factor.label}
@@ -118,10 +130,10 @@ export function Oferta() {
                     i === quoteFactors.length - 1 ? factorsFillLast : ""
                   }`}
                 >
-                  <span className="label text-bronze-light">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="display text-2xl leading-none text-bronze-light">{String(i + 1).padStart(2, "0")}</span>
                   <div>
                     <h3 className="text-lg font-semibold tracking-[-0.02em]">{factor.label}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-limestone/60">{factor.body}</p>
+                    <p className="mt-2 text-[15px] leading-relaxed text-limestone/65">{factor.body}</p>
                   </div>
                 </li>
               ))}
@@ -130,13 +142,13 @@ export function Oferta() {
 
           {/* Konfigurator schodzi do przypisu — jest planem, nie ofertą */}
           <Reveal delay={0.14}>
-            <p className="mt-8 max-w-2xl text-sm leading-relaxed text-limestone/60">
+            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-limestone/65">
               Ten sam zakres poprowadzi docelowo wycena online. Dziś przechodzimy
               przez niego w rozmowie i podczas pomiaru na budowie.
             </p>
           </Reveal>
 
-          <Reveal delay={0.18} className="mt-10 flex flex-wrap gap-4">
+          <Reveal delay={0.18} className="mt-8 flex flex-wrap gap-4">
             <ArrowButton href="/kontakt" variant="solid" tone="dark">
               Opisz projekt
             </ArrowButton>

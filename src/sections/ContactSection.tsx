@@ -8,7 +8,7 @@ import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
 
 export function ContactSection() {
   return (
-    <section id="kontakt" className="grain relative overflow-hidden bg-void py-28 text-limestone md:py-40">
+    <section id="kontakt" className="grain relative overflow-hidden bg-void pb-14 pt-20 text-limestone md:pb-16 md:pt-28">
       <div className="absolute inset-0">
         <img
           src={images.contact}
@@ -23,13 +23,15 @@ export function ContactSection() {
       <div className="blueprint-grid absolute inset-0 opacity-30" aria-hidden />
 
       <div className="container-edge relative">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+        {/* Dane firmy wyśrodkowane w pionie względem bloku po lewej —
+            uwaga klientki: „na wysokości środka tego, co obok”. */}
+        <div className="grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-7">
             <Reveal>
               <Eyebrow index="05" label="Kontakt" tone="light" />
             </Reveal>
 
-            <h2 className="display display-tight mt-9 text-[11vw] leading-[0.92] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
+            <h2 className="display display-tight mt-6 text-[10vw] leading-[0.96] sm:text-5xl md:text-6xl lg:text-[4rem]">
               <RevealText>Porozmawiajmy</RevealText>
               <RevealText delay={0.08}>
                 <span className="editorial text-aluminium">o Twojej konstrukcji</span>
@@ -37,7 +39,7 @@ export function ContactSection() {
             </h2>
 
             <Reveal delay={0.16}>
-              <p className="mt-9 max-w-lg text-pretty text-base leading-relaxed text-limestone/55 md:text-lg">
+              <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-limestone/65 md:text-xl">
                 Pojedyncze okno, kompletna stolarka domu czy fasada budynku —
                 opisz projekt, a wrócimy z konkretną propozycją i realnym
                 terminem realizacji.
@@ -45,7 +47,7 @@ export function ContactSection() {
             </Reveal>
 
             <Reveal delay={0.24}>
-              <div className="mt-11 flex flex-wrap gap-4">
+              <div className="mt-9 flex flex-wrap gap-4">
                 {/* Akapit obok mówi „opisz projekt, a wrócimy…” — przycisk
                     powtarza to samo słowo, żeby czynność i obietnica się zgadzały. */}
                 <Link
@@ -69,29 +71,33 @@ export function ContactSection() {
             </Reveal>
           </div>
 
-          {/* Dane firmy — jedyne w pełni potwierdzone informacje na stronie */}
+          {/* Dane firmy — jedyne w pełni potwierdzone informacje na stronie.
+              Bez kreski nad blokiem (klientka: „niepotrzebna”). */}
           <Reveal delay={0.2} className="lg:col-span-4 lg:col-start-9">
-            <div className="border-t border-limestone/15 pt-8">
-              <p className="label text-limestone/55">Dane firmy</p>
+            <div>
+              <p className="label text-[13px] text-limestone/60">Dane firmy</p>
 
               <p className="mt-6 text-xl font-semibold tracking-[-0.02em]">{company.legalName}</p>
 
+              {/* Adres i telefon tym samym krojem i stopniem — telefon nie jest
+                  już pogrubiony ani większy od adresu (uwaga klientki: „bez
+                  pogrubiania, ta sama czcionka co to, może być większe”). */}
               <a
                 href={googleMapsSearchUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group mt-5 flex items-start gap-3 text-limestone/65 transition-colors hover:text-bronze-light"
+                className="group mt-5 flex items-start gap-3 text-lg text-limestone/75 transition-colors hover:text-bronze-light"
               >
-                <MapPin className="mt-1 h-4 w-4 shrink-0" strokeWidth={1.4} />
+                <MapPin className="mt-1.5 h-4 w-4 shrink-0" strokeWidth={1.4} />
                 <span className="leading-relaxed">{fullAddress}</span>
               </a>
 
               <a
                 href={company.phone.href}
-                className="mt-4 flex items-center gap-3 text-limestone transition-colors hover:text-bronze-light"
+                className="mt-3 flex items-center gap-3 text-lg text-limestone/75 transition-colors hover:text-bronze-light"
               >
                 <Phone className="h-4 w-4 shrink-0" strokeWidth={1.4} />
-                <span className="text-2xl font-semibold tracking-[-0.02em]">{company.phone.display}</span>
+                <span className="leading-relaxed">{company.phone.display}</span>
               </a>
             </div>
           </Reveal>

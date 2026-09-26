@@ -9,7 +9,7 @@ type Tone = "light" | "dark";
  * usypia czytelnika — po trzeciej przestaje go czytać. Trzy układy rozdane
  * po stronie utrzymują rytm, nie zmieniając treści.
  *
- * split   — tytuł po lewej, akapit po prawej, wyrównane do dolnej krawędzi
+ * split   — tytuł po lewej, akapit po prawej, wyśrodkowane względem siebie
  * stacked — tytuł pełną szerokością, akapit zrzucony niżej do prawej kolumny
  * inset   — eyebrow nad linią pełnej szerokości, tytuł wcięty do prawej połowy
  */
@@ -27,7 +27,10 @@ interface SectionHeadingProps {
   className?: string;
 }
 
-const DEFAULT_TITLE = "text-[9vw] leading-[0.94] sm:text-5xl md:text-6xl";
+/* Stopień o krok niższy niż pierwotne 60 px, akapit o krok wyższy. Klientka
+   przy każdej sekcji powtarzała to samo: „nagłówek za duży, tekst obok za
+   mały”. Różnica 60 px do 14 px robiła z akapitu przypis. */
+const DEFAULT_TITLE = "text-[8vw] leading-[0.98] sm:text-4xl md:text-5xl";
 
 export function SectionHeading({
   index,
@@ -101,21 +104,23 @@ export function SectionHeading({
     );
   }
 
+  /* Etykieta nad całym wierszem, a akapit wyśrodkowany w pionie względem
+     samego tytułu. Wcześniej akapit był dociśnięty do dolnej krawędzi bloku
+     „etykieta + tytuł”, więc przy jednowierszowym tytule wisiał pod nim
+     i nie należał ani do tytułu, ani do treści poniżej. */
   return (
-    <div className={`flex flex-col justify-between gap-8 md:flex-row md:items-end ${className}`}>
-      <div>
-        <Reveal>
-          <Eyebrow index={index} label={eyebrow} tone={tone} />
-        </Reveal>
-        <div className="mt-9">{title}</div>
+    <div className={className}>
+      <Reveal>
+        <Eyebrow index={index} label={eyebrow} tone={tone} />
+      </Reveal>
+      <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-12">
+        {title}
+        {description && (
+          <Reveal delay={0.12} className="md:max-w-sm lg:max-w-md">
+            <p className={`text-pretty text-base leading-relaxed md:text-lg ${bodyText}`}>{description}</p>
+          </Reveal>
+        )}
       </div>
-      {description && (
-        <Reveal delay={0.12}>
-          <p className={`max-w-xs text-pretty text-sm leading-relaxed md:text-base ${bodyText}`}>
-            {description}
-          </p>
-        </Reveal>
-      )}
     </div>
   );
 }

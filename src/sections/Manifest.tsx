@@ -23,18 +23,20 @@ const principles = [
 
 export function Manifest() {
   return (
-    <section className="relative bg-limestone py-24 text-void md:py-36">
+    <section className="relative bg-limestone py-20 text-void md:py-28">
       <div className="container-edge">
         <Reveal>
           <Eyebrow index="01" label="Podejście" tone="dark" />
         </Reveal>
 
-        {/* Nagłówek i akapit stoją obok siebie, wyrównane do wspólnej linii
-            dolnej. Wcześniej akapit (`max-w-xl`) leżał pod nagłówkiem przy
-            lewej krawędzi i zostawiał obok siebie ~60% pustego wiersza —
-            pustka bez funkcji, nie oddech kompozycji. */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
-          <h2 className="display display-tight text-[8.5vw] leading-[0.94] sm:text-5xl md:text-6xl lg:col-span-8 lg:text-[4.6rem]">
+        {/* Nagłówek i akapit stoją obok siebie. Wcześniej akapit (`max-w-xl`)
+            leżał pod nagłówkiem przy lewej krawędzi i zostawiał obok siebie
+            ~60% pustego wiersza — pustka bez funkcji, nie oddech kompozycji.
+            Akapit jest wyśrodkowany w pionie względem nagłówka, nie dosunięty
+            do jego dolnej linii, a nagłówek zszedł z 74 px — uwagi klientki:
+            „tekst ma być na środku tego, co obok”, „nagłówek za duży”. */}
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12">
+          <h2 className="display display-tight text-[8vw] leading-[0.98] sm:text-4xl md:text-5xl lg:col-span-8 lg:text-[3.5rem]">
             <RevealText>Aluminium daje architekturze</RevealText>
             <RevealText delay={0.08}>
               <span className="editorial text-sand-deep">smukłość, której nie da</span>
@@ -43,7 +45,7 @@ export function Manifest() {
           </h2>
 
           <Reveal delay={0.2} className="lg:col-span-4">
-            <p className="max-w-xl text-pretty text-base leading-relaxed text-void/60 md:text-lg lg:max-w-none">
+            <p className="max-w-xl text-pretty text-lg leading-relaxed text-void/65 md:text-xl lg:max-w-none">
               Wąska rama, duża tafla szkła i konstrukcja, która utrzymuje swoją
               geometrię przez dziesięciolecia. Naszym zadaniem jest sprawić,
               żeby stolarka zniknęła — a został widok.
@@ -54,7 +56,7 @@ export function Manifest() {
         {/* Skrajne kolumny bez wcięcia od zewnątrz — inaczej pierwsza zasada
             zaczynała się 32 px w prawo od nagłówka sekcji i cały blok wyglądał
             na przesunięty względem reszty strony. */}
-        <RevealGroup className="mt-14 grid gap-px border-y border-void/12 bg-void/12 md:mt-20 md:grid-cols-3" stagger={0.1}>
+        <RevealGroup className="mt-12 grid gap-px border-y border-void/12 bg-void/12 md:mt-16 md:grid-cols-3" stagger={0.1}>
           {principles.map((p, i) => (
             <motion.div
               key={p.no}

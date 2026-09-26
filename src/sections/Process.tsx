@@ -89,15 +89,17 @@ export function Process() {
   return (
     <section
       ref={section}
-      className={`relative overflow-hidden bg-limestone py-24 text-void md:py-32 ${reduced ? "" : "lg:py-0"}`}
+      className={`relative overflow-hidden bg-limestone py-20 text-void md:py-28 ${reduced ? "" : "lg:py-0"}`}
     >
       <div className={reduced ? "" : "lg:flex lg:h-[100svh] lg:flex-col lg:justify-center"}>
         <div className="container-edge">
+          {/* Tytuł i akapit w jednym wierszu — przy wariancie „stacked”
+              akapit spadał pod tytuł do prawej kolumny i wisiał w pustym polu. */}
           <SectionHeading
             index="04"
             eyebrow="Proces"
             tone="dark"
-            variant="stacked"
+            variant="split"
             lines={["Od rozmowy", "do odbioru"]}
             description="Sześć etapów, przez które przechodzi każda konstrukcja."
           />
@@ -109,7 +111,7 @@ export function Process() {
             po której widać, że etapy następują po sobie.
             Przy ograniczonych animacjach zawsze pionowo, żeby wszystkie
             etapy pozostały osiągalne bez przewijania sterowanego skryptem. */}
-        <div className={`mt-14 ${reduced ? "" : "lg:mt-20 lg:overflow-hidden"}`}>
+        <div className={`mt-12 ${reduced ? "" : "lg:mt-14 lg:overflow-hidden"}`}>
           <div
             ref={track}
             className={`container-edge flex flex-col ${
@@ -132,11 +134,11 @@ export function Process() {
                 </div>
 
                 <div className="pb-10 lg:pb-0">
-                  <span className="label hidden text-bronze lg:block">{s.no}</span>
-                  <h3 className="text-2xl font-semibold leading-tight tracking-[-0.03em] md:text-[28px] lg:mt-6">
+                  <span className="display hidden text-3xl leading-none text-bronze lg:block">{s.no}</span>
+                  <h3 className="text-2xl font-semibold leading-tight tracking-[-0.03em] lg:mt-5">
                     {s.title}
                   </h3>
-                  <p className="mt-4 max-w-md text-sm leading-relaxed text-void/70">{s.body}</p>
+                  <p className="mt-3 max-w-md text-[15px] leading-relaxed text-void/70">{s.body}</p>
                 </div>
               </div>
             ))}

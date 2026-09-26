@@ -72,11 +72,12 @@ export function Hero() {
 
       <motion.div
         style={{ y: contentY, opacity: fade }}
-        /* Zapas u dołu na dużych ekranach: treść hero jest dosunięta do dołu
-           (`justify-end`), a pas zgody na cookies stoi na tej samej krawędzi.
-           Bez tego zapasu przy pierwszej wizycie pas ścinał ogonki kursywy
-           w trzeciej linii nagłówka. */
-        className="container-edge relative z-10 flex flex-1 flex-col justify-end pb-10 pt-28 md:pb-14 lg:pb-20"
+        /* Treść wyśrodkowana w pionie, nie dosunięta do dołu. Uwaga klientki:
+           nad nagłówkiem zostawała pusta połowa ekranu, a pas zgody na
+           cookies przy pierwszej wizycie zasłaniał dolną linię napisu.
+           Dolne pole większe od górnego o wysokość paska oferty — środek
+           liczony jest wtedy względem widocznej części zdjęcia. */
+        className="container-edge relative z-10 flex flex-1 flex-col justify-center pb-16 pt-28 md:pb-20 lg:pb-24"
       >
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           {/* Blok nagłówka bierze całą wolną szerokość zamiast twardego
@@ -90,10 +91,10 @@ export function Hero() {
               initial="out"
               animate={state}
               transition={{ duration: 0.8, delay: 0.25, ease: EASE_OUT }}
-              className="mb-8 flex items-center gap-3.5"
+              className="mb-8"
             >
-              <span className="h-px w-9 bg-bronze-light" />
-              <span className="label text-limestone/60">Producent stolarki aluminiowej</span>
+              {/* Bez kreski — tak jak etykiety wszystkich sekcji (`Eyebrow`). */}
+              <span className="label text-[13px] text-limestone/65">Producent stolarki aluminiowej</span>
             </motion.div>
 
             {/* Maski linii: `overflow-clip` z marginesem zamiast `overflow-hidden`.

@@ -7,21 +7,27 @@ import { LogoMark } from "../ui/Logo";
 
 export function Footer() {
   return (
-    <footer className="grain relative overflow-hidden bg-void pt-20 text-limestone md:pt-28">
+    /* Krótszy pas nad stopką — klientka dwukrotnie wskazała czarne pole
+       między ostatnią sekcją a stopką jako za duże (112 px pustego tła plus
+       56 px nad treścią). */
+    <footer className="grain relative overflow-hidden bg-void pt-8 text-limestone md:pt-12">
       <div className="blueprint-grid absolute inset-0 opacity-30" aria-hidden />
 
       <div className="container-edge relative">
-        <div className="grid gap-14 border-t border-limestone/10 pb-16 pt-14 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.1fr]">
+        {/* Kolumny i ich treść wyśrodkowane — uwaga klientki: „wyśrodkować
+            te teksty, wyśrodkować te kolumny”. Równe kolumny zamiast
+            szerszej pierwszej, żeby osie wypadały w równych odstępach. */}
+        <div className="grid gap-12 border-t border-limestone/10 pb-12 pt-12 text-center md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <span className="flex items-center gap-3">
+            <span className="flex items-center justify-center gap-3">
               <LogoMark className="h-8 w-8 text-limestone" accent="var(--color-bronze-light)" />
               <span className="text-lg font-semibold tracking-[-0.02em]">DOM W ALUMINIUM</span>
             </span>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-limestone/55">
+            <p className="mx-auto mt-5 max-w-xs text-sm leading-relaxed text-limestone/55">
               Okna, drzwi, systemy i fasady aluminiowe. Projektujemy
               i wykonujemy konstrukcje dopasowane do konkretnego budynku.
             </p>
-            <SocialIcons className="mt-7" tone="dark" />
+            <SocialIcons className="mt-7" tone="dark" align="center" />
           </div>
 
           <div>
@@ -69,7 +75,7 @@ export function Footer() {
                   href={googleMapsSearchUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-start gap-2.5 text-limestone/65 transition-colors hover:text-bronze-light"
+                  className="group inline-flex items-start gap-2.5 text-left text-limestone/65 transition-colors hover:text-bronze-light"
                 >
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.4} />
                   <span>
@@ -80,12 +86,14 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                {/* Telefon tym samym stopniem i kolorem co adres — bez
+                    wyróżnienia, o które klientka pytała („bez pogrubiania”). */}
                 <a
                   href={company.phone.href}
-                  className="flex items-center gap-2.5 text-limestone transition-colors hover:text-bronze-light"
+                  className="inline-flex items-center gap-2.5 text-limestone/65 transition-colors hover:text-bronze-light"
                 >
                   <Phone className="h-4 w-4 shrink-0" strokeWidth={1.4} />
-                  <span className="text-base">{company.phone.display}</span>
+                  <span>{company.phone.display}</span>
                 </a>
               </li>
             </ul>

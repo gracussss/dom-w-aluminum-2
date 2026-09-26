@@ -36,6 +36,10 @@ interface SocialIconsProps {
   tone?: "light" | "dark";
   /** Nagłówek nad ikonami. */
   heading?: string;
+  /** Wyrównanie nagłówka i ikon w swoim bloku. */
+  align?: "start" | "center";
+  /** „lg” — przy mapie w kontakcie, gdzie 44 px ginęło obok kadru mapy. */
+  size?: "md" | "lg";
 }
 
 /**
@@ -47,17 +51,27 @@ interface SocialIconsProps {
  * się jak reszta interfejsu, da się na nim zatrzymać tabulatorem, ale nie
  * udaje działającego odnośnika. Po wpisaniu adresu staje się zwykłym linkiem.
  */
-export function SocialIcons({ className = "", tone = "dark", heading }: SocialIconsProps) {
+export function SocialIcons({
+  className = "",
+  tone = "dark",
+  heading,
+  align = "start",
+  size = "md",
+}: SocialIconsProps) {
   const border = tone === "dark" ? "border-limestone/15" : "border-void/15";
   const text = tone === "dark" ? "text-limestone/60" : "text-void/60";
   const headingText = tone === "dark" ? "text-limestone/55" : "text-void/70";
 
-  const tile = `group relative flex h-11 w-11 items-center justify-center overflow-hidden border ${border} ${text} transition-colors duration-500 hover:text-void`;
+  const box = size === "lg" ? "h-14 w-14" : "h-11 w-11";
+  const glyphSize = size === "lg" ? "h-6 w-6" : "h-[18px] w-[18px]";
+  const centered = align === "center";
+
+  const tile = `group relative flex ${box} items-center justify-center overflow-hidden border ${border} ${text} transition-colors duration-500 hover:text-void`;
 
   return (
-    <div className={className}>
+    <div className={`${centered ? "text-center" : ""} ${className}`}>
       {heading && <p className={`label ${headingText}`}>{heading}</p>}
-      <div className={`flex items-center gap-2.5 ${heading ? "mt-4" : ""}`}>
+      <div className={`flex items-center gap-2.5 ${centered ? "justify-center" : ""} ${heading ? "mt-4" : ""}`}>
         {ALL.map(({ label, href, Icon }) => {
           const fill = (
             <span
@@ -67,7 +81,7 @@ export function SocialIcons({ className = "", tone = "dark", heading }: SocialIc
           );
           const glyph = (
             <Icon
-              className="relative z-10 h-[18px] w-[18px] transition-transform duration-500 ease-[var(--ease-premium)] group-hover:-translate-y-px"
+              className={`relative z-10 ${glyphSize} transition-transform duration-500 ease-[var(--ease-premium)] group-hover:-translate-y-px`}
               strokeWidth={1.4}
             />
           );
