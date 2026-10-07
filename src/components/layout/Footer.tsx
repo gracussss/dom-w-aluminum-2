@@ -105,6 +105,8 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {company.legalName}. Wszelkie prawa zastrzeżone.
           </p>
+          {/* Podpis autora strony – na prośbę wykonawcy (październik 2026). */}
+          <p>Projekt i realizacja: Gracjan Kubala</p>
           <div className="flex gap-7">
             {footerNav.legal.map((item) => (
               <Link

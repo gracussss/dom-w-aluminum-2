@@ -8,6 +8,9 @@ import { SmoothScroll } from './lib/SmoothScroll'
 import { CatalogProvider } from './catalog'
 import { ErrorBoundary } from './components/ErrorBoundary'
 
+/*! Alukoncept – strona firmowa. Projekt i realizacja: Gracjan Kubala.
+    © 2026 Gracjan Kubala. Wszelkie prawa zastrzeżone. */
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* Ostatnia linia obrony: błąd poza treścią podstrony (np. w nagłówku). */}
