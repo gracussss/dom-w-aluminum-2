@@ -105,7 +105,7 @@ export function SystemDetail() {
   /* Tytuł i opis składane z części, które istnieją — przy braku kategorii
      wcześniejszy szablon zostawiał w opisie podwójną kropkę i pustkę. */
   /* Kropka rozdziela części tytułu, bo myślnik jest już zajęty przez sufiks
-     marki („… — Dom w Aluminium”) i dwa myślniki w jednej linii się zlewają.
+     marki („… – Alukoncept”) i dwa myślniki w jednej linii się zlewają.
      Nazwy robocze same opisują konstrukcję, więc nic do nich nie doklejamy. */
   const seoTitle =
     confirmed && manufacturer ? `${system.name} · system aluminiowy ${manufacturer.name}` : system.name;
@@ -113,7 +113,7 @@ export function SystemDetail() {
   const seoDescription = [
     `${system.name}: ${system.summary}`,
     category ? `Kategoria: ${category.name}` : null,
-    "Karta systemu w katalogu Dom w Aluminium.",
+    "Karta systemu w katalogu Alukoncept.",
   ]
     .filter(Boolean)
     .join(". ")

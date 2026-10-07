@@ -120,6 +120,10 @@ Język komentarzy i treści: **polski**.
 - **Nic z obcego serwera nie ładuje się przed zgodą.** Osadzenie (mapa, wideo,
   pixel) przepuść przez `useConsent()` — wzór: `src/components/ui/MapEmbed.tsx`.
 - Kroje pisma hostujemy lokalnie. Nie wracaj do `fonts.googleapis.com`.
+- **Nagłówki bezpieczeństwa i CSP** stoją w `public/_headers` (działa na
+  Netlify) i lustrzanie w `vercel.json`. Każdy nowy zewnętrzny host (obrazy,
+  osadzenie, odbiorca formularza, analityka) trzeba dopisać do odpowiedniej
+  dyrektywy CSP w obu plikach — inaczej przeglądarka go po cichu zablokuje.
 
 ---
 

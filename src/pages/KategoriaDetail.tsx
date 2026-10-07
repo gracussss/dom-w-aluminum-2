@@ -29,9 +29,9 @@ export function KategoriaDetail() {
       eyebrow="Kategoria"
       title={category.name}
       description={category.description}
-      /* Kropka zamiast myślnika: sufiks „— Dom w Aluminium” dokłada własny. */
+      /* Kropka zamiast myślnika: sufiks „– Alukoncept” dokłada własny. */
       seoTitle={`${category.name} · systemy aluminiowe`}
-      seoDescription={`${category.description} Zestawienie systemów w katalogu Dom w Aluminium.`}
+      seoDescription={`${category.description} Zestawienie systemów w katalogu Alukoncept.`}
       systems={list?.items ?? []}
       taxonomy={taxonomy}
       catalogHref={`/systemy?kategoria=${category.id}`}

@@ -3,11 +3,33 @@
 #
 # WERSJA DEMO: X-Robots-Tag dubluje blokadę z robots.txt i index.html.
 # Nagłówek działa też dla plików, których meta nie obejmuje (PDF, obrazy).
-# PRZED PUBLIKACJĄ PRODUKCYJNĄ usunąć całą regułę /* razem z komentarzem —
-# checklista w SEO.md, punkt 3.
+# PRZED PUBLIKACJĄ PRODUKCYJNĄ usunąć TĘ regułę /* razem z komentarzem —
+# checklista w SEO.md, punkt 3. Reguły bezpieczeństwa niżej ZOSTAJĄ
+# (Netlify łączy nagłówki ze wszystkich pasujących reguł).
 
 /*
   X-Robots-Tag: noindex, nofollow
+
+# Bezpieczeństwo – na stałe, także po publikacji.
+#
+# CSP wymienia wszystko, z czego strona korzysta poza własną domeną:
+#   images.unsplash.com  – zdjęcia poglądowe (do usunięcia po wymianie
+#                          na zdjęcia firmy),
+#   www.google.com       – osadzona mapa, ładowana dopiero po zgodzie.
+# 'unsafe-inline' w style-src jest konieczne: React i framer-motion
+# ustawiają style w atrybutach. Skrypty – wyłącznie z własnej domeny.
+# Po ustawieniu VITE_CONTACT_ENDPOINT (zewnętrzny odbiorca formularza)
+# trzeba dopisać jego domenę do connect-src.
+# Przetestowane w przeglądarce (październik 2026): strona główna ze sceną
+# 3D, katalog, karta systemu, kontakt z mapą – bez naruszeń CSP.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
 
 # Zasoby z hashem w nazwie nigdy nie zmieniają treści — mogą leżeć w cache
 # przeglądarki bez odpytywania serwera.

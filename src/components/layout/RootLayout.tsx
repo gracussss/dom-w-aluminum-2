@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigationType } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { CookieConsent } from "./CookieConsent";
+import { ErrorBoundary } from "../ErrorBoundary";
 import { scrollToElement, scrollToTop, scrollToY } from "../../lib/scroll";
 
 if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
@@ -93,7 +94,11 @@ export function RootLayout() {
           się od zera. Klientka odebrała to jako „przeskakiwanie” i „kreski”,
           a razem z dociąganiem podstrony — jako wolne ładowanie. */}
       <main id="tresc">
-        <Outlet />
+        {/* Klucz = adres: po przejściu na inną podstronę błąd z poprzedniej
+            nie zostaje na ekranie – nagłówek działa, więc da się uciec. */}
+        <ErrorBoundary key={pathname}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <Footer />
       <CookieConsent />

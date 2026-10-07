@@ -4,7 +4,7 @@
  */
 export const company = {
   legalName: "Alukoncept Sp. z o.o.",
-  brandName: "Dom w Aluminium",
+  brandName: "Alukoncept",
   address: {
     street: "Stanisława Mikołajczyka 59 A",
     postalCode: "41-400",

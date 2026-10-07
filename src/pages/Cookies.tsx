@@ -27,7 +27,7 @@ const entries: StorageEntry[] = [
     kind: "Pamięć lokalna przeglądarki (localStorage)",
     purpose: "Zapamiętanie Twojej decyzji o zgodach, żeby baner nie wracał przy każdej wizycie.",
     ttl: "Do czasu wyczyszczenia danych strony w przeglądarce",
-    owner: "Dom w Aluminium (podmiot prowadzący stronę)",
+    owner: "Alukoncept Sp. z o.o. (podmiot prowadzący stronę)",
   },
 ];
 
@@ -45,7 +45,7 @@ export function Cookies() {
     <>
       <Seo
         title="Polityka cookies"
-        description="Jakich plików cookies używamy na stronie Dom w Aluminium, do czego służą i jak zarządzać zgodą w przeglądarce."
+        description="Jakich plików cookies używamy na stronie Alukoncept, do czego służą i jak zarządzać zgodą w przeglądarce."
       />
       <PageHero
         eyebrow="Dokument"
@@ -77,7 +77,7 @@ export function Cookies() {
             <div className="mt-5 overflow-x-auto">
               <table className="w-full min-w-[640px] border-collapse text-left text-sm">
                 <caption className="sr-only">
-                  Dane zapisywane przez stronę Dom w Aluminium w przeglądarce użytkownika
+                  Dane zapisywane przez stronę Alukoncept w przeglądarce użytkownika
                 </caption>
                 <thead>
                   <tr className="border-y border-void/15">

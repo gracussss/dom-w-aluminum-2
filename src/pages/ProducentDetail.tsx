@@ -34,7 +34,7 @@ export function ProducentDetail() {
       title={manufacturer.name}
       description={`Systemy ${manufacturer.name} obecne w naszym zestawieniu, w podziale na kategorie i typy konstrukcji.`}
       seoTitle={`Systemy ${manufacturer.name}`}
-      seoDescription={`Zestawienie systemów ${manufacturer.name} – okna, drzwi, konstrukcje przesuwne i fasady w katalogu Dom w Aluminium.`}
+      seoDescription={`Zestawienie systemów ${manufacturer.name} – okna, drzwi, konstrukcje przesuwne i fasady w katalogu Alukoncept.`}
       systems={list?.items ?? []}
       taxonomy={taxonomy}
       showManufacturer={false}

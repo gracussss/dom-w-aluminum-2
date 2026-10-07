@@ -1,6 +1,6 @@
-# Dom w Aluminium
+# Alukoncept
 
-Strona firmowa **Alukoncept Sp. z o.o.** (marka „Dom w Aluminium”) — stolarka
+Strona firmowa **Alukoncept Sp. z o.o.** (wcześniej robocza nazwa „Dom w Aluminium”) — stolarka
 aluminiowa: okna, drzwi, systemy przesuwne, fasady, konstrukcje przeciwpożarowe
 i indywidualne. Sosnowiec.
 
