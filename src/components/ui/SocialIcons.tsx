@@ -92,8 +92,8 @@ export function SocialIcons({
                 key={label}
                 type="button"
                 aria-disabled="true"
-                title={`${label} — profil w przygotowaniu`}
-                aria-label={`${label} — profil w przygotowaniu`}
+                title={`${label} – profil w przygotowaniu`}
+                aria-label={`${label} – profil w przygotowaniu`}
                 onClick={(e) => e.preventDefault()}
                 className={tile}
               >
@@ -109,7 +109,7 @@ export function SocialIcons({
               href={href}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${label} — profil firmy (otwiera się w nowej karcie)`}
+              aria-label={`${label} – profil firmy (otwiera się w nowej karcie)`}
               className={tile}
             >
               {fill}

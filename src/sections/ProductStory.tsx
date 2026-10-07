@@ -25,7 +25,7 @@ const steps = [
     no: "03",
     label: "Skrzydło",
     title: "Ruch musi być powtarzalny",
-    body: "Ciężar pakietu szybowego przenoszą okucia i naroża ramy — przy tym samym ruchu, tysiące razy.",
+    body: "Ciężar pakietu szybowego przenoszą okucia i naroża ramy – przy tym samym ruchu, tysiące razy.",
   },
   {
     no: "04",
@@ -37,7 +37,7 @@ const steps = [
     no: "05",
     label: "Przekrój",
     title: "Wnętrze profilu",
-    body: "Dwie powłoki aluminium rozdzielone przekładką termiczną — to ona przerywa drogę ciepła między zewnętrzem a wnętrzem.",
+    body: "Dwie powłoki aluminium rozdzielone przekładką termiczną – to ona przerywa drogę ciepła między zewnętrzem a wnętrzem.",
   },
   {
     no: "06",
@@ -161,7 +161,7 @@ function Story3D() {
 
         <div className="container-edge pointer-events-none relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="pt-6">
-            <Eyebrow index="03" label="Jak powstaje konstrukcja" tone="light" />
+            <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
           </div>
 
           {/* Tekst kroku przyklejony do GÓRY swojego pola, nie do dołu. Pole
@@ -180,7 +180,7 @@ function Story3D() {
                 aria-hidden={i !== step}
               >
                 <span className="label text-bronze-light">
-                  {s.no} — {s.label}
+                  {s.no} – {s.label}
                 </span>
                 <h3 className="display display-tight mt-4 text-[7.5vw] leading-[0.98] sm:text-4xl md:text-5xl">
                   {s.title}

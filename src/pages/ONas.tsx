@@ -11,7 +11,7 @@ export function ONas() {
     <>
       <Seo
         title="O nas · Alukoncept Sp. z o.o."
-        description="Alukoncept Sp. z o.o. z Sosnowca — projektowanie i wykonawstwo stolarki aluminiowej: okna, drzwi, systemy przesuwne i fasady."
+        description="Alukoncept Sp. z o.o. z Sosnowca – projektowanie i wykonawstwo stolarki aluminiowej: okna, drzwi, systemy przesuwne i fasady."
       />
       <PageHero eyebrow="O nas" title="Aluminium traktujemy poważnie." />
 
@@ -24,7 +24,7 @@ export function ONas() {
           <div className="relative lg:col-span-5">
             <ParallaxImage
               src={images.about}
-              alt="Precyzja wykonania — zdjęcie poglądowe"
+              alt="Precyzja wykonania – zdjęcie poglądowe"
               /* Poniżej `lg` kolumny stoją jedna pod drugą, więc kadr musi mieć
                  własną proporcję — pełna szerokość z 4/5 dawała przy 941 px
                  zdjęcie 887 x 1108 px, cały ekran przed pierwszym zdaniem. */
@@ -34,9 +34,11 @@ export function ONas() {
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
-            {/* Interlinia 1.08 zamiast 0.96 — klientka: odstęp „między
-                wierszami jest taki mały, dałabym troszkę większy”. */}
-            <h2 className="display display-tight text-[8vw] leading-[1.08] sm:text-4xl md:text-5xl">
+            {/* Interlinia 1.08 zamiast 0.92 – klientka: odstęp „między
+                wierszami jest taki mały, dałabym troszkę większy”. Z `!`,
+                bo `.display` ustawia interlinię i stoi w arkuszu za
+                klasami Tailwinda – bez tego `leading-*` nic nie zmieniało. */}
+            <h2 className="display display-tight text-[8vw] leading-[1.08]! sm:text-4xl md:text-5xl">
               <RevealText>Projektujemy i wykonujemy</RevealText>
               <RevealText delay={0.08}>
                 <span className="editorial text-sand-deep">konstrukcje aluminiowe</span>
@@ -47,7 +49,7 @@ export function ONas() {
               <p className="mt-7 max-w-xl text-pretty leading-relaxed text-void/65 md:text-lg">
                 Zajmujemy się oknami, drzwiami, systemami przesuwnymi
                 i fasadami aluminiowymi. Każdy projekt traktujemy
-                indywidualnie — od pojedynczego otworu po kompletną kopertę
+                indywidualnie – od pojedynczego otworu po kompletną kopertę
                 budynku. Pracujemy w oparciu o sprawdzone systemy profili
                 i dbamy o to, żeby konstrukcja pasowała zarówno do budynku,
                 jak i do oczekiwań inwestora.

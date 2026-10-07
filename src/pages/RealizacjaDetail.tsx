@@ -151,7 +151,7 @@ export function RealizacjaDetail() {
                   }`}
                 >
                   <div className="relative h-full w-full overflow-hidden">
-                    <ParallaxImage src={src} alt={`${item.title} — detal ${i + 1}`} className="h-full w-full" />
+                    <ParallaxImage src={src} alt={`${item.title} – detal ${i + 1}`} className="h-full w-full" />
                     <PlaceholderTag className="absolute right-3 top-3" />
                   </div>
                 </Reveal>

@@ -23,7 +23,7 @@ const stages = [
   {
     no: "04",
     title: "Rysunki warsztatowe",
-    body: "Każda pozycja trafia na rysunek — z podziałami, kierunkami otwierania i sposobem osadzenia.",
+    body: "Każda pozycja trafia na rysunek – z podziałami, kierunkami otwierania i sposobem osadzenia.",
   },
   {
     no: "05",

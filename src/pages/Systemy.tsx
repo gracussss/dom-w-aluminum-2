@@ -301,7 +301,7 @@ export function Systemy() {
       <PageHero
         eyebrow="Katalog"
         title="Systemy aluminiowe"
-        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów — przy każdej wartości podajemy źródło."
+        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów – przy każdej wartości podajemy źródło."
         variant="index"
       />
 
@@ -317,7 +317,7 @@ export function Systemy() {
               type="search"
               value={searchValue}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Szukaj systemu — np. MB-86N, przesuwne, przeciwpożarowe…"
+              placeholder="Szukaj systemu – np. MB-86N, przesuwne, przeciwpożarowe…"
               aria-label="Szukaj systemu"
               className="w-full bg-transparent text-[15px] text-void outline-none placeholder:text-void/60"
             />

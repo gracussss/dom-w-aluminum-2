@@ -20,7 +20,7 @@ const steps = [
     no: "02",
     label: "Otwór",
     title: "Każdy otwór ma swoje warunki",
-    body: "Wymiar, obciążenie wiatrem, ekspozycja na słońce i sposób osadzenia w murze — to one decydują o doborze systemu.",
+    body: "Wymiar, obciążenie wiatrem, ekspozycja na słońce i sposób osadzenia w murze – to one decydują o doborze systemu.",
     image: images.storyOpening,
   },
   {
@@ -110,7 +110,7 @@ export function ScrollStory() {
     return (
       <section className="bg-anthracite py-24 text-limestone md:py-32" aria-label="Jak powstaje konstrukcja aluminiowa">
         <div className="container-edge">
-          <Eyebrow index="03" label="Jak powstaje konstrukcja" tone="light" />
+          <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
           <div className="mt-14 space-y-16">
             {steps.map((s) => (
               <Reveal key={s.no} className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -127,7 +127,7 @@ export function ScrollStory() {
                 </div>
                 <div className="lg:col-span-5">
                   <span className="label text-bronze-light">
-                    {s.no} — {s.label}
+                    {s.no} – {s.label}
                   </span>
                   <h3 className="display display-tight mt-4 text-3xl sm:text-4xl">{s.title}</h3>
                   <p className="mt-4 text-pretty leading-relaxed text-limestone/60">{s.body}</p>
@@ -178,7 +178,7 @@ export function ScrollStory() {
         {/* Treść */}
         <div className="container-edge relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="pt-6">
-            <Eyebrow index="03" label="Jak powstaje konstrukcja" tone="light" />
+            <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
           </div>
 
           <div className="relative h-[270px] max-w-2xl sm:h-[250px]">
@@ -195,7 +195,7 @@ export function ScrollStory() {
                 className="absolute inset-x-0 bottom-0"
               >
                 <span className="label text-bronze-light">
-                  {s.no} — {s.label}
+                  {s.no} – {s.label}
                 </span>
                 <h3 className="display display-tight mt-4 text-[8vw] leading-[0.95] sm:text-5xl md:text-6xl">
                   {s.title}

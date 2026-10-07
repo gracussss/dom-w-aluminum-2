@@ -12,7 +12,7 @@ const principles = [
   {
     no: "02",
     title: "Systemy, nie improwizacja",
-    body: "Pracujemy na sprawdzonych systemach profili aluminiowych — dobieranych do wymagań inwestycji.",
+    body: "Pracujemy na sprawdzonych systemach profili aluminiowych – dobieranych do wymagań inwestycji.",
   },
   {
     no: "03",
@@ -22,11 +22,14 @@ const principles = [
 ];
 
 export function Manifest() {
+  /* Krótsze dolne pole: zaraz pod spodem jest „Proces” na tym samym
+     jasnym tle, a jego treść i tak stoi wyśrodkowana w pełnym ekranie.
+     Przy pełnym polu obu sekcji między nimi zostawało ~300 px pustki. */
   return (
-    <section className="relative bg-limestone py-20 text-void md:py-28">
+    <section className="relative bg-limestone pb-8 pt-20 text-void md:pb-10 md:pt-28">
       <div className="container-edge">
         <Reveal>
-          <Eyebrow index="01" label="Podejście" tone="dark" />
+          <Eyebrow index="03" label="Podejście" tone="dark" />
         </Reveal>
 
         {/* Nagłówek i akapit stoją obok siebie. Wcześniej akapit (`max-w-xl`)
@@ -48,7 +51,7 @@ export function Manifest() {
             <p className="max-w-xl text-pretty text-lg leading-relaxed text-void/65 md:text-xl lg:max-w-none">
               Wąska rama, duża tafla szkła i konstrukcja, która utrzymuje swoją
               geometrię przez dziesięciolecia. Naszym zadaniem jest sprawić,
-              żeby stolarka zniknęła — a został widok.
+              żeby stolarka zniknęła – a został widok.
             </p>
           </Reveal>
         </div>

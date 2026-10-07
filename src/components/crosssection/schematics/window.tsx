@@ -5,7 +5,7 @@ import type { SchematicDefinition } from "../types";
 
 export const windowSchematic: SchematicDefinition = {
   id: "okno",
-  label: "Okno rozwierne — przekrój poziomy",
+  label: "Okno rozwierne – przekrój poziomy",
   description:
     "Rysunek pokazuje zasadę budowy okna aluminiowego z przekładką termiczną: ościeżnicę osadzoną w murze, ruchome skrzydło i pakiet szybowy dociśnięty listwą.",
   viewBox: "0 0 1000 620",
@@ -16,13 +16,13 @@ export const windowSchematic: SchematicDefinition = {
     {
       id: "oscieznica",
       no: 1,
-      label: "Profil aluminiowy — ościeżnica",
+      label: "Profil aluminiowy – ościeżnica",
       desc: "Nieruchoma rama osadzana w murze. Przenosi obciążenia konstrukcji na budynek.",
     },
     {
       id: "skrzydlo",
       no: 2,
-      label: "Profil aluminiowy — skrzydło",
+      label: "Profil aluminiowy – skrzydło",
       desc: "Ruchoma część konstrukcji, w której osadzony jest pakiet szybowy.",
     },
     {
@@ -35,7 +35,7 @@ export const windowSchematic: SchematicDefinition = {
       id: "komora",
       no: 4,
       label: "Komory profilu",
-      desc: "Puste przestrzenie wewnątrz profilu — usztywniają konstrukcję i poprawiają izolacyjność.",
+      desc: "Puste przestrzenie wewnątrz profilu – usztywniają konstrukcję i poprawiają izolacyjność.",
     },
     {
       id: "uszczelka",

@@ -89,18 +89,21 @@ export function Header() {
             scrolled ? "h-16 md:h-[70px]" : "h-20 md:h-28"
           }`}
         >
-          <Link to="/" aria-label="Dom w Aluminium — strona główna" className="text-limestone">
+          <Link to="/" aria-label="Dom w Aluminium – strona główna" className="text-limestone">
             <Wordmark showLegal={!scrolled} />
           </Link>
 
-          <nav aria-label="Nawigacja główna" className="hidden items-center gap-8 lg:flex xl:gap-10">
+          <nav aria-label="Nawigacja główna" className="hidden items-center gap-6 lg:flex xl:gap-10">
             {navItems.map((item) => (
               <NavLink
                 key={item.href}
                 to={item.href}
+                /* Zakładki o dwa stopnie większe od numeru telefonu obok.
+                   Przy jednym rozmiarze 11 px litery i cyfry zlewały się
+                   w jeden pasek (uwaga klientki, październik 2026). */
                 className={({ isActive }) =>
-                  `group relative py-2 label transition-colors ${
-                    isActive ? "text-limestone" : "text-limestone/55 hover:text-limestone"
+                  `group relative whitespace-nowrap py-2 label text-xs transition-colors xl:text-[13px] ${
+                    isActive ? "text-limestone" : "text-limestone/70 hover:text-limestone"
                   }`
                 }
               >
@@ -119,16 +122,19 @@ export function Header() {
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
+            {/* Numer w pasku dopiero od `xl`: przy 1024 px większe zakładki
+                i telefon nie mieściły się w jednym wierszu i łamały się na
+                dwie linie. Telefon zostaje w hero, w stopce i w kontakcie. */}
             <a
               href={company.phone.href}
-              className="label flex items-center gap-2 py-2 text-limestone/60 transition-colors hover:text-limestone"
+              className="label hidden items-center gap-2 whitespace-nowrap py-2 text-[10px] text-limestone/50 transition-colors hover:text-limestone xl:flex"
             >
-              <Phone className="h-3.5 w-3.5" strokeWidth={1.5} />
+              <Phone className="h-3 w-3" strokeWidth={1.5} />
               {company.phone.display}
             </a>
             <Link
               to="/kontakt"
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden border border-limestone/25 px-5 py-3 label text-limestone transition-colors duration-500 hover:text-void"
+              className="group relative inline-flex items-center gap-2.5 overflow-hidden whitespace-nowrap border border-limestone/25 px-5 py-3 label text-limestone transition-colors duration-500 hover:text-void"
             >
               <span
                 className="absolute inset-0 origin-left scale-x-0 bg-bronze-light transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-x-100"

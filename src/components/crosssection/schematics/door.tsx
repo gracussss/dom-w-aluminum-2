@@ -7,7 +7,7 @@ import type { SchematicDefinition } from "../types";
 
 export const doorSchematic: SchematicDefinition = {
   id: "drzwi",
-  label: "Drzwi rozwierne — przekrój poziomy",
+  label: "Drzwi rozwierne – przekrój poziomy",
   description:
     "Rysunek pokazuje budowę drzwi aluminiowych: ościeżnicę, wzmocnione skrzydło drzwiowe, uszczelnienie przymykowe i wypełnienie panelowe dociśnięte listwą.",
   viewBox: "0 0 1000 620",
@@ -18,14 +18,14 @@ export const doorSchematic: SchematicDefinition = {
     {
       id: "oscieznica",
       no: 1,
-      label: "Profil aluminiowy — ościeżnica",
+      label: "Profil aluminiowy – ościeżnica",
       desc: "Nieruchoma rama drzwi kotwiona w murze. Przejmuje obciążenia od skrzydła i ruchu użytkowego.",
     },
     {
       id: "skrzydlo",
       no: 2,
-      label: "Profil aluminiowy — skrzydło drzwiowe",
-      desc: "Profil skrzydła o większej głębokości i grubszych ściankach niż okienny — przenosi ciężar i obciążenia eksploatacyjne.",
+      label: "Profil aluminiowy – skrzydło drzwiowe",
+      desc: "Profil skrzydła o większej głębokości i grubszych ściankach niż okienny – przenosi ciężar i obciążenia eksploatacyjne.",
     },
     {
       id: "przekladka",

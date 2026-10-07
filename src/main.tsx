@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { SmoothScroll } from './lib/SmoothScroll'
-import { LoaderGate } from './components/Loader'
 import { CatalogProvider } from './catalog'
 
 createRoot(document.getElementById('root')!).render(
@@ -19,10 +18,11 @@ createRoot(document.getElementById('root')!).render(
       <MotionConfig reducedMotion="user">
         {/* Zrodlo danych katalogu dla calego drzewa - podmiana na API bez zmian w widokach */}
         <CatalogProvider>
+          {/* Bez ekranu startowego z otwierającym się oknem — klientka
+              (październik 2026): „trochę takie przejście do aplikacji”.
+              Strona pokazuje się od razu, hero ma tylko własne wejście. */}
           <SmoothScroll>
-            <LoaderGate>
-              <App />
-            </LoaderGate>
+            <App />
           </SmoothScroll>
         </CatalogProvider>
       </MotionConfig>

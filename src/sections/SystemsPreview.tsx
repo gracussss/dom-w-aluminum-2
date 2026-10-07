@@ -66,7 +66,7 @@ export function SystemsPreview() {
           tone="dark"
           variant="split"
           lines={[categoriesHeadline(taxonomy.categories.length), "systemów aluminiowych"]}
-          description="Katalog z filtrowaniem po producencie, kategorii, zastosowaniu i typie konstrukcji — gotowy na kolejne pozycje."
+          description="Katalog z filtrowaniem po producencie, kategorii, zastosowaniu i typie konstrukcji – gotowy na kolejne pozycje."
         />
 
         {/* Kategorie wiodące */}

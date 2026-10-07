@@ -40,7 +40,7 @@ export function ContactSection() {
 
             <Reveal delay={0.16}>
               <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-limestone/65 md:text-xl">
-                Pojedyncze okno, kompletna stolarka domu czy fasada budynku —
+                Pojedyncze okno, kompletna stolarka domu czy fasada budynku –
                 opisz projekt, a wrócimy z konkretną propozycją i realnym
                 terminem realizacji.
               </p>

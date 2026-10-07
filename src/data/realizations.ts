@@ -39,12 +39,12 @@ export interface Realization {
  * oba teksty w jednym miejscu.
  */
 export const PORTFOLIO_SEO_DESCRIPTION =
-  "Przegląd obiektów w podziale na typ inwestycji i zakres prac — domy jednorodzinne, budynki wielorodzinne i obiekty komercyjne. Zestawienie poglądowe.";
+  "Przegląd obiektów w podziale na typ inwestycji i zakres prac – domy jednorodzinne, budynki wielorodzinne i obiekty komercyjne. Zestawienie poglądowe.";
 
 export const PORTFOLIO_DISCLAIMER =
-  "Prezentowane obiekty i zdjęcia mają charakter poglądowy. Nie przedstawiają zrealizowanych inwestycji firmy — zostaną zastąpione własną dokumentacją.";
+  "Prezentowane obiekty i zdjęcia mają charakter poglądowy. Nie przedstawiają zrealizowanych inwestycji firmy – zostaną zastąpione własną dokumentacją.";
 
-const TBD_LOCATION = "Lokalizacja — do uzupełnienia";
+const TBD_LOCATION = "Lokalizacja – do uzupełnienia";
 
 export const realizations: Realization[] = [
   {
@@ -67,7 +67,7 @@ export const realizations: Realization[] = [
   {
     id: "biurowiec",
     slug: "biurowiec-fasada",
-    title: "Biurowiec — fasada aluminiowa",
+    title: "Biurowiec – fasada aluminiowa",
     category: "Obiekt komercyjny",
     location: TBD_LOCATION,
     scope: "Fasada słupowo-ryglowa",

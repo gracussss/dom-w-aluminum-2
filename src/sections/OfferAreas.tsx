@@ -20,12 +20,12 @@ export function OfferAreas() {
     <section id="oferta" className="grain relative overflow-hidden bg-void py-20 text-limestone md:py-28">
       <div className="container-edge relative">
         <SectionHeading
-          index="02"
+          index="01"
           eyebrow="Zakres prac"
           tone="light"
           variant="split"
           lines={["Co wykonujemy"]}
-          description="Siedem obszarów — od pojedynczego okna po kompletną kopertę budynku."
+          description="Siedem obszarów – od pojedynczego okna po kompletną kopertę budynku."
         />
 
         {/* Jedna etykieta dla wszystkich miniatur — na kadrze 176 px

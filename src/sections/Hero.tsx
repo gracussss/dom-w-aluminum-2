@@ -7,7 +7,6 @@ import { company } from "../data/company";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { EASE_OUT } from "../lib/motion";
 import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
-import { useIntroReady } from "../lib/intro";
 
 const ticker = [
   "OKNA",
@@ -20,10 +19,8 @@ const ticker = [
   "KONSTRUKCJE INDYWIDUALNE",
 ];
 
-/* Warianty wejścia. Stan „out” trwa dopóki loader zasłania ekran — dzięki
-   temu napisy wjeżdżają dokładnie wtedy, gdy rozsuwa się aluminiowa rama,
-   a nie za nią (wcześniej cała animacja hero kończyła się niewidoczna). */
-/* 130%, nie 108%: maski niżej mają poszerzony obszar przycięcia
+/* Warianty wejścia — odgrywane raz, zaraz po zamontowaniu strony.
+   130%, nie 108%: maski niżej mają poszerzony obszar przycięcia
    (patrz RevealText), więc ukryta linia musi startować pod jego
    dolną krawędzią — inaczej wystaje przed animacją. */
 const rise = { out: { y: "130%" }, in: { y: "0%" } };
@@ -34,8 +31,6 @@ const settle = { out: { scale: 1.14 }, in: { scale: 1 } };
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const ready = useIntroReady();
-  const state = ready ? "in" : "out";
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "34%"]);
@@ -49,10 +44,10 @@ export function Hero() {
           src={images.heroBg}
           srcSet={responsiveSrcSet(images.heroBg)}
           sizes={SIZES_FULL}
-          alt="Nowoczesna architektura — konstrukcja ze szkła i aluminium"
+          alt="Nowoczesna architektura – konstrukcja ze szkła i aluminium"
           variants={settle}
           initial="out"
-          animate={state}
+          animate="in"
           transition={{ duration: 2.2, ease: EASE_OUT }}
           className="h-full w-full object-cover"
           fetchPriority="high"
@@ -89,12 +84,12 @@ export function Hero() {
             <motion.div
               variants={fadeUp}
               initial="out"
-              animate={state}
+              animate="in"
               transition={{ duration: 0.8, delay: 0.25, ease: EASE_OUT }}
               className="mb-8"
             >
               {/* Bez kreski — tak jak etykiety wszystkich sekcji (`Eyebrow`). */}
-              <span className="label text-[13px] text-limestone/65">Producent stolarki aluminiowej</span>
+              <span className="label text-sm text-limestone/80 md:text-base">Producent stolarki aluminiowej</span>
             </motion.div>
 
             {/* Maski linii: `overflow-clip` z marginesem zamiast `overflow-hidden`.
@@ -105,7 +100,7 @@ export function Hero() {
                 <motion.span
                   variants={rise}
                   initial="out"
-                  animate={state}
+                  animate="in"
                   transition={{ duration: 1.05, delay: 0.1, ease: EASE_OUT }}
                   className="block"
                 >
@@ -116,7 +111,7 @@ export function Hero() {
                 <motion.span
                   variants={rise}
                   initial="out"
-                  animate={state}
+                  animate="in"
                   transition={{ duration: 1.05, delay: 0.19, ease: EASE_OUT }}
                   className="block"
                 >
@@ -127,7 +122,7 @@ export function Hero() {
                 <motion.span
                   variants={rise}
                   initial="out"
-                  animate={state}
+                  animate="in"
                   transition={{ duration: 1.05, delay: 0.28, ease: EASE_OUT }}
                   className="editorial block text-[0.78em] tracking-[-0.02em] text-aluminium-light"
                 >
@@ -140,12 +135,16 @@ export function Hero() {
           <motion.div
             variants={fadeUpFar}
             initial="out"
-            animate={state}
+            animate="in"
             transition={{ duration: 0.85, delay: 0.6, ease: EASE_OUT }}
-            className="w-full shrink-0 lg:w-[300px]"
+            className="w-full shrink-0 lg:w-[380px]"
           >
-            <p className="text-pretty text-[15px] leading-relaxed text-limestone/60">
-              Projektujemy i wykonujemy konstrukcje aluminiowe — od
+            {/* Większy stopień, prawie pełna biel i miękki cień pod literami.
+                Akapit stoi po prawej, nad jasnym fragmentem zdjęcia, gdzie
+                lewy gradient już nie sięga — przy 15 px i 60% krycia klientka
+                oceniła go jako „średnio widoczny”. */}
+            <p className="text-pretty text-lg leading-relaxed text-limestone/90 [text-shadow:0_1px_14px_rgb(11_12_13/0.75)] md:text-xl">
+              Projektujemy i wykonujemy konstrukcje aluminiowe – od
               pojedynczego okna po kompletną fasadę budynku.
             </p>
 
@@ -181,14 +180,10 @@ export function Hero() {
       {/* Pasek zakresu oferty */}
       <div className="relative z-10 overflow-hidden border-t border-limestone/12 bg-void/60 py-3.5 backdrop-blur-sm">
         {/* Ruch w pętli zatrzymany przy prefers-reduced-motion (WCAG 2.2.2).
-            Reguła CSS tego nie łapie — framer-motion animuje transformem w JS.
-            Pętla rusza dopiero po zejściu loadera — nie ma po co przewijać
-            paska, którego nikt nie widzi. */}
+            Reguła CSS tego nie łapie — framer-motion animuje transformem w JS. */}
         <motion.div
-          animate={reduced || !ready ? { x: "0%" } : { x: ["0%", "-50%"] }}
-          transition={
-            reduced || !ready ? { duration: 0 } : { duration: 42, repeat: Infinity, ease: "linear" }
-          }
+          animate={reduced ? { x: "0%" } : { x: ["0%", "-50%"] }}
+          transition={reduced ? { duration: 0 } : { duration: 42, repeat: Infinity, ease: "linear" }}
           className="flex w-max items-center gap-8 whitespace-nowrap"
         >
           {[...ticker, ...ticker].map((item, i) => (

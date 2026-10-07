@@ -29,20 +29,13 @@ const entries: StorageEntry[] = [
     ttl: "Do czasu wyczyszczenia danych strony w przeglądarce",
     owner: "Dom w Aluminium (podmiot prowadzący stronę)",
   },
-  {
-    name: "dwa:intro-seen",
-    kind: "Pamięć sesji przeglądarki (sessionStorage)",
-    purpose: "Informacja, że ekran startowy został już wyświetlony — nie powtarza się w tej samej sesji.",
-    ttl: "Do zamknięcia karty przeglądarki",
-    owner: "Dom w Aluminium",
-  },
 ];
 
 const thirdParty = [
   {
     name: "Google Maps",
     purpose:
-      "Mapa z lokalizacją firmy na stronie kontaktu. Ładuje się dopiero po kliknięciu „Pokaż mapę” albo po wyrażeniu zgody marketingowej — nie wcześniej.",
+      "Mapa z lokalizacją firmy na stronie kontaktu. Ładuje się dopiero po kliknięciu „Pokaż mapę” albo po wyrażeniu zgody marketingowej – nie wcześniej.",
     owner: "Google Ireland Limited",
   },
 ];
@@ -69,15 +62,15 @@ export function Cookies() {
               Pliki cookies to niewielkie pliki tekstowe zapisywane w
               przeglądarce. Obok nich strony korzystają z pamięci lokalnej
               (localStorage) i sesyjnej (sessionStorage), które działają
-              podobnie — dlatego opisujemy je tu razem.
+              podobnie – dlatego opisujemy je tu razem.
             </p>
           </div>
 
           <div>
             <h2 className="display text-2xl">Co zapisujemy</h2>
             <p className="mt-3 text-sm leading-relaxed text-void/65">
-              Wyłącznie dwie pozycje, obie niezbędne do działania strony. Nie
-              używamy ich do profilowania ani do śledzenia Cię poza tą witryną.
+              Wyłącznie jedną pozycję, niezbędną do działania strony. Nie
+              używamy jej do profilowania ani do śledzenia Cię poza tą witryną.
             </p>
 
             {/* Szeroka tabela przewija się we własnym kadrze — strona nigdy w poziomie. */}
@@ -129,7 +122,7 @@ export function Cookies() {
             <h2 className="display text-2xl">Cookies analityczne i marketingowe</h2>
             <p className="mt-3 text-sm leading-relaxed text-void/65">
               Na tę chwilę <strong className="font-semibold text-void">nie działają</strong> na
-              stronie żadne narzędzia analityczne ani marketingowe — nie ładujemy
+              stronie żadne narzędzia analityczne ani marketingowe – nie ładujemy
               Google Analytics, Google Tag Managera ani Meta Pixela. Baner zgód
               obsługuje te kategorie, żeby po ich uruchomieniu Twoja decyzja
               obowiązywała od pierwszej sekundy, a nie została dopisana później.
@@ -157,7 +150,7 @@ export function Cookies() {
               Możesz również zarządzać plikami cookies bezpośrednio w
               ustawieniach swojej przeglądarki internetowej, w tym zablokować
               lub usunąć zapisane pliki. Wyczyszczenie danych strony usuwa także
-              zapamiętaną decyzję — baner pojawi się wtedy ponownie.
+              zapamiętaną decyzję – baner pojawi się wtedy ponownie.
             </p>
           </div>
         </div>

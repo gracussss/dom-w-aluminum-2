@@ -17,10 +17,13 @@ export function Home() {
         canonicalPath="/"
         jsonLd={organizationJsonLd()}
       />
+      {/* Kolejność według klientki (październik 2026): zaraz po hero
+          zakres prac, a „Podejście” bezpośrednio przed procesem — oba mówią
+          o sposobie pracy, więc czytają się jako jedna część strony. */}
       <Hero />
-      <Manifest />
       <OfferAreas />
       <ProductStory />
+      <Manifest />
       <Process />
       <ContactSection />
     </>

@@ -117,7 +117,7 @@ export function Kontakt() {
       <PageHero
         eyebrow="Kontakt"
         title="Zapytaj o wycenę"
-        description="Opisz projekt — wrócimy z konkretną propozycją i realnym terminem realizacji."
+        description="Opisz projekt – wrócimy z konkretną propozycją i realnym terminem realizacji."
       />
 
       <section className="bg-limestone py-16 text-void md:py-24">
@@ -309,7 +309,7 @@ export function Kontakt() {
 
                 {!CONTACT_ENDPOINT && (
                   <p className="text-xs leading-relaxed text-void/60">
-                    Formularz demonstracyjny — w tej wersji wiadomość nie jest
+                    Formularz demonstracyjny – w tej wersji wiadomość nie jest
                     nigdzie wysyłana.
                   </p>
                 )}
@@ -353,7 +353,7 @@ export function Kontakt() {
             <Reveal delay={0.1} className="mt-8">
               <MapEmbed
                 src={mapEmbedSrc}
-                title="Mapa — lokalizacja firmy"
+                title="Mapa – lokalizacja firmy"
                 externalHref={googleMapsSearchUrl}
                 caption={fullAddress}
                 className="aspect-[4/3] w-full"

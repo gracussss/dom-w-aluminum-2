@@ -22,7 +22,7 @@ import { findCategory, useTaxonomy } from "../catalog";
 const quoteFactors = [
   { label: "System", body: "Seria profili dobrana do otworu i wymagań inwestycji." },
   { label: "Konstrukcja", body: "Sposób otwierania, podziały i kierunki skrzydeł." },
-  { label: "Szklenie", body: "Pakiet szybowy — termika, akustyka, bezpieczeństwo." },
+  { label: "Szklenie", body: "Pakiet szybowy – termika, akustyka, bezpieczeństwo." },
   { label: "Wykończenie", body: "Kolor z palety RAL lub anoda, struktura powierzchni." },
   { label: "Wymiar", body: "Wymiar z pomiaru na budowie, nie z projektu." },
 ];

@@ -41,7 +41,7 @@ const ALUPROF = "https://aluprof.com/produkt/";
 
 function source(aluprofSlug: string): DataSource {
   return {
-    label: "aluprof.com — karta systemu",
+    label: "aluprof.com – karta systemu",
     url: ALUPROF + aluprofSlug,
     accessedAt: ACCESSED,
   };
@@ -174,7 +174,7 @@ function defineSystem(input: SystemInput): AluSystem {
 
     summary: summary || "System z oferty ALUPROF",
     description: summary
-      ? `${summary}. System z oferty ALUPROF — dane pochodzą z karty systemu u producenta.`
+      ? `${summary}. System z oferty ALUPROF – dane pochodzą z karty systemu u producenta.`
       : "System z oferty ALUPROF. Opis i parametry uzupełnimy na podstawie karty katalogowej producenta.",
     manufacturerUrl: ALUPROF + input.aluprof,
 
@@ -183,7 +183,7 @@ function defineSystem(input: SystemInput): AluSystem {
         src: CATEGORY_IMAGE[lead] ?? CATEGORY_IMAGE.okna,
         alt: input.name,
         placeholder: true,
-        credit: "Unsplash — materiał tymczasowy",
+        credit: "Unsplash – materiał tymczasowy",
       },
       gallery: [],
     },

@@ -34,7 +34,9 @@ export function Wordmark({ className = "", showLegal = true, compact = false }: 
         className={compact ? "h-5 w-5 shrink-0" : "h-7 w-7 shrink-0"}
         accent="var(--color-bronze-light)"
       />
-      <span className="flex flex-col leading-none">
+      {/* Bez łamania nazwy — w ciasnym pasku przy 1024 px „DOM W ALUMINIUM”
+          spadało do dwóch linii i rozpychało nagłówek. */}
+      <span className="flex flex-col whitespace-nowrap leading-none">
         <span
           className={`font-semibold tracking-[-0.02em] ${compact ? "text-sm" : "text-[15px] md:text-[17px]"}`}
         >

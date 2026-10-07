@@ -25,7 +25,7 @@ export const offerAreas: OfferArea[] = [
     name: "Okna aluminiowe",
     short: "Wąskie ramy, maksimum światła",
     description:
-      "Konstrukcje okienne o smukłych profilach — od pojedynczych otworów po przeszklenia wielkoformatowe.",
+      "Konstrukcje okienne o smukłych profilach – od pojedynczych otworów po przeszklenia wielkoformatowe.",
     image: img("photo-1783125127082-3fb6c1bccd72"),
   },
   {
@@ -34,7 +34,7 @@ export const offerAreas: OfferArea[] = [
     name: "Drzwi aluminiowe",
     short: "Wejścia zewnętrzne i wewnętrzne",
     description:
-      "Drzwi wejściowe, techniczne i wewnętrzne — spójne wizualnie z pozostałą stolarką w budynku.",
+      "Drzwi wejściowe, techniczne i wewnętrzne – spójne wizualnie z pozostałą stolarką w budynku.",
     image: img("photo-1762134768304-88c5d735d611"),
   },
   {
@@ -61,7 +61,7 @@ export const offerAreas: OfferArea[] = [
     name: "Systemy przeciwpożarowe",
     short: "Drzwi i przegrody oddzielenia pożarowego",
     description:
-      "Konstrukcje o określonej odporności ogniowej — klasyfikacja potwierdzana dokumentami producenta.",
+      "Konstrukcje o określonej odporności ogniowej – klasyfikacja potwierdzana dokumentami producenta.",
     image: img("photo-1556621266-45150d1e9f4b"),
   },
   {
