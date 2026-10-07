@@ -1,5 +1,5 @@
 import type { Crumb } from "../components/ui/Breadcrumbs";
-import { company } from "../data/company";
+import { company, socialLinks } from "../data/company";
 import { absoluteUrl, SITE_NAME } from "./seo";
 
 /* ------------------------------------------------------------------
@@ -29,11 +29,14 @@ export function breadcrumbJsonLd(items: Crumb[], origin: string) {
 }
 
 /**
- * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta:
- * nazwa, adres i telefon. Bez NIP-u, godzin otwarcia, obszaru działania
- * i profili społecznościowych — te pola dopiszemy, gdy będą znane.
+ * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta: nazwa, adres,
+ * telefon, logo i profil na Facebooku. Bez NIP-u i obszaru działania.
+ * Godzin otwarcia też nie ma: klient podał „6–16” bez dni tygodnia,
+ * a `openingHours` bez dni byłoby zgadywaniem.
  */
 export function organizationJsonLd() {
+  const sameAs = Object.values(socialLinks).filter((url): url is string => Boolean(url));
+
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
@@ -41,6 +44,8 @@ export function organizationJsonLd() {
     name: company.legalName,
     alternateName: SITE_NAME,
     url: absoluteUrl("/"),
+    logo: absoluteUrl("/logo.png"),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
     telephone: company.phone.href.replace("tel:", ""),
     address: {
       "@type": "PostalAddress",

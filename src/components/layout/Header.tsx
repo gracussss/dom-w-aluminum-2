@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { navItems } from "../../data/nav";
 import { company } from "../../data/company";
-import { LogoMark, Wordmark } from "../ui/Logo";
+import { Logo } from "../ui/Logo";
 import { EASE_OUT } from "../../lib/motion";
 import { lockScroll, unlockScroll } from "../../lib/scroll";
 
@@ -89,8 +89,12 @@ export function Header() {
             scrolled ? "h-16 md:h-[70px]" : "h-20 md:h-28"
           }`}
         >
-          <Link to="/" aria-label="Dom w Aluminium – strona główna" className="text-limestone">
-            <Wordmark showLegal={!scrolled} />
+          {/* Logo firmy zamiast roboczego znaku – mniejsze po przewinięciu,
+              razem z niższym paskiem. */}
+          <Link to="/" aria-label="Alukoncept – strona główna" className="shrink-0 text-limestone">
+            <Logo
+              className={`w-auto transition-[height] duration-500 ${scrolled ? "h-8 md:h-10" : "h-10 md:h-14"}`}
+            />
           </Link>
 
           <nav aria-label="Nawigacja główna" className="hidden items-center gap-6 lg:flex xl:gap-10">
@@ -178,10 +182,7 @@ export function Header() {
             <div className="blueprint-grid absolute inset-0 opacity-40" aria-hidden />
 
             <div className="container-edge relative flex h-20 items-center justify-between">
-              <span className="flex items-center gap-2.5 text-limestone">
-                <LogoMark className="h-5 w-5" accent="var(--color-bronze-light)" />
-                <span className="text-sm font-semibold tracking-[-0.02em]">DOM W ALUMINIUM</span>
-              </span>
+              <Logo className="h-8 w-auto text-limestone" />
               <button aria-label="Zamknij menu" onClick={() => setMenuOpen(false)} className="text-limestone">
                 <X className="h-6 w-6" strokeWidth={1.4} />
               </button>

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import { company, googleMapsSearchUrl } from "../../data/company";
 import { footerNav } from "../../data/nav";
 import { SocialIcons } from "../ui/SocialIcons";
-import { LogoMark } from "../ui/Logo";
+import { Logo } from "../ui/Logo";
 
 export function Footer() {
   return (
@@ -19,10 +19,7 @@ export function Footer() {
             szerszej pierwszej, żeby osie wypadały w równych odstępach. */}
         <div className="grid gap-12 border-t border-limestone/10 pb-12 pt-12 text-center md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <span className="flex items-center justify-center gap-3">
-              <LogoMark className="h-8 w-8 text-limestone" accent="var(--color-bronze-light)" />
-              <span className="text-lg font-semibold tracking-[-0.02em]">DOM W ALUMINIUM</span>
-            </span>
+            <Logo className="mx-auto h-14 w-auto text-limestone" />
             <p className="mx-auto mt-5 max-w-xs text-sm leading-relaxed text-limestone/55">
               Okna, drzwi, systemy i fasady aluminiowe. Projektujemy
               i wykonujemy konstrukcje dopasowane do konkretnego budynku.
@@ -95,6 +92,10 @@ export function Footer() {
                   <Phone className="h-4 w-4 shrink-0" strokeWidth={1.4} />
                   <span>{company.phone.display}</span>
                 </a>
+              </li>
+              <li className="inline-flex items-center gap-2.5 text-limestone/65">
+                <Clock className="h-4 w-4 shrink-0" strokeWidth={1.4} aria-hidden />
+                <span>{company.hours}</span>
               </li>
             </ul>
           </div>

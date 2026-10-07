@@ -75,6 +75,10 @@ export function ONas() {
                   </dd>
                 </div>
                 <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
+                  <dt className="label text-void/70">Godziny pracy</dt>
+                  <dd className="text-[15px] text-void/75">{company.hours}</dd>
+                </div>
+                <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                   <dt className="label text-void/70">Zakres prac</dt>
                   <dd className="text-[15px] text-void/75">
                     Okna · drzwi · systemy przesuwne · fasady · konstrukcje indywidualne

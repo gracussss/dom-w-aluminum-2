@@ -1,4 +1,4 @@
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Clock, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { Reveal, RevealText } from "../components/ui/Reveal";
@@ -99,6 +99,11 @@ export function ContactSection() {
                 <Phone className="h-4 w-4 shrink-0" strokeWidth={1.4} />
                 <span className="leading-relaxed">{company.phone.display}</span>
               </a>
+
+              <p className="mt-3 flex items-center gap-3 text-lg text-limestone/75">
+                <Clock className="h-4 w-4 shrink-0" strokeWidth={1.4} aria-hidden />
+                <span className="leading-relaxed">Godziny pracy: {company.hours}</span>
+              </p>
             </div>
           </Reveal>
         </div>

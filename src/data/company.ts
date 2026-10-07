@@ -14,6 +14,9 @@ export const company = {
     display: "695 704 228",
     href: "tel:+48695704228",
   },
+  /** Podane przez klienta (październik 2026) bez dni tygodnia – dlatego
+      bez dni na stronie i bez `openingHours` w danych strukturalnych. */
+  hours: "6:00–16:00",
 } as const;
 
 export const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.city}`;
@@ -31,5 +34,5 @@ export const googleMapsSearchUrl = `https://www.google.com/maps/search/?api=1&qu
  */
 export const socialLinks: Record<"instagram" | "facebook", string | null> = {
   instagram: null,
-  facebook: null,
+  facebook: "https://www.facebook.com/AlukonceptSosnowiec/",
 };

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, MapPin, Phone, X } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Clock, MapPin, Phone, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { organizationJsonLd } from "../lib/jsonLd";
 import { PageHero } from "../components/ui/PageHero";
@@ -348,6 +348,11 @@ export function Kontakt() {
                 <Phone className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} />
                 <span>{company.phone.display}</span>
               </a>
+
+              <p className="mt-3 flex items-center gap-3 py-1 text-lg leading-snug text-void/75">
+                <Clock className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} aria-hidden />
+                <span>Godziny pracy: {company.hours}</span>
+              </p>
             </Reveal>
 
             <Reveal delay={0.1} className="mt-8">

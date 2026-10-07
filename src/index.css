@@ -26,6 +26,9 @@
   --color-bronze-light: #c3a175;
   --color-bronze-dim: #6f5837;
 
+  /* czerwień z logo Alukoncept – tylko w znaku firmy, nie jako akcent UI */
+  --color-brand-red: #e30613;
+
   /* szkło — realny zielonkawy odcień krawędzi float glass */
   --color-glass: #7d9a92;
 
