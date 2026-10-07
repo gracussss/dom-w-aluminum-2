@@ -30,9 +30,8 @@ export function breadcrumbJsonLd(items: Crumb[], origin: string) {
 
 /**
  * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta: nazwa, adres,
- * telefon, logo i profil na Facebooku. Bez NIP-u i obszaru działania.
- * Godzin otwarcia też nie ma: klient podał „6–16” bez dni tygodnia,
- * a `openingHours` bez dni byłoby zgadywaniem.
+ * telefon, logo, profil na Facebooku i godziny pracy (pon.–pt. 6–16).
+ * Bez NIP-u i obszaru działania.
  */
 export function organizationJsonLd() {
   const sameAs = Object.values(socialLinks).filter((url): url is string => Boolean(url));
@@ -45,6 +44,7 @@ export function organizationJsonLd() {
     alternateName: SITE_NAME,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/logo.png"),
+    openingHours: "Mo-Fr 06:00-16:00",
     ...(sameAs.length > 0 ? { sameAs } : {}),
     telephone: company.phone.href.replace("tel:", ""),
     address: {

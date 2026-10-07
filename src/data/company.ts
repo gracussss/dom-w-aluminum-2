@@ -14,9 +14,8 @@ export const company = {
     display: "695 704 228",
     href: "tel:+48695704228",
   },
-  /** Podane przez klienta (październik 2026) bez dni tygodnia – dlatego
-      bez dni na stronie i bez `openingHours` w danych strukturalnych. */
-  hours: "6:00–16:00",
+  /** Podane przez klienta (październik 2026): poniedziałek–piątek 6–16. */
+  hours: "pon.–pt. 6:00–16:00",
 } as const;
 
 export const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.city}`;
