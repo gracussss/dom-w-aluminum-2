@@ -7,23 +7,14 @@ import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { Reveal } from "../components/ui/Reveal";
 import { PORTFOLIO_DISCLAIMER, PORTFOLIO_SEO_DESCRIPTION, realizations } from "../data/realizations";
 
-/** Celowo nierówny rytm — układ editorial, nie siatka 3×3. */
-/* Proporcje kadru dotyczą UKŁADU EDITORIAL, a ten istnieje dopiero od `lg`.
-   Poniżej tego progu każdy kafel jest pełnej szerokości kontenera, więc
-   pionowy kadr 3/4 dawał przy 900 px obraz 811 x 1081 px — wyższy niż okno.
-   Sześć takich pozycji to sześć ekranów samego zdjęcia. Kadr poziomy jest
-   niżej domyślny, pionowy wraca razem z wąskimi kolumnami. Ten sam wzorzec
-   stosuje już `SystemViewer`. */
-const BASE_RATIO = "aspect-[4/3]";
-
-const layout = [
-  "lg:col-span-7",
-  "lg:col-span-4 lg:col-start-9 lg:-mt-24 lg:aspect-[3/4]",
-  "lg:col-span-5 lg:col-start-2 lg:mt-10 lg:aspect-[3/4]",
-  "lg:col-span-6 lg:col-start-7 lg:mt-28 lg:aspect-[16/10]",
-  "lg:col-span-6 lg:col-start-1 lg:mt-10",
-  "lg:col-span-5 lg:col-start-8 lg:mt-20 lg:aspect-[4/5]",
-];
+/* Jeden format i jedna wielkość kafla. Wcześniej był tu celowo nierówny
+   układ editorial: sześć różnych proporcji (4/3, 3/4, 16/10, 4/5) i kafle
+   przesunięte w pionie — pierwszy z prawej miał ujemny margines i wjeżdżał
+   pod ciemny nagłówek strony. Klientka: „albo kwadraty, albo poziomy, albo
+   piony — żeby była jednolitość”, „jedna wielkość musi być”. Kadr poziomy,
+   bo tak zrobione są zdjęcia obiektów, a trzy kolumny dają kafle nieco
+   mniejsze niż dotychczasowe duże pozycje. */
+const TILE_RATIO = "aspect-[4/3]";
 
 export function Realizacje() {
   return (
@@ -41,9 +32,9 @@ export function Realizacje() {
 
       <section className="bg-limestone py-16 text-void md:py-24">
         <div className="container-edge">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-x-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {realizations.map((item, i) => (
-              <Reveal key={item.id} delay={(i % 2) * 0.06} className={`group ${BASE_RATIO} ${layout[i % layout.length]}`}>
+              <Reveal key={item.id} delay={(i % 3) * 0.06} className={`group ${TILE_RATIO}`}>
                 <Link to={`/realizacje/${item.slug}`} className="relative block h-full w-full overflow-hidden">
                   <ParallaxImage
                     src={item.cover}
@@ -57,7 +48,7 @@ export function Realizacje() {
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 md:p-7">
                     <div className="transition-transform duration-700 ease-[var(--ease-premium)] group-hover:translate-y-0 group-focus-within:translate-y-0 [@media(hover:hover)]:translate-y-1.5">
                       <p className="label text-bronze-light">{item.category}</p>
-                      <h2 className="display mt-2.5 text-2xl leading-tight text-limestone md:text-[30px]">
+                      <h2 className="display mt-2.5 text-2xl leading-tight text-limestone md:text-[26px]">
                         {item.title}
                       </h2>
                       <p className="mt-1.5 text-xs text-limestone/55">{item.scope}</p>
@@ -71,7 +62,7 @@ export function Realizacje() {
             ))}
           </div>
 
-          <p className="mt-20 max-w-3xl text-xs leading-relaxed text-void/60">{PORTFOLIO_DISCLAIMER}</p>
+          <p className="mt-14 max-w-3xl text-xs leading-relaxed text-void/60">{PORTFOLIO_DISCLAIMER}</p>
         </div>
       </section>
     </>

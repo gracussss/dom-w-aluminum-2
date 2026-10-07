@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { responsiveSrcSet } from "../../lib/responsiveImage";
-import { ConstructionGlyph } from "../ui/ConstructionGlyph";
 import { findApplications, findConstructionType, findManufacturer } from "../../catalog";
 import type { AluSystem, Taxonomy } from "../../catalog";
 
@@ -57,15 +56,13 @@ export function SystemRow({ system, no, taxonomy, showManufacturer = true }: Sys
           className="pointer-events-none absolute -left-5 top-0 hidden h-full w-px origin-top scale-y-0 bg-bronze transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-y-100 lg:block"
         />
 
-        {/* Numer pozycji + symbol typu konstrukcji */}
-        <div className="flex items-center gap-4 lg:col-span-1 lg:flex-col lg:items-start lg:gap-3.5">
-          <span className="label tabular-nums text-void/70 transition-colors duration-500 group-hover:text-bronze">
+        {/* Sam numer pozycji, w kroju nagłówków. Pod numerem stał wcześniej
+            symbol typu konstrukcji — klientka pytała, „czemu tu jest taka
+            strzałeczka”. Typ konstrukcji i tak stoi słownie w metryce obok. */}
+        <div className="lg:col-span-1">
+          <span className="display text-2xl leading-none tabular-nums text-void/55 transition-colors duration-500 group-hover:text-bronze lg:text-3xl">
             {no}
           </span>
-          <ConstructionGlyph
-            type={system.constructionTypeId}
-            className="h-7 w-7 shrink-0 text-void/45 transition-colors duration-500 group-hover:text-bronze"
-          />
         </div>
 
         {/* Nazwa systemu + wykonania */}

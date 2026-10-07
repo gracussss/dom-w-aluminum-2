@@ -46,7 +46,7 @@ export const categories: SystemCategory[] = [
     name: "Okna",
     short: "Okna",
     description:
-      "Systemy okienne — od serii standardowych po wąskoprofilowe i pasywne, w tym okna dachowe i konstrukcje renowacyjne.",
+      "Systemy okienne – od serii standardowych po wąskoprofilowe i pasywne, w tym okna dachowe i konstrukcje renowacyjne.",
   },
   {
     id: "drzwi",
@@ -62,7 +62,7 @@ export const categories: SystemCategory[] = [
     name: "Drzwi przesuwne",
     short: "Przesuwne",
     description:
-      "Konstrukcje podnoszono-przesuwne, przesuwne i harmonijkowe — wyjścia na taras w dużym formacie.",
+      "Konstrukcje podnoszono-przesuwne, przesuwne i harmonijkowe – wyjścia na taras w dużym formacie.",
   },
   {
     id: "fasady",

@@ -19,7 +19,7 @@ import type { AluSystem, SystemSpec } from "./types";
    ------------------------------------------------------------------ */
 
 describe("zbiór danych", () => {
-  it("jest spójny — bez duplikatów, wiszących odnośników i wartości bez źródła", () => {
+  it("jest spójny – bez duplikatów, wiszących odnośników i wartości bez źródła", () => {
     expect(validateSource({ systems, taxonomy })).toEqual([]);
   });
 
@@ -148,7 +148,7 @@ describe("słownik parametrów", () => {
     }
   });
 
-  it("rozdziela Uf, Uw i Ud — to trzy różne wielkości, nie synonimy", () => {
+  it("rozdziela Uf, Uw i Ud – to trzy różne wielkości, nie synonimy", () => {
     expect(explainSpec(spec({ value: "Uf > 0,83 W/(m2K)" }))?.id).toBe("uf");
     expect(explainSpec(spec({ value: "Uw od 0,62 W(m2K)" }))?.id).toBe("uw");
     expect(explainSpec(spec({ value: "UD od 1,1 W/(m2K)" }))?.id).toBe("ud");

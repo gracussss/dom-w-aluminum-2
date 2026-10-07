@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, MapPin, Phone, X } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Clock, MapPin, Phone, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { organizationJsonLd } from "../lib/jsonLd";
 import { PageHero } from "../components/ui/PageHero";
@@ -117,56 +117,14 @@ export function Kontakt() {
       <PageHero
         eyebrow="Kontakt"
         title="Zapytaj o wycenę"
-        description="Opisz projekt — wrócimy z konkretną propozycją i realnym terminem realizacji."
+        description="Opisz projekt – wrócimy z konkretną propozycją i realnym terminem realizacji."
       />
 
       <section className="bg-limestone py-16 text-void md:py-24">
         <div className="container-edge grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
-          {/* Dane + mapa */}
-          <div className="lg:col-span-5">
-            <Reveal>
-              <p className="label text-bronze">{company.legalName}</p>
-
-              <a
-                href={googleMapsSearchUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group mt-6 flex items-start gap-3 py-1 text-void/75 transition-colors hover:text-bronze"
-              >
-                <MapPin className="mt-1.5 h-5 w-5 shrink-0" strokeWidth={1.4} />
-                <span className="text-xl leading-snug md:text-2xl">
-                  {company.address.street}
-                  <br />
-                  {company.address.postalCode} {company.address.city}
-                </span>
-              </a>
-
-              <a
-                href={company.phone.href}
-                className="mt-6 flex items-center gap-3 py-1 text-void transition-colors hover:text-bronze"
-              >
-                <Phone className="h-5 w-5 shrink-0" strokeWidth={1.4} />
-                <span className="text-2xl font-semibold tracking-[-0.02em] md:text-3xl">
-                  {company.phone.display}
-                </span>
-              </a>
-            </Reveal>
-
-            <Reveal delay={0.1} className="mt-9">
-              <MapEmbed
-                src={mapEmbedSrc}
-                title="Mapa — lokalizacja firmy"
-                externalHref={googleMapsSearchUrl}
-                caption={fullAddress}
-                className="aspect-[4/3] w-full"
-              />
-            </Reveal>
-
-            <SocialIcons className="mt-9" tone="light" heading="Śledź nas" />
-          </div>
-
-          {/* Formularz */}
-          <div className="lg:col-span-6 lg:col-start-7">
+          {/* Formularz — pierwszy w kolejności, także na telefonie: to jest
+              główna czynność tej strony. */}
+          <div className="lg:col-span-6">
             {status === "sent" ? (
               <Reveal className="h-full">
                 <div
@@ -351,12 +309,65 @@ export function Kontakt() {
 
                 {!CONTACT_ENDPOINT && (
                   <p className="text-xs leading-relaxed text-void/60">
-                    Formularz demonstracyjny — w tej wersji wiadomość nie jest
+                    Formularz demonstracyjny – w tej wersji wiadomość nie jest
                     nigdzie wysyłana.
                   </p>
                 )}
               </form>
             )}
+          </div>
+
+          {/* Dane + mapa — po prawej, formularz po lewej (uwaga klientki:
+              „zamieniłabym stronami”). Nazwa firmy jest nagłówkiem bloku,
+              a adres i telefon mają jeden krój i stopień, bez pogrubienia —
+              wcześniej telefon w 30 px bold był najgłośniejszym elementem strony. */}
+          <div className="lg:col-span-5 lg:col-start-8">
+            <Reveal>
+              <p className="text-2xl font-semibold tracking-[-0.02em] text-void md:text-[28px]">
+                {company.legalName}
+              </p>
+
+              <a
+                href={googleMapsSearchUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-5 flex items-start gap-3 py-1 text-lg leading-snug text-void/75 transition-colors hover:text-bronze"
+              >
+                <MapPin className="mt-1 h-[18px] w-[18px] shrink-0" strokeWidth={1.4} />
+                <span>
+                  {company.address.street}
+                  <br />
+                  {company.address.postalCode} {company.address.city}
+                </span>
+              </a>
+
+              <a
+                href={company.phone.href}
+                className="mt-3 flex items-center gap-3 py-1 text-lg leading-snug text-void/75 transition-colors hover:text-bronze"
+              >
+                <Phone className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} />
+                <span>{company.phone.display}</span>
+              </a>
+
+              <p className="mt-3 flex items-center gap-3 py-1 text-lg leading-snug text-void/75">
+                <Clock className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} aria-hidden />
+                <span>Godziny pracy: {company.hours}</span>
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.1} className="mt-8">
+              <MapEmbed
+                src={mapEmbedSrc}
+                title="Mapa – lokalizacja firmy"
+                externalHref={googleMapsSearchUrl}
+                caption={fullAddress}
+                className="aspect-[4/3] w-full"
+              />
+            </Reveal>
+
+            {/* Pod mapą, wyśrodkowane względem jej kadru i większe — ikony
+                44 px obok mapy o szerokości kolumny wyglądały na przypadkowe. */}
+            <SocialIcons className="mt-8" tone="light" heading="Śledź nas" align="center" size="lg" />
           </div>
         </div>
       </section>

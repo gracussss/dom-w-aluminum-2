@@ -128,6 +128,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        /* Znak autorstwa w każdym pliku JS. Komentarz w kodzie źródłowym
+           wycina minifikator – baner doklejany po minifikacji zostaje. */
+        postBanner: '/*! Alukoncept – projekt i realizacja: Gracjan Kubala. © 2026 Gracjan Kubala. Wszelkie prawa zastrzeżone. */',
         manualChunks(id: string) {
           if (!id.includes('node_modules')) return
           /* Wyliczamy WYŁĄCZNIE biblioteki startowe. Reszta (three, drei

@@ -110,88 +110,36 @@ function FilterRow({ label, options, onToggle, onClear }: FilterRowProps) {
  * i osiemdziesięciu kilku systemach to one są pierwszym krokiem —
  * prowadzą na własne adresy, które da się podlinkować i zaindeksować.
  *
- * Siedem jednakowych kafli nie mówiło nic o tym, gdzie naprawdę jest oferta:
- * najliczniejsza kategoria ma pięć razy więcej pozycji niż najmniejsza,
- * a wyglądały tak samo. Trzy wiodące dostają duże pole z liczbą pozycji jako
- * numerałem, reszta zostaje kompaktowym rzędem. Podział wynika z danych,
- * nie z kolejności w taksonomii — po dołożeniu systemów sam się przestawi.
+ * Siedem jednakowych, małych kafli w kolejności z taksonomii. Wcześniej trzy
+ * najliczniejsze kategorie dostawały duże pola z liczbą pozycji jako
+ * numerałem, a reszta kompaktowy rząd pod nimi. Klientka wolała jeden
+ * rozmiar — „wszystko taką samą wielkością, jak te małe kwadraty”. Liczba
+ * pozycji zostaje w każdym kaflu, więc informacja o tym, gdzie jest oferta,
+ * nie znika — przestaje tylko rządzić układem.
  *
- * Przy okazji oba rzędy wypełniają się na dużym ekranie równo (3 i 4
- * kolumny), czego siedem kafli w czterech kolumnach nie robiło.
+ * Na szerokim ekranie wszystkie siedem stoi w jednym rzędzie, czyli kafle
+ * wychodzą prawie kwadratowe. Węższe progi dzielą je na 4 i 2 kolumny.
  */
 function CategoryNav({ taxonomy, counts }: { taxonomy: Taxonomy; counts: Map<string, number> }) {
   const entries = taxonomy.categories.map((category, order) => ({
     category,
-    order,
     no: String(order + 1).padStart(2, "0"),
     count: counts.get(category.id) ?? 0,
   }));
 
-  /* Remis rozstrzyga kolejność w taksonomii, żeby układ był powtarzalny. */
-  const leadingIds = new Set(
-    [...entries]
-      .sort((a, b) => b.count - a.count || a.order - b.order)
-      .slice(0, 3)
-      .map((entry) => entry.category.id)
-  );
-  const leading = entries.filter((entry) => leadingIds.has(entry.category.id));
-  const rest = entries.filter((entry) => !leadingIds.has(entry.category.id));
-
   /* Siatka na obramowaniach, nie na tle z odstępami: brakująca komórka
      w ostatnim rzędzie nie zostawia wtedy pustego szarego prostokąta. */
-  const cell =
-    "group flex flex-col justify-between border-b border-r border-void/12 transition-colors duration-500 hover:bg-void";
-
   return (
     <nav aria-label="Kategorie systemów">
-      {/* Kategorie wiodące */}
-      <div className="grid grid-cols-1 border-l border-t border-void/12 sm:grid-cols-2 lg:grid-cols-3">
-        {leading.map(({ category, no, count }) => (
+      <div className="grid grid-cols-1 border-l border-t border-void/12 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-7">
+        {entries.map(({ category, no, count }) => (
           <Link
             key={category.id}
             to={`/systemy/kategoria/${category.slug}`}
-            /* Na telefonie kafle stoją jeden pod drugim — pełna wysokość
-               zostawiałaby w środku martwe pole i spychała resztę kategorii
-               poza ekran. Waga typograficzna niesie hierarchię i bez niej. */
-            className={`${cell} min-h-[148px] p-5 sm:min-h-[190px] md:min-h-[220px] md:p-6`}
+            className="group flex min-h-[132px] flex-col justify-between border-b border-r border-void/12 p-5 transition-colors duration-500 hover:bg-void xl:min-h-[168px]"
           >
             <div className="flex items-start justify-between gap-4">
-              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
-                {no}
-              </span>
-              <div className="text-right">
-                <span className="display block text-4xl leading-none text-void/50 transition-colors duration-500 group-hover:text-bronze-light md:text-5xl">
-                  {count}
-                </span>
-                <span className="label-sm mt-1.5 block text-void/60 transition-colors duration-500 group-hover:text-limestone/60">
-                  {positions(count)}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-end justify-between gap-4">
-              <h3 className="display text-2xl leading-none tracking-[-0.03em] text-void transition-colors duration-500 group-hover:text-limestone md:text-[28px]">
-                {category.name}
-              </h3>
-              <ArrowUpRight
-                className="h-5 w-5 shrink-0 text-void/40 transition-all duration-500 ease-[var(--ease-premium)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-bronze-light"
-                strokeWidth={1.3}
-              />
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Pozostałe — ten sam kafel, mniejsza waga */}
-      <div className="grid grid-cols-1 border-l border-void/12 sm:grid-cols-2 lg:grid-cols-4">
-        {rest.map(({ category, no, count }) => (
-          <Link
-            key={category.id}
-            to={`/systemy/kategoria/${category.slug}`}
-            className={`${cell} min-h-[132px] p-5 md:p-6`}
-          >
-            <div className="flex items-start justify-between gap-4">
-              <span className="label text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
+              <span className="label text-[13px] text-void/60 transition-colors duration-500 group-hover:text-bronze-light">
                 {no}
               </span>
               <ArrowUpRight
@@ -353,7 +301,7 @@ export function Systemy() {
       <PageHero
         eyebrow="Katalog"
         title="Systemy aluminiowe"
-        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów — przy każdej wartości podajemy źródło."
+        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów – przy każdej wartości podajemy źródło."
         variant="index"
       />
 
@@ -369,7 +317,7 @@ export function Systemy() {
               type="search"
               value={searchValue}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Szukaj systemu — np. MB-86N, przesuwne, przeciwpożarowe…"
+              placeholder="Szukaj systemu – np. MB-86N, przesuwne, przeciwpożarowe…"
               aria-label="Szukaj systemu"
               className="w-full bg-transparent text-[15px] text-void outline-none placeholder:text-void/60"
             />

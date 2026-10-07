@@ -9,7 +9,7 @@ import type { AluSystem, DocumentKind, SystemDataStatus } from "./types";
 
 /** Zastrzeżenie na poziomie całego katalogu. */
 export const DATA_DISCLAIMER =
-  "Nazwy systemów i parametry pochodzą z publicznych kart systemów ALUPROF — przy każdej wartości podajemy źródło i datę dostępu. Zdjęcia są poglądowe, przekroje to rysunki własne. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
+  "Nazwy systemów i parametry pochodzą z publicznych kart systemów ALUPROF – przy każdej wartości podajemy źródło i datę dostępu. Zdjęcia są poglądowe, przekroje to rysunki własne. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
 
 export const TBD = "Do uzupełnienia";
 
@@ -23,7 +23,7 @@ export function nameStatusNote(system: AluSystem): string {
   if (system.dataStatus.name === "confirmed") {
     return "Oznaczenie handlowe potwierdzone w publicznych materiałach producenta.";
   }
-  return "Nazwa robocza — oznaczenie handlowe do ustalenia z producentem.";
+  return "Nazwa robocza – oznaczenie handlowe do ustalenia z producentem.";
 }
 
 /** Zdanie o stanie parametrów technicznych. */
@@ -38,7 +38,7 @@ export function specsStatusNote(system: AluSystem): string {
     filled +
     " z " +
     total +
-    " parametrów — pozostałe uzupełnimy po otrzymaniu karty katalogowej."
+    " parametrów – pozostałe uzupełnimy po otrzymaniu karty katalogowej."
   );
 }
 

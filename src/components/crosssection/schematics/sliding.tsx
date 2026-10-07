@@ -8,9 +8,9 @@ import type { SchematicDefinition } from "../types";
 
 export const slidingSchematic: SchematicDefinition = {
   id: "przesuwne",
-  label: "Konstrukcja przesuwna — przekrój poziomy przez zazębienie skrzydeł",
+  label: "Konstrukcja przesuwna – przekrój poziomy przez zazębienie skrzydeł",
   description:
-    "Rysunek pokazuje styk dwóch skrzydeł systemu przesuwnego. Szyna jezdna i rolki są widoczne dopiero w przekroju pionowym przez próg — dodamy go razem z dokumentacją producenta.",
+    "Rysunek pokazuje styk dwóch skrzydeł systemu przesuwnego. Szyna jezdna i rolki są widoczne dopiero w przekroju pionowym przez próg – dodamy go razem z dokumentacją producenta.",
   viewBox: "0 0 1000 620",
   outsideLabel: "ZEWNĄTRZ",
   insideLabel: "WEWNĄTRZ",
@@ -50,7 +50,7 @@ export const slidingSchematic: SchematicDefinition = {
       id: "szyba",
       no: 6,
       label: "Pakiet szybowy",
-      desc: "Zestaw szyb osadzony w skrzydle. W systemach przesuwnych zwykle cięższy niż w oknach — stąd wzmocnione profile.",
+      desc: "Zestaw szyb osadzony w skrzydle. W systemach przesuwnych zwykle cięższy niż w oknach – stąd wzmocnione profile.",
     },
     {
       id: "komora",

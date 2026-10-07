@@ -4,7 +4,7 @@
  */
 export const company = {
   legalName: "Alukoncept Sp. z o.o.",
-  brandName: "Dom w Aluminium",
+  brandName: "Alukoncept",
   address: {
     street: "Stanisława Mikołajczyka 59 A",
     postalCode: "41-400",
@@ -14,6 +14,8 @@ export const company = {
     display: "695 704 228",
     href: "tel:+48695704228",
   },
+  /** Podane przez klienta (październik 2026): poniedziałek–piątek 6–16. */
+  hours: "pon.–pt. 6:00–16:00",
 } as const;
 
 export const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.city}`;
@@ -31,5 +33,5 @@ export const googleMapsSearchUrl = `https://www.google.com/maps/search/?api=1&qu
  */
 export const socialLinks: Record<"instagram" | "facebook", string | null> = {
   instagram: null,
-  facebook: null,
+  facebook: "https://www.facebook.com/AlukonceptSosnowiec/",
 };

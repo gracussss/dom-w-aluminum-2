@@ -26,6 +26,9 @@
   --color-bronze-light: #c3a175;
   --color-bronze-dim: #6f5837;
 
+  /* czerwień z logo Alukoncept – tylko w znaku firmy, nie jako akcent UI */
+  --color-brand-red: #e30613;
+
   /* szkło — realny zielonkawy odcień krawędzi float glass */
   --color-glass: #7d9a92;
 
@@ -110,6 +113,29 @@
   }
 }
 
+/* Etykiety monospace w warstwie `components`, nie `utilities`.
+   W `utilities` lądowały w arkuszu ZA klasami Tailwinda, więc przy równej
+   specyficzności wygrywały z nimi: `label text-sm` dawało zawsze 11 px,
+   a powiększenia etykiet sekcji (o które prosiła klientka) nie działały
+   — sprawdzone w przeglądarce. Tu `text-*` nadpisuje stopień, jak się
+   tego spodziewa każdy, kto czyta klasy w komponencie. */
+@layer components {
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .label-sm {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}
+
 @layer utilities {
   /* Wielkie nagłówki architektoniczne — ciasny tracking, grotesk */
   .display {
@@ -129,21 +155,6 @@
     font-weight: 400;
     letter-spacing: -0.02em;
     font-style: italic;
-  }
-
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 400;
-  }
-
-  .label-sm {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
   }
 
   .text-balance {

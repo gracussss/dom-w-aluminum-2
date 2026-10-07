@@ -25,7 +25,7 @@ const steps = [
     no: "03",
     label: "Skrzydło",
     title: "Ruch musi być powtarzalny",
-    body: "Ciężar pakietu szybowego przenoszą okucia i naroża ramy — przy tym samym ruchu, tysiące razy.",
+    body: "Ciężar pakietu szybowego przenoszą okucia i naroża ramy – przy tym samym ruchu, tysiące razy.",
   },
   {
     no: "04",
@@ -37,7 +37,7 @@ const steps = [
     no: "05",
     label: "Przekrój",
     title: "Wnętrze profilu",
-    body: "Dwie powłoki aluminium rozdzielone przekładką termiczną — to ona przerywa drogę ciepła między zewnętrzem a wnętrzem.",
+    body: "Dwie powłoki aluminium rozdzielone przekładką termiczną – to ona przerywa drogę ciepła między zewnętrzem a wnętrzem.",
   },
   {
     no: "06",
@@ -161,14 +161,18 @@ function Story3D() {
 
         <div className="container-edge pointer-events-none relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="pt-6">
-            <Eyebrow index="03" label="Jak powstaje konstrukcja" tone="light" />
+            <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
           </div>
 
-          <div className="relative h-[270px] max-w-2xl sm:h-[250px]">
+          {/* Tekst kroku przyklejony do GÓRY swojego pola, nie do dołu. Pole
+              stoi w środku kadru, więc tekst zaczyna się teraz na wysokości
+              środka ekranu — wcześniej siedział w dolnej połowie, a nad nim
+              zostawała pusta ćwiartka (uwaga klientki: „wyżej albo na środek”). */}
+          <div className="relative h-[240px] max-w-2xl sm:h-[220px]">
             {steps.map((s, i) => (
               <div
                 key={s.no}
-                className="absolute inset-x-0 bottom-0 transition-all duration-500 ease-[var(--ease-premium)]"
+                className="absolute inset-x-0 top-0 transition-all duration-500 ease-[var(--ease-premium)]"
                 style={{
                   opacity: i === step ? 1 : 0,
                   transform: `translateY(${i === step ? 0 : i < step ? -22 : 22}px)`,
@@ -176,12 +180,12 @@ function Story3D() {
                 aria-hidden={i !== step}
               >
                 <span className="label text-bronze-light">
-                  {s.no} — {s.label}
+                  {s.no} – {s.label}
                 </span>
-                <h3 className="display display-tight mt-4 text-[8vw] leading-[0.95] sm:text-5xl md:text-6xl">
+                <h3 className="display display-tight mt-4 text-[7.5vw] leading-[0.98] sm:text-4xl md:text-5xl">
                   {s.title}
                 </h3>
-                <p className="mt-5 max-w-lg text-pretty text-sm leading-relaxed text-limestone/60 md:text-base">
+                <p className="mt-5 max-w-lg text-pretty text-base leading-relaxed text-limestone/65 md:text-lg">
                   {s.body}
                 </p>
               </div>
@@ -198,7 +202,7 @@ function Story3D() {
                   }`}
                 />
                 <span
-                  className={`label-sm transition-colors duration-500 ${
+                  className={`label text-[13px] tabular-nums transition-colors duration-500 sm:text-sm ${
                     i === step ? "text-limestone" : "text-limestone/55"
                   }`}
                 >

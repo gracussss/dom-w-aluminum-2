@@ -187,10 +187,14 @@ Pozostałe audyty SEO są spełnione — sprawdzone na wdrożonej stronie:
 | Dane strukturalne | bez błędów składni |
 | `sitemap.xml` | **nie działa** — patrz sekcja 6, brakuje `VITE_SITE_URL` |
 
-Wydajność (73) nie zależy od treści, tylko od ekranu startowego: `Loader`
-trzyma kadr, czeka na zdekodowanie tła hero i dopiero potem rozsuwa ramę.
-Pierwsze malowanie treści następuje po tej sekwencji, a Lighthouse liczy je
+Wydajność (73) nie zależała od treści, tylko od ekranu startowego: `Loader`
+trzymał kadr, czekał na zdekodowanie tła hero i dopiero potem rozsuwał ramę.
+Pierwsze malowanie treści następowało po tej sekwencji, a Lighthouse liczył je
 jako FCP i LCP.
+
+**2026-10:** ekran startowy usunięty na prośbę klientki („przejście do
+aplikacji”). Wynik wydajności trzeba zmierzyć ponownie — opis poniżej
+dotyczy stanu z loaderem.
 
 **Zrobione 2026-08-31:** `HOLD` 1300 → 800 ms, `MAX_WAIT` 2200 → 1600 ms,
 a `TEMPO` (0.55) skraca proporcjonalnie całą choreografię znaku. Animacja
