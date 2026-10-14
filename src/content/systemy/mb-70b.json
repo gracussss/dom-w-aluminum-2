@@ -25,7 +25,19 @@
     {
       "label": "Izolacyjność termiczna",
       "value": "Uw od 0,8 W/(m2K)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "79 mm (okna), 70 mm (drzwi)",
+      "source": "ALUPROF – ulotka produktowa MB-70B (MB-70B_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "23,5 – 62 mm (okna), 14,5 – 53,5 mm (drzwi)",
+      "source": "ALUPROF – ulotka produktowa MB-70B (MB-70B_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "70 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-70B (MB-70B_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

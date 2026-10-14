@@ -19,5 +19,7 @@
       "value": "H do 2400 mm; L do 1250 mm"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "45 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-45 (MB-45_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

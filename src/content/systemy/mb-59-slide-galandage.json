@@ -29,7 +29,19 @@
       "label": "Izolacyjność termiczna Uf",
       "value": "od 1,9",
       "note": "W/(m2K)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "59 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59 SLIDE GALANDAGE (MB-59_Slide_Galandage_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "10 – 42 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59 SLIDE GALANDAGE (MB-59_Slide_Galandage_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "166,9 mm (profil 2-szynowy), 245,9 mm (profil 3-szynowy)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-59 SLIDE GALANDAGE (MB-59_Slide_Galandage_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

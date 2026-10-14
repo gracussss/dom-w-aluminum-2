@@ -21,7 +21,19 @@
     {
       "label": "Przepuszczalność powietrza",
       "value": "do klasy 4"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "79 mm",
+      "source": "ALUPROF – ulotka produktowa MB-79N MONO (MB-79N_Mono_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "28 mm oraz 32 mm",
+      "source": "ALUPROF – ulotka produktowa MB-79N MONO (MB-79N_Mono_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "70 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-79N MONO (MB-79N_Mono_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

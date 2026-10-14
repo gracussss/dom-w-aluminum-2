@@ -20,7 +20,14 @@
     {
       "label": "Odporność ogniowa",
       "value": "klasa EI120"
+    },
+    {
+      "label": "Grubość wypełnienia",
+      "value": "31 – 84 mm",
+      "source": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "118 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

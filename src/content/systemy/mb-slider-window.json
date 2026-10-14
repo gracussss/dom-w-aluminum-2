@@ -23,7 +23,14 @@
       "label": "Grubość szklenia",
       "value": "4 do 10,5",
       "note": "mm"
+    },
+    {
+      "label": "Głębokość skrzydeł",
+      "value": "26 mm",
+      "source": "ALUPROF – ulotka produktowa MB-Slider Window (MB-Slider_Window_A4_PL.pdf), s. 1"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "45 mm (ościeżnica)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-Slider Window (MB-Slider_Window_A4_PL.pdf), s. 1",
+  "sourceDate": "2026-10-14"
 }

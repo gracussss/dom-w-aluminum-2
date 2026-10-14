@@ -27,7 +27,19 @@
     {
       "label": "Odporność na uderzenie",
       "value": "Klasa 10, ASTM F588, TAS 202-94"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "37 mm",
+      "source": "ALUPROF – ulotka produktowa MB-37 SLIDE STORM (MB-37_Slide_Storm_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "14,3 – 19 mm",
+      "source": "ALUPROF – ulotka produktowa MB-37 SLIDE STORM (MB-37_Slide_Storm_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "100,7 mm (profil 2-szynowy)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-37 SLIDE STORM (MB-37_Slide_Storm_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

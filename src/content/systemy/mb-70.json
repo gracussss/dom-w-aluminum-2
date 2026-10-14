@@ -29,7 +29,14 @@
     {
       "label": "Odporność na obciążenie wiatrem",
       "value": "klasa C5"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "70 mm (drzwi), 79 mm (okno)",
+      "source": "ALUPROF – ulotka produktowa MB-70 (mb-70_a3_pl.pdf), s. 4"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "70 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-70 (mb-70_a3_pl.pdf), s. 4",
+  "sourceDate": "2026-10-14"
 }

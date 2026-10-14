@@ -24,7 +24,19 @@
     {
       "label": "Odporność na wielokrotne otwieranie i zamykanie",
       "value": "klasa 8, 1 000 000 cykli (w obu kierunkach), EN 12400"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "67 mm (profil zamkowy), 69 mm (profile poziome), 100 mm (profil zawiasowy)",
+      "source": "ALUPROF – ulotka produktowa MB-100GFT (MB-100GFT_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "7,5 – 48 mm (drzwi), 27,5 – 32 mm (witryny)",
+      "source": "ALUPROF – ulotka produktowa MB-100GFT (MB-100GFT_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "100 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-100GFT (MB-100GFT_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

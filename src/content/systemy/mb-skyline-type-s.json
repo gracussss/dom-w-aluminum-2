@@ -20,7 +20,19 @@
     {
       "label": "Szerokość słupka na połączeniu skrzydeł",
       "value": "25 mm"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "71 mm",
+      "source": "ALUPROF – ulotka produktowa MB-SKYLINE TYPE S (aluprof_mb-skyline_type_s_pl.pdf), s. 3"
+    },
+    {
+      "label": "Zakres szklenia",
+      "value": "od 52 do 60 mm",
+      "source": "ALUPROF – ulotka produktowa MB-SKYLINE TYPE S (aluprof_mb-skyline_type_s_pl.pdf), s. 3"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "190 mm (ościeżnica 2-szynowa), 292 mm (ościeżnica 3-szynowa)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-SKYLINE TYPE S (aluprof_mb-skyline_type_s_pl.pdf), s. 3",
+  "sourceDate": "2026-10-14"
 }

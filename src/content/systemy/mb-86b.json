@@ -20,7 +20,14 @@
     {
       "label": "Odporność na obciążenie wiatrem",
       "value": "klasa C5/B5"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "86 mm (okna), 77 mm (drzwi)",
+      "source": "ALUPROF – ulotka produktowa MB-86B (MB-86B_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-86B (MB-86B_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }
