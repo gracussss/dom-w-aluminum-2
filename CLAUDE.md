@@ -4,6 +4,7 @@ Kontekst projektu i uruchomienie: `README.md`.
 Dane techniczne i prawa producentów: `MATERIALY.md`.
 Treść, meta i checklista publikacji: `SEO.md`.
 Panel administracyjny (/admin): `PANEL.md`.
+Przeniesienie na hosting klienta (poza Netlify): `HOSTING.md`.
 
 ---
 

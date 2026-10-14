@@ -1,5 +1,14 @@
 import { PHOTO_TONE } from "../lib/responsiveImage";
-import type { AluSystem, DataSource, ModelType, SystemSpec, SystemVariant, Verification } from "./types";
+import type {
+  AluSystem,
+  CrossSectionKind,
+  CrossSectionRef,
+  DataSource,
+  ModelType,
+  SystemSpec,
+  SystemVariant,
+  Verification,
+} from "./types";
 
 /* ------------------------------------------------------------------
    FABRYKA SYSTEMÓW — Z ZAPISU W PANELU DO MODELU KATALOGU
@@ -13,10 +22,11 @@ import type { AluSystem, DataSource, ModelType, SystemSpec, SystemVariant, Verif
    Czysta funkcja, bez I/O: te same pliki czyta strona (import.meta.glob
    w dataset.ts) i vite.config.ts (sitemapa, przez fs).
 
-   ZASADA: żadna wartość techniczna bez źródła. Źródłem jest karta
-   systemu u producenta (adres z pola `aluprof`) z datą sprawdzenia
-   (`sourceDate`). Bez daty sprawdzenia parametry nie są publikowane —
-   panel wymaga jej przy każdej zmianie parametrów.
+   ZASADA: żadna wartość techniczna bez źródła. Domyślnym źródłem jest
+   karta systemu u producenta (adres z pola `aluprof`) z datą sprawdzenia
+   (`sourceDate`). Wartość przepisana z innego dokumentu (katalog
+   techniczny ze strefy partnera, rysunek) ma przy sobie nazwę tego
+   dokumentu — inaczej podpis przypisałby ją karcie, na której jej nie ma.
    ------------------------------------------------------------------ */
 
 const ALUPROF = "https://aluprof.com/produkt/";
@@ -30,6 +40,15 @@ function source(aluprofSlug: string, accessedAt: string): DataSource {
     url: ALUPROF + aluprofSlug,
     accessedAt,
   };
+}
+
+/**
+ * Dokument wskazany w panelu przy wartości albo rysunku. Bez adresu:
+ * katalogi techniczne leżą w strefie partnera, do której czytelnik strony
+ * nie ma dostępu — link prowadziłby do ekranu logowania.
+ */
+function documentSource(label: string, fallback: DataSource): DataSource {
+  return label ? { label, url: null, accessedAt: fallback.accessedAt } : fallback;
 }
 
 /**
@@ -113,6 +132,10 @@ interface SystemFile {
   description?: unknown;
   /** Własne zdjęcie systemu — zastępuje zdjęcie zastępcze kategorii. */
   image?: unknown;
+  /** Dokument, z którego pochodzi głębokość — gdy nie karta systemu. */
+  depthSource?: unknown;
+  /** Rysunki przekrojów z dokumentacji producenta (pliki w public/przekroje). */
+  drawings?: unknown;
 }
 
 export interface SystemEntry {
@@ -146,11 +169,16 @@ function buildSpecs(file: SystemFile, src: DataSource): SystemSpec[] {
   const rows = Array.isArray(file.specs) ? (file.specs as Record<string, unknown>[]) : [];
 
   const fromManufacturer: SystemSpec[] = rows
-    .map((row) => ({ label: str(row?.label), value: str(row?.value), note: str(row?.note) }))
+    .map((row) => ({
+      label: str(row?.label),
+      value: str(row?.value),
+      note: str(row?.note),
+      source: str(row?.source),
+    }))
     .filter((row) => row.label && row.value)
     .map((row, i) => {
       const { value, standard } = splitNote(row.value, row.note);
-      return { id: "p" + (i + 1), label: row.label, value, standard, source: src };
+      return { id: "p" + (i + 1), label: row.label, value, standard, source: documentSource(row.source, src) };
     });
 
   /* Głębokość zabudowy: wypełniona tam, gdzie producent ją podaje, w reszcie
@@ -163,9 +191,43 @@ function buildSpecs(file: SystemFile, src: DataSource): SystemSpec[] {
       label: "Głębokość zabudowy",
       value: depth || null,
       standard: null,
-      source: depth ? src : null,
+      source: depth ? documentSource(str(file.depthSource), src) : null,
     },
   ];
+}
+
+/* ----------------------------- PRZEKROJE ----------------------------- */
+
+const DRAWING_KINDS: Record<CrossSectionKind, string> = {
+  horizontal: "Przekrój poziomy",
+  vertical: "Przekrój pionowy",
+  threshold: "Próg",
+  mullion: "Słupek",
+  other: "Przekrój",
+};
+
+/* Rysunki trafiają tu tylko z dokumentacji producenta — panel nazywa pole
+   „Rysunki producenta”. Gdy klientka nie wpisze dokumentu, podpis mówi
+   ogólnie „dokumentacja techniczna”, ale nigdy nie przemilcza, czyj to rysunek. */
+const DRAWING_SOURCE = "ALUPROF – dokumentacja techniczna systemu";
+
+function buildDrawings(file: SystemFile, accessedAt: string): CrossSectionRef[] {
+  const rows = Array.isArray(file.drawings) ? (file.drawings as Record<string, unknown>[]) : [];
+  return rows
+    .map((row) => ({
+      image: str(row?.image),
+      kind: (str(row?.kind) in DRAWING_KINDS ? str(row?.kind) : "other") as CrossSectionKind,
+      label: str(row?.label),
+      source: str(row?.source),
+    }))
+    .filter((row) => row.image)
+    .map((row, i) => ({
+      id: `${row.kind}-${i + 1}`,
+      kind: row.kind,
+      label: row.label || DRAWING_KINDS[row.kind],
+      imageSrc: row.image,
+      source: { label: row.source || DRAWING_SOURCE, url: null, accessedAt },
+    }));
 }
 
 export function defineSystem(entry: SystemEntry): AluSystem {
@@ -181,6 +243,7 @@ export function defineSystem(entry: SystemEntry): AluSystem {
     ? str(file.sourceDate).slice(0, 10)
     : DEFAULT_SOURCE_DATE;
   const specs = buildSpecs(file, source(aluprof, accessedAt));
+  const crossSections = buildDrawings(file, accessedAt);
 
   return {
     id,
@@ -212,7 +275,7 @@ export function defineSystem(entry: SystemEntry): AluSystem {
       gallery: [],
     },
 
-    crossSections: [],
+    crossSections,
     specs,
     variants: variants([]),
     documents: [],
@@ -231,7 +294,7 @@ export function defineSystem(entry: SystemEntry): AluSystem {
     dataStatus: {
       name: file.nameConfirmed === false ? "working-title" : "confirmed",
       specs: specStatus(specs),
-      crossSection: "missing",
+      crossSection: crossSections.length > 0 ? "verified" : "missing",
       model3d: "missing",
       media: ownImage ? "own" : "stock",
       verifiedAt: accessedAt,

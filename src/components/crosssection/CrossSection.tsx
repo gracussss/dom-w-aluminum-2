@@ -43,6 +43,8 @@ interface StageProps {
   onExitFullscreen?: () => void;
   /** Na pełnym ekranie nie ma czego przewijać — kółko zawsze przybliża. */
   alwaysZoomOnWheel?: boolean;
+  /** Rysunek producenta — tło rysunku ma zniknąć w siatce kadru. */
+  blend?: boolean;
 }
 
 /** Kadr z rysunkiem: przybliżanie, przesuwanie i sterowanie. */
@@ -55,6 +57,7 @@ function Stage({
   onFullscreenRef,
   onExitFullscreen,
   alwaysZoomOnWheel,
+  blend,
 }: StageProps) {
   const frame = useRef<HTMLDivElement>(null);
   const zoom = useZoomPan(frame, resetKey, { alwaysZoomOnWheel });
@@ -76,7 +79,10 @@ function Stage({
         }`}
         {...zoom.handlers}
       >
-        <div className="h-full w-full" style={zoom.style}>
+        {/* Mieszanie na warstwie z transformacją, nie na samym <img>:
+            transformacja zamyka warstwę w osobnym kontekście, więc obraz
+            mieszałby się tylko z jej pustym wnętrzem i tło zostawało czarne. */}
+        <div className={`h-full w-full ${blend ? "mix-blend-screen" : ""}`} style={zoom.style}>
           {children}
         </div>
       </div>
@@ -410,10 +416,14 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
   const badge = isReal ? "Przekrój systemu" : "Schemat poglądowy";
 
   const drawingContent = isReal ? (
+    /* Rysunki katalogowe są czarne na białym. Na ciemnym kadrze odwracamy
+       jasność (hue-rotate oddaje z powrotem kolory uszczelek i przekładek),
+       a `screen` na warstwie Stage wygasza tło do siatki pod spodem — biały
+       prostokąt w antracytowej sekcji wyglądał jak wklejony zrzut ekranu. */
     <img
       src={current!.imageSrc as string}
       alt={`${subject ?? ""} – ${current!.label}`}
-      className="h-full w-full object-contain"
+      className="h-full w-full object-contain p-4 invert hue-rotate-180 md:p-6"
       draggable={false}
       loading="lazy"
     />
@@ -463,6 +473,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
             badge={badge}
             resetKey={resetKey}
             className="aspect-[10/6.2] w-full"
+            blend={isReal}
             onFullscreen={() => setFullscreen(true)}
             onFullscreenRef={openerRef}
           >
@@ -548,6 +559,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
                    spłaszczałaby rysunek do paska. */
                 className="min-h-[46vh] shrink-0 lg:min-h-0 lg:flex-1"
                 alwaysZoomOnWheel
+                blend={isReal}
                 onExitFullscreen={() => setFullscreen(false)}
               >
                 {drawingContent}

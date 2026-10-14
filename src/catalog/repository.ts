@@ -187,6 +187,13 @@ export function validateSource(source: LocalSource): string[] {
         problems.push(where + ': parametr "' + spec.label + '" ma wartość bez źródła.');
       }
     }
+    /* Ta sama reguła dla rysunku: przekrój bez wskazanego dokumentu
+       wyglądałby na rysunek firmy, a jest rysunkiem producenta. */
+    for (const drawing of system.crossSections) {
+      if (drawing.imageSrc !== null && drawing.source === null) {
+        problems.push(where + ': przekrój "' + drawing.label + '" bez źródła.');
+      }
+    }
   }
 
   return problems;

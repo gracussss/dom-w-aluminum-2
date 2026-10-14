@@ -137,7 +137,17 @@ automatycznie — **bez zmian w komponentach**.
 
 ## 6. Jak podpiąć przekrój i model
 
-Póki co pola są puste. Po otrzymaniu plików **i zgody**:
+**Przez panel (bez programisty):** Katalog systemów → system → „Rysunki
+przekrojów”. Plik trafia do `public/przekroje`, podpis i dokument źródłowy
+do pliku systemu (`drawings`). W wersji roboczej (bez publikacji) rysunek
+widać tylko w podglądzie Netlify — dobra droga do pokazania klientowi,
+zanim jest zgoda.
+
+Stan 2026-10-14: wykonawca przekazał, że klient ustnie nie widzi problemu
+z publikacją materiałów ALUPROF. **Pisemnej zgody nadal brak** — do jej
+otrzymania rysunki producenta zostają w wersjach roboczych.
+
+W kodzie (stary zapis, nadal działa) — po otrzymaniu plików **i zgody**:
 
 ```ts
 defineSystem({

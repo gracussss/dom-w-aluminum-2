@@ -1,4 +1,4 @@
-import type { AluSystem, DocumentKind, SystemDataStatus } from "./types";
+import type { AluSystem, DataSource, DocumentKind, SystemDataStatus } from "./types";
 
 /* ------------------------------------------------------------------
    KOMUNIKATY O STANIE DANYCH
@@ -9,7 +9,7 @@ import type { AluSystem, DocumentKind, SystemDataStatus } from "./types";
 
 /** Zastrzeżenie na poziomie całego katalogu. */
 export const DATA_DISCLAIMER =
-  "Nazwy systemów i parametry pochodzą z publicznych kart systemów ALUPROF – przy każdej wartości podajemy źródło i datę dostępu. Zdjęcia są poglądowe, przekroje to rysunki własne. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
+  "Nazwy systemów i parametry pochodzą z kart systemów i dokumentacji technicznej ALUPROF – przy każdej wartości podajemy źródło i datę. Zdjęcia są poglądowe; tam, gdzie nie ma jeszcze rysunku producenta, przekrój jest schematem własnym. Obecność producenta w katalogu nie oznacza autoryzacji ani partnerstwa.";
 
 export const TBD = "Do uzupełnienia";
 
@@ -42,12 +42,26 @@ export function specsStatusNote(system: AluSystem): string {
   );
 }
 
-/** Podpis źródła pod parametrem. */
+/** Źródła parametrów systemu — każde raz, w kolejności parametrów. */
+export function specSources(system: AluSystem): DataSource[] {
+  const byLabel = new Map<string, DataSource>();
+  for (const spec of system.specs) {
+    if (spec.source && !byLabel.has(spec.source.label)) byLabel.set(spec.source.label, spec.source);
+  }
+  return [...byLabel.values()];
+}
+
+/**
+ * Podpis źródeł pod parametrami. Wcześniej brał źródło pierwszego
+ * parametru — dopóki wszystko pochodziło z karty systemu, to wystarczało;
+ * po dopisaniu wartości z katalogu technicznego podpis przemilczałby
+ * drugi dokument.
+ */
 export function sourceNote(system: AluSystem): string | null {
-  const sourced = system.specs.find((s) => s.source !== null)?.source;
-  if (!sourced) return null;
-  const date = sourced.accessedAt ? ", dostęp " + sourced.accessedAt : "";
-  return "Źródło parametrów: " + sourced.label + date + ".";
+  const sources = specSources(system);
+  if (sources.length === 0) return null;
+  const list = sources.map((s) => s.label + (s.accessedAt ? ", stan na " + s.accessedAt : "")).join("; ");
+  return (sources.length > 1 ? "Źródła parametrów: " : "Źródło parametrów: ") + list + ".";
 }
 
 /** Czy karta powinna ostrzegać, że przekrój jest rysunkiem własnym. */
