@@ -87,7 +87,7 @@ export function CatalogLanding({
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-void/30 pb-3.5">
             {/* „20 pozycji" nie jest nagłówkiem — mówi ile, nie o czym.
                 Tytuł listy dostaje czytnik, liczba zostaje na ekranie. */}
-            <h2 className="sr-only">{title} — zestawienie systemów</h2>
+            <h2 className="sr-only">{title} – zestawienie systemów</h2>
             <p className="label text-[13px] text-void">
               {systems.length} {positions(systems.length)}
             </p>

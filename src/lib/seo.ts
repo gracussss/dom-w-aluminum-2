@@ -9,7 +9,9 @@ import { company, fullAddress } from "../data/company";
    ------------------------------------------------------------------ */
 
 /** Nazwa marki doklejana do tytułu podstrony. */
-export const SITE_NAME = "Dom w Aluminium";
+/* Alukoncept zamiast roboczego „Dom w Aluminium” – decyzja klienta
+   (październik 2026), spójnie z logo firmy. */
+export const SITE_NAME = "Alukoncept";
 
 /**
  * Adres produkcyjny. Domeny nie zmyślamy — dopóki nie jest ustawiona
@@ -24,7 +26,7 @@ export const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.r
  * podmienić na eksport PNG — patrz SEO.md, sekcja „Przed publikacją".
  */
 export const OG_IMAGE = "/og-default.svg";
-export const OG_IMAGE_ALT = `${SITE_NAME} — stolarka aluminiowa, ${company.legalName}`;
+export const OG_IMAGE_ALT = `${company.legalName} – stolarka aluminiowa`;
 
 /** Origin bieżącego środowiska: konfiguracja ma pierwszeństwo przed przeglądarką. */
 export function siteOrigin(): string {
@@ -44,7 +46,7 @@ export function absoluteUrl(path: string): string {
  * na pozostałych podstronach marka stoi na końcu, po myślniku.
  */
 export function buildTitle(title: string): string {
-  return title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
+  return title === SITE_NAME ? title : `${title} – ${SITE_NAME}`;
 }
 
 /** Krótka nota adresowa do opisów meta — bez powtarzania pełnych danych firmy. */

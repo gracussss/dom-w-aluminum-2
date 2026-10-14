@@ -1,6 +1,6 @@
-# Dom w Aluminium
+# Alukoncept
 
-Strona firmowa **Alukoncept Sp. z o.o.** (marka „Dom w Aluminium”) — stolarka
+Strona firmowa **Alukoncept Sp. z o.o.** (wcześniej robocza nazwa „Dom w Aluminium”) — stolarka
 aluminiowa: okna, drzwi, systemy przesuwne, fasady, konstrukcje przeciwpożarowe
 i indywidualne. Sosnowiec.
 
@@ -68,7 +68,8 @@ src/
   components/     UI (layout, ui, catalog, crosssection, product3d)
   sections/       sekcje strony głównej
   pages/          podstrony (routing w App.tsx)
-  data/           dane firmy, nawigacja, zdjęcia, portfolio
+  content/        treści edytowane w panelu /admin (JSON) — patrz PANEL.md
+  data/           odczyt treści z content/ + nawigacja
   lib/            scroll, animacje, SEO, zgody cookies
 ```
 
@@ -88,10 +89,10 @@ export const defaultRepository = createHttpRepository(import.meta.env.VITE_CATAL
 
 | Co | Gdzie | Uwagi |
 |---|---|---|
-| Zdjęcia poglądowe | `src/data/images.ts`, `src/data/realizations.ts`, `dataset.ts` | Unsplash → materiały własne |
+| Zdjęcia poglądowe | panel `/admin` (strona, oferta, realizacje), `dataset.ts` (katalog) | Unsplash → materiały własne |
 | Przekroje producenta | `public/przekroje/` → pole `crossSections` | wymaga **pisemnej zgody** |
 | Modele 3D | `public/modele/` → pole `modelUrl` | `.glb`; wymaga zgody |
-| Profile społecznościowe | `socialLinks` w `src/data/company.ts` | dopóki `"#"`, ikony **nie są renderowane** |
+| Profile społecznościowe | panel `/admin` → Dane firmy | puste pole = ikona „profil w przygotowaniu” |
 | Dane prawne | `src/pages/PolitykaPrywatnosci.tsx` | NIP/REGON/KRS, e-mail RODO |
 | Obraz OG | `public/og-default.svg` → PNG 1200×630 | Facebook i LinkedIn nie renderują SVG |
 

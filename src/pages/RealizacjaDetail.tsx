@@ -5,7 +5,7 @@ import { Reveal, RevealText } from "../components/ui/Reveal";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { ParallaxImage } from "../components/ui/ParallaxImage";
-import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
+import { SIZES_FULL, isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
 import { NotFound } from "./NotFound";
 import { PORTFOLIO_DISCLAIMER, realizations } from "../data/realizations";
 import { breadcrumbJsonLd } from "../lib/jsonLd";
@@ -23,12 +23,18 @@ export function RealizacjaDetail() {
   /* Opis meta: typ obiektu, zakres prac i tyle zdań opisu, ile mieści się
      w 160 znakach — tyle wyszukiwarka pokazuje, reszta i tak zostaje ucięta.
      Ucinamy na kropce, żeby nie kończyć opisu w połowie zdania. */
-  const seoDescription = item.description
-    .split(/(?<=\.)\s+/)
-    .reduce(
-      (acc, sentence) => (`${acc} ${sentence}`.length <= 160 ? `${acc} ${sentence}` : acc),
-      `${item.category}. Zakres prac: ${item.scope}.`
-    );
+  const seoDescription =
+    item.seoDescription ||
+    item.description
+      .split(/(?<=\.)\s+/)
+      .reduce(
+        (acc, sentence) => (`${acc} ${sentence}`.length <= 160 ? `${acc} ${sentence}` : acc),
+        `${item.category}. Zakres prac: ${item.scope}.`
+      );
+
+  /* Etykieta „Zdjęcie poglądowe” przy każdym kadrze, który nie dokumentuje
+     prawdziwej realizacji: z banku zdjęć albo z pozycji niepotwierdzonej. */
+  const placeholder = (src: string) => !item.verified || isPlaceholderImage(src);
 
   const crumbs = [{ label: "Realizacje", to: "/realizacje" }, { label: item.title }];
   /* Origin z konfiguracji, nie z przeglądarki — inaczej po ustawieniu
@@ -63,7 +69,7 @@ export function RealizacjaDetail() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/35 to-void/50" />
         <div className="grain absolute inset-0" />
-        <PlaceholderTag className="absolute right-5 top-24 md:right-10" />
+        {placeholder(item.cover) && <PlaceholderTag className="absolute right-5 top-24 md:right-10" />}
 
         <div className="container-edge absolute inset-x-0 bottom-0 pb-14 md:pb-20">
           <Link
@@ -102,7 +108,9 @@ export function RealizacjaDetail() {
               </div>
               <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                 <dt className="label text-void/70">Lokalizacja</dt>
-                <dd className="text-[15px] text-void/60">{item.location}</dd>
+                <dd className={`text-[15px] ${item.location ? "text-void/75" : "text-void/60"}`}>
+                  {item.location || "Do uzupełnienia"}
+                </dd>
               </div>
               <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                 <dt className="label text-void/70">Zakres prac</dt>
@@ -110,7 +118,9 @@ export function RealizacjaDetail() {
               </div>
               <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                 <dt className="label text-void/70">Zastosowany system</dt>
-                <dd className="text-[15px] text-void/60">Do uzupełnienia</dd>
+                <dd className={`text-[15px] ${item.system ? "text-void/75" : "text-void/60"}`}>
+                  {item.system || "Do uzupełnienia"}
+                </dd>
               </div>
             </dl>
 
@@ -139,7 +149,7 @@ export function RealizacjaDetail() {
             <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-x-8">
               {item.gallery.map((src, i) => (
                 <Reveal
-                  key={src}
+                  key={`${i}-${src}`}
                   delay={(i % 2) * 0.06}
                   /* Kadr pionowy dopiero od `lg` — patrz komentarz w `Realizacje`. */
                   className={`aspect-[4/3] ${
@@ -151,14 +161,16 @@ export function RealizacjaDetail() {
                   }`}
                 >
                   <div className="relative h-full w-full overflow-hidden">
-                    <ParallaxImage src={src} alt={`${item.title} — detal ${i + 1}`} className="h-full w-full" />
-                    <PlaceholderTag className="absolute right-3 top-3" />
+                    <ParallaxImage src={src} alt={`${item.title} – detal ${i + 1}`} className="h-full w-full" />
+                    {placeholder(src) && <PlaceholderTag className="absolute right-3 top-3" />}
                   </div>
                 </Reveal>
               ))}
             </div>
 
-            <p className="mt-14 max-w-3xl text-xs leading-relaxed text-limestone/55">{PORTFOLIO_DISCLAIMER}</p>
+            {!item.verified && (
+              <p className="mt-14 max-w-3xl text-xs leading-relaxed text-limestone/55">{PORTFOLIO_DISCLAIMER}</p>
+            )}
           </div>
         </section>
       )}

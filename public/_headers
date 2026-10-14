@@ -3,11 +3,28 @@
 #
 # WERSJA DEMO: X-Robots-Tag dubluje blokadę z robots.txt i index.html.
 # Nagłówek działa też dla plików, których meta nie obejmuje (PDF, obrazy).
-# PRZED PUBLIKACJĄ PRODUKCYJNĄ usunąć całą regułę /* razem z komentarzem —
-# checklista w SEO.md, punkt 3.
+# PRZED PUBLIKACJĄ PRODUKCYJNĄ usunąć TĘ regułę /* razem z komentarzem —
+# checklista w SEO.md, punkt 3. Reguły bezpieczeństwa niżej ZOSTAJĄ
+# (Netlify łączy nagłówki ze wszystkich pasujących reguł).
 
 /*
   X-Robots-Tag: noindex, nofollow
+
+# Bezpieczeństwo – na stałe, także po publikacji.
+#
+# Pełna polityka CSP strony stoi w <meta> w index.html (wstawia ją build,
+# źródło: SITE_CSP w vite.config.ts), panelu – w public/admin/index.html.
+# Tu tylko część wspólna: panel potrzebuje 'unsafe-eval', a dwie polityki
+# się sumują (przeglądarka egzekwuje obie), więc pełna CSP w tym nagłówku
+# zablokowałaby panel. frame-ancestors działa wyłącznie w nagłówku.
+/*
+  Content-Security-Policy: object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
 
 # Zasoby z hashem w nazwie nigdy nie zmieniają treści — mogą leżeć w cache
 # przeglądarki bez odpytywania serwera.

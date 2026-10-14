@@ -70,7 +70,7 @@ const BY_STANDARD: Record<string, GlossaryEntry> = {
   "12152": {
     id: "cw-air-permeability",
     term: "Przepuszczalność powietrza ściany osłonowej",
-    what: "To samo zjawisko co przy oknie, ale badane dla fasady jako całości — razem ze złączami między modułami i z mocowaniem do konstrukcji budynku.",
+    what: "To samo zjawisko co przy oknie, ale badane dla fasady jako całości – razem ze złączami między modułami i z mocowaniem do konstrukcji budynku.",
     standard: "PN-EN 12152",
     scale: null,
   },
@@ -84,14 +84,14 @@ const BY_STANDARD: Record<string, GlossaryEntry> = {
   "14019": {
     id: "cw-impact",
     term: "Odporność ściany osłonowej na uderzenie",
-    what: "Zachowanie fasady po uderzeniu ciałem miękkim i twardym — czy przeszklenie pozostaje na miejscu i czy nie powstaje zagrożenie dla przechodzących poniżej.",
+    what: "Zachowanie fasady po uderzeniu ciałem miękkim i twardym – czy przeszklenie pozostaje na miejscu i czy nie powstaje zagrożenie dla przechodzących poniżej.",
     standard: "PN-EN 14019",
     scale: null,
   },
   "13501": {
     id: "fire",
     term: "Klasyfikacja ogniowa",
-    what: "Zachowanie konstrukcji w pożarze. Klasa opisuje, przez ile minut przegroda zachowuje określone właściwości — nośność, szczelność ogniową, izolacyjność ogniową.",
+    what: "Zachowanie konstrukcji w pożarze. Klasa opisuje, przez ile minut przegroda zachowuje określone właściwości – nośność, szczelność ogniową, izolacyjność ogniową.",
     standard: "PN-EN 13501",
     scale: null,
   },
@@ -104,26 +104,26 @@ const BY_STANDARD: Record<string, GlossaryEntry> = {
  * czytelnik porównuje ramę z całym oknem i wychodzi mu nieprawda.
  */
 const U_NOTE =
-  "Uf, Uw i Ud to trzy różne wielkości — nie zestawia się ich ze sobą ani nie przelicza jednej na drugą.";
+  "Uf, Uw i Ud to trzy różne wielkości – nie zestawia się ich ze sobą ani nie przelicza jednej na drugą.";
 
 const BY_SYMBOL: Record<string, GlossaryEntry> = {
   f: {
     id: "uf",
-    term: "Uf — przenikanie ciepła profilu",
+    term: "Uf – przenikanie ciepła profilu",
     what: `Współczynnik dla samej ramy, bez szyby. Mówi o profilu, nie o gotowym oknie. ${U_NOTE}`,
     standard: null,
     scale: null,
   },
   w: {
     id: "uw",
-    term: "Uw — przenikanie ciepła okna",
+    term: "Uw – przenikanie ciepła okna",
     what: `Współczynnik dla całego okna: ramy razem z pakietem szybowym, w konkretnym wymiarze i podziale. ${U_NOTE}`,
     standard: null,
     scale: null,
   },
   d: {
     id: "ud",
-    term: "Ud — przenikanie ciepła drzwi",
+    term: "Ud – przenikanie ciepła drzwi",
     what: `Współczynnik dla kompletnych drzwi razem z wypełnieniem. ${U_NOTE}`,
     standard: null,
     scale: null,

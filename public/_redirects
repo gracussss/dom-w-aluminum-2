@@ -1,1 +1,3 @@
+# Panel: /admin bez ukośnika też ma otworzyć panel, a nie stronę 404 z aplikacji.
+/admin  /admin/  301
 /*  /index.html  200

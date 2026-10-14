@@ -1,0 +1,3 @@
+# Zbudowana paczka panelu (Decap CMS) – kod zewnętrzny, aktualizowany
+# skryptem `npm run cms:update`. Bez diffów i bez wpływu na statystyki języków.
+public/admin/vendor/** linguist-vendored -diff

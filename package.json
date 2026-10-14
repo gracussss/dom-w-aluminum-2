@@ -9,7 +9,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "cms:update": "node scripts/vendor-cms.mjs",
+    "cms:local": "npx --yes decap-server@3"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation, useNavigationType } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { CookieConsent } from "./CookieConsent";
+import { ErrorBoundary } from "../ErrorBoundary";
 import { scrollToElement, scrollToTop, scrollToY } from "../../lib/scroll";
-import { EASE_FRAME, EASE_OUT } from "../../lib/motion";
 
 if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
@@ -42,54 +41,6 @@ function restoreScroll(y: number) {
   };
 
   requestAnimationFrame(attempt);
-}
-
-/**
- * Przejście między podstronami: w poprzek kadru przesuwa się profil —
- * ciemne pasmo z aluminiową krawędzią — a treść pod nim wchodzi rozjaśnieniem.
- *
- * Świadomie nie ma tu zasłonięcia całego ekranu ani czekania na wyjście starej
- * strony: nowa treść montuje się od razu, przejście tylko przykrywa moment
- * podmiany. Nawigacja nie może być wolniejsza od kliknięcia.
- */
-function RouteSweep({ pathname }: { pathname: string }) {
-  const reduced = useReducedMotion();
-  const previous = useRef(pathname);
-  const [sweep, setSweep] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Pierwsze wejście na stronę nie jest przejściem — tam pracuje ekran startowy.
-    if (previous.current === pathname) return;
-    previous.current = pathname;
-    setSweep(pathname);
-  }, [pathname]);
-
-  if (reduced) return null;
-
-  return (
-    <AnimatePresence>
-      {sweep && (
-        <motion.div
-          key={sweep}
-          aria-hidden
-          initial={{ x: "-100%" }}
-          animate={{ x: "100%" }}
-          transition={{ duration: 0.62, ease: EASE_FRAME }}
-          onAnimationComplete={() => setSweep(null)}
-          className="pointer-events-none fixed inset-0 z-[70]"
-        >
-          <div
-            className="h-full w-full"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent 38%, rgba(11,12,13,0.85) 50%, transparent 62%)",
-            }}
-          />
-          <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-aluminium/40" />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
 }
 
 export function RootLayout() {
@@ -138,18 +89,16 @@ export function RootLayout() {
         Przejdź do treści
       </a>
       <Header />
-      <RouteSweep pathname={pathname} />
+      {/* Podstrona wchodzi od razu, bez przejścia. Wcześniej w poprzek ekranu
+          przesuwało się ciemne pasmo z pionową kreską, a treść rozjaśniała
+          się od zera. Klientka odebrała to jako „przeskakiwanie” i „kreski”,
+          a razem z dociąganiem podstrony — jako wolne ładowanie. */}
       <main id="tresc">
-        {/* Tylko krycie — żaden transform, żeby nie tworzyć bloku zawierającego
-            dla pinowanych i przyklejonych sekcji wewnątrz podstron. */}
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.06, ease: EASE_OUT }}
-        >
+        {/* Klucz = adres: po przejściu na inną podstronę błąd z poprzedniej
+            nie zostaje na ekranie – nagłówek działa, więc da się uciec. */}
+        <ErrorBoundary key={pathname}>
           <Outlet />
-        </motion.div>
+        </ErrorBoundary>
       </main>
       <Footer />
       <CookieConsent />

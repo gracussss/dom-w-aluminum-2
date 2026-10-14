@@ -5,7 +5,7 @@ import { breadcrumbJsonLd, itemListJsonLd } from "./jsonLd";
 
 describe("tytuły podstron", () => {
   it("dokleja markę na końcu", () => {
-    expect(buildTitle("Kontakt i wycena")).toBe(`Kontakt i wycena — ${SITE_NAME}`);
+    expect(buildTitle("Kontakt i wycena")).toBe(`Kontakt i wycena – ${SITE_NAME}`);
   });
 
   it("nie powtarza marki dwa razy na stronie głównej", () => {
@@ -33,11 +33,11 @@ describe("zdjęcia w kilku szerokościach", () => {
     expect(Math.max(...widths)).toBeLessThanOrEqual(1600);
   });
 
-  it("dla plików własnych firmy zwraca undefined — przeglądarka bierze samo src", () => {
+  it("dla plików własnych firmy zwraca undefined – przeglądarka bierze samo src", () => {
     expect(responsiveSrcSet("/zdjecia/realizacja-01.webp")).toBeUndefined();
   });
 
-  it("nie tworzy srcSet z jednej szerokości — taki wybór niczego nie wnosi", () => {
+  it("nie tworzy srcSet z jednej szerokości – taki wybór niczego nie wnosi", () => {
     expect(responsiveSrcSet("https://images.unsplash.com/photo-123?w=400")).toBeUndefined();
   });
 

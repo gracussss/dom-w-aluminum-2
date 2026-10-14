@@ -39,12 +39,43 @@ const REMOTE_HOST = "images.unsplash.com";
    ------------------------------------------------------------------ */
 export const PHOTO_TONE = "sat=-32&con=6";
 
+/** Zdjęcie z banku (materiał tymczasowy), a nie plik wgrany przez firmę. */
+export function isPlaceholderImage(src: string): boolean {
+  return src.includes(REMOTE_HOST);
+}
+
+/* ------------------------------------------------------------------
+   ZDJĘCIA WGRANE PRZEZ PANEL
+
+   Panel zapisuje pliki w `public/uploads` dokładnie takie, jakie przyszły
+   z telefonu czy aparatu — często 4000 px i kilka MB. Na Netlify skaluje
+   je Image CDN (`/.netlify/images`): ten sam plik w kilku szerokościach
+   i w formacie, który przeglądarka obsługuje (AVIF/WebP).
+
+   Poza Netlify (`npm run dev`, `vite preview`) tej ścieżki nie ma
+   i warianty byłyby zepsutymi obrazkami — wtedy zostaje samo `src`.
+   Flagę ustawia vite.config.ts na podstawie zmiennej NETLIFY z builda.
+   ------------------------------------------------------------------ */
+declare const __NETLIFY_IMAGES__: boolean | undefined;
+
+/* `typeof`, bo ten sam moduł czyta też vite.config.ts (podgląd LCP) —
+   tam stała nie jest podstawiona i goły odczyt rzucałby ReferenceError. */
+const NETLIFY_IMAGES = typeof __NETLIFY_IMAGES__ !== "undefined" && __NETLIFY_IMAGES__ === true;
+
+function netlifySrcSet(src: string): string {
+  return WIDTHS.map((w) => `/.netlify/images?url=${encodeURIComponent(src)}&w=${w} ${w}w`).join(", ");
+}
+
 /**
  * `srcSet` zbudowany z adresu źródłowego. Nie schodzimy powyżej szerokości
  * zapisanej w `src` — ta jest deklaracją maksymalnej sensownej wielkości
  * kadru i podnoszenie jej dawałoby rozmycie zamiast ostrości.
+ *
+ * `netlify` — czy są dostępne warianty z Netlify Image CDN (domyślnie:
+ * według builda; vite.config.ts podaje to jawnie).
  */
-export function responsiveSrcSet(src: string): string | undefined {
+export function responsiveSrcSet(src: string, netlify = NETLIFY_IMAGES): string | undefined {
+  if (src.startsWith("/uploads/")) return netlify ? netlifySrcSet(src) : undefined;
   if (!src.includes(REMOTE_HOST)) return undefined;
 
   let url: URL;

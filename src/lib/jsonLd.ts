@@ -1,5 +1,5 @@
 import type { Crumb } from "../components/ui/Breadcrumbs";
-import { company } from "../data/company";
+import { company, socialLinks } from "../data/company";
 import { absoluteUrl, SITE_NAME } from "./seo";
 
 /* ------------------------------------------------------------------
@@ -29,11 +29,14 @@ export function breadcrumbJsonLd(items: Crumb[], origin: string) {
 }
 
 /**
- * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta:
- * nazwa, adres i telefon. Bez NIP-u, godzin otwarcia, obszaru działania
- * i profili społecznościowych — te pola dopiszemy, gdy będą znane.
+ * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta: nazwa, adres,
+ * telefon, logo, profile społecznościowe, godziny pracy i e-mail — wszystko
+ * z panelu („Dane firmy”). Puste pole w panelu znika też ze schema.org.
+ * Bez NIP-u i obszaru działania.
  */
 export function organizationJsonLd() {
+  const sameAs = Object.values(socialLinks).filter((url): url is string => Boolean(url));
+
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
@@ -41,6 +44,10 @@ export function organizationJsonLd() {
     name: company.legalName,
     alternateName: SITE_NAME,
     url: absoluteUrl("/"),
+    logo: absoluteUrl("/logo.png"),
+    ...(company.openingHours.length > 0 ? { openingHours: company.openingHours } : {}),
+    ...(company.email ? { email: company.email } : {}),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
     telephone: company.phone.href.replace("tel:", ""),
     address: {
       "@type": "PostalAddress",

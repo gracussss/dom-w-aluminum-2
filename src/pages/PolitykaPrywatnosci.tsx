@@ -16,7 +16,7 @@ const sections: { title: string; body: ReactNode }[] = [
         </p>
         <LegalPlaceholder>
           Miejsce na numer NIP / REGON / KRS oraz dane kontaktowe do spraw
-          związanych z ochroną danych osobowych — do uzupełnienia przez
+          związanych z ochroną danych osobowych – do uzupełnienia przez
           klienta.
         </LegalPlaceholder>
       </>
@@ -42,7 +42,7 @@ const sections: { title: string; body: ReactNode }[] = [
         </p>
         <LegalPlaceholder>
           Miejsce na dokładne wskazanie podstaw prawnych przetwarzania
-          (np. art. 6 ust. 1 RODO) — do potwierdzenia z klientem / prawnikiem.
+          (np. art. 6 ust. 1 RODO) – do potwierdzenia z klientem / prawnikiem.
         </LegalPlaceholder>
       </>
     ),
@@ -51,7 +51,7 @@ const sections: { title: string; body: ReactNode }[] = [
     title: "4. Okres przechowywania danych",
     body: (
       <LegalPlaceholder>
-        Miejsce na wskazanie okresu przechowywania danych — do uzupełnienia.
+        Miejsce na wskazanie okresu przechowywania danych – do uzupełnienia.
       </LegalPlaceholder>
     ),
   },
@@ -80,7 +80,7 @@ const sections: { title: string; body: ReactNode }[] = [
   },
   {
     title: "7. Kontakt",
-    body: <p>W sprawach związanych z ochroną danych osobowych prosimy o kontakt telefoniczny — {company.phone.display}.</p>,
+    body: <p>W sprawach związanych z ochroną danych osobowych prosimy o kontakt telefoniczny – {company.phone.display}.</p>,
   },
 ];
 
@@ -89,12 +89,12 @@ export function PolitykaPrywatnosci() {
     <>
       <Seo
         title="Polityka prywatności"
-        description="Zasady przetwarzania danych osobowych przez Alukoncept Sp. z o.o. — zakres danych, cele, podstawy prawne i prawa osoby, której dane dotyczą."
+        description="Zasady przetwarzania danych osobowych przez Alukoncept Sp. z o.o. – zakres danych, cele, podstawy prawne i prawa osoby, której dane dotyczą."
       />
       <PageHero
         eyebrow="Dokument"
         title="Polityka prywatności"
-        description="Poniższy dokument ma charakter roboczy — treści oznaczone jako placeholder wymagają uzupełnienia przed publikacją produkcyjną."
+        description="Poniższy dokument ma charakter roboczy – treści oznaczone jako placeholder wymagają uzupełnienia przed publikacją produkcyjną."
         variant="quiet"
       />
 

@@ -1,0 +1,284 @@
+# ------------------------------------------------------------------
+# PANEL ADMINISTRACYJNY (Decap CMS) — /admin
+#
+# Każdy zapis w panelu to commit do repozytorium; Netlify buduje stronę
+# od nowa i po 1–2 minutach zmiana jest widoczna. Treści leżą w plikach
+# src/content/*.json — strona czyta je przez src/data/*.ts.
+#
+# Instrukcja (logowanie, zapraszanie, praca lokalna): PANEL.md.
+# ------------------------------------------------------------------
+
+backend:
+  # Logowanie e-mailem i hasłem (Netlify Identity) — klient nie potrzebuje
+  # konta na GitHubie. Konfiguracja po stronie Netlify: PANEL.md.
+  name: git-gateway
+  # Gałąź, z której Netlify buduje stronę główną — zapis w panelu od razu
+  # trafia na stronę. Inna gałąź = zmiany widoczne tylko w jej podglądzie.
+  branch: main
+  commit_messages:
+    create: "Panel: dodano {{collection}} „{{slug}}”"
+    update: "Panel: zmieniono {{collection}} „{{slug}}”"
+    delete: "Panel: usunięto {{collection}} „{{slug}}”"
+    uploadMedia: "Panel: wgrano plik {{path}}"
+    deleteMedia: "Panel: usunięto plik {{path}}"
+
+# Na localhost panel zapisuje pliki prosto na dysk przez `npx decap-server`
+# — bez logowania i bez commitów. Na serwerze to ustawienie nic nie robi.
+local_backend: true
+
+locale: pl
+logo_url: /logo.png
+# Po podpięciu domeny: zmienić oba adresy na nią (PANEL.md, sekcja 3).
+site_url: https://domwaluminum.netlify.app
+display_url: https://domwaluminum.netlify.app
+
+# Zdjęcia z panelu: pliki w public/uploads, na stronie pod /uploads/…
+# Na Netlify skaluje je Image CDN (src/lib/responsiveImage.ts), więc zdjęcie
+# prosto z telefonu jest w porządku — limit chroni tylko repozytorium
+# przed plikami po kilkadziesiąt MB (np. zdjęcia RAW).
+media_folder: public/uploads
+public_folder: /uploads
+
+# Nazwy wgrywanych plików bez polskich znaków i spacji („Dom Będzin.jpg”
+# → „dom-bedzin.jpg”) — inaczej adresy zdjęć psuły się w części przeglądarek.
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # ---------------------------------------------------------------
+  - name: realizacje
+    label: Realizacje
+    label_singular: Realizacje
+    description: >-
+      Lista realizacji na stronie /realizacje. Kolejność tutaj = kolejność
+      na stronie (pozycje można przeciągać). Nowa realizacja dodaje się na
+      początku listy.
+    editor: { preview: false }
+    files:
+      - name: realizacje
+        label: Realizacje
+        file: src/content/realizacje.json
+        fields:
+          - name: items
+            label: Realizacje
+            label_singular: realizację
+            widget: list
+            collapsed: true
+            add_to_top: true
+            summary: "{{fields.title}} · {{fields.category}}"
+            fields:
+              - { name: title, label: Tytuł, widget: string, hint: "Np. Dom jednorodzinny w Będzinie" }
+              - name: category
+                label: Typ obiektu
+                widget: select
+                default: Realizacja prywatna
+                options:
+                  - Realizacja prywatna
+                  - Budynek wielorodzinny
+                  - Obiekt komercyjny
+                  - Obiekt użyteczności publicznej
+              - { name: location, label: Miejscowość, widget: string, required: false, hint: "Zostaw puste, jeśli inwestor nie chce podawać lokalizacji – na stronie będzie „Do uzupełnienia”." }
+              - { name: scope, label: Zakres prac, widget: string, hint: "Np. Okna, drzwi tarasowe, fasada" }
+              - { name: system, label: Zastosowany system, widget: string, required: false, hint: "Np. MB-79N. Zostaw puste, jeśli nie wiesz." }
+              - { name: description, label: Opis, widget: text, hint: "2–4 zdania: co zostało wykonane, czym się wyróżnia." }
+              - name: cover
+                label: Zdjęcie główne
+                widget: image
+                choose_url: false
+                hint: "Najlepiej poziome. Zdjęcie prosto z telefonu jest w porządku (do 10 MB)."
+              - name: gallery
+                label: Pozostałe zdjęcia
+                label_singular: zdjęcie
+                widget: list
+                required: false
+                field: { name: src, label: Zdjęcie, widget: image, choose_url: false }
+              - name: verified
+                label: Prawdziwa realizacja firmy
+                widget: boolean
+                default: false
+                hint: >-
+                  Zaznacz, gdy zdjęcia i opis pokazują obiekt wykonany przez
+                  firmę. Dopiero wtedy realizacja trafia do Google i znika przy
+                  niej etykieta „Zdjęcie poglądowe”.
+              - name: seoDescription
+                label: Opis w Google (opcjonalnie)
+                widget: text
+                required: false
+                pattern: ['^[\s\S]{0,160}$', "Najwyżej 160 znaków – dłuższy opis Google i tak utnie."]
+                hint: "Zostaw puste – strona ułoży go sama z typu, zakresu i opisu."
+              - name: slug
+                label: Adres podstrony (opcjonalnie)
+                widget: string
+                required: false
+                pattern: ['^[a-z0-9-]*$', "Tylko małe litery bez polskich znaków, cyfry i myślniki."]
+                hint: >-
+                  Zostaw puste – adres powstanie z tytułu. Zmiana adresu
+                  opublikowanej realizacji psuje linki, które ktoś już udostępnił.
+
+  # ---------------------------------------------------------------
+  - name: oferta
+    label: Zakres prac
+    description: >-
+      Obszary oferty: lista na stronie głównej („Co wykonujemy”) i podstrona
+      /oferta. Kolejność można zmieniać przeciąganiem.
+    editor: { preview: false }
+    files:
+      - name: oferta
+        label: Zakres prac
+        file: src/content/oferta.json
+        fields:
+          - name: items
+            label: Obszary oferty
+            label_singular: obszar
+            widget: list
+            collapsed: true
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: Nazwa, widget: string, hint: "Np. Okna aluminiowe" }
+              - { name: short, label: Krótki opis (strona główna), widget: string, hint: "Jedno zdanie pod nazwą, np. „Wąskie ramy, maksimum światła”." }
+              - { name: description, label: Opis (podstrona Oferta), widget: text }
+              - name: categoryId
+                label: Przycisk „Zobacz systemy” prowadzi do kategorii
+                widget: select
+                options:
+                  - { label: Okna, value: okna }
+                  - { label: Drzwi, value: drzwi }
+                  - { label: Drzwi przesuwne, value: przesuwne }
+                  - { label: Fasady, value: fasady }
+                  - { label: Ściany wewnętrzne, value: wewnetrzne }
+                  - { label: Systemy przeciwpożarowe, value: ppoz }
+                  - { label: Rozwiązania indywidualne, value: indywidualne }
+              - { name: image, label: Zdjęcie, widget: image, choose_url: false }
+
+  # ---------------------------------------------------------------
+  - name: zdjecia
+    label: Zdjęcia na stronie
+    description: Duże zdjęcia stałych miejsc strony. Puste pole zostawia dotychczasowe zdjęcie.
+    editor: { preview: false }
+    files:
+      - name: zdjecia
+        label: Zdjęcia na stronie
+        file: src/content/zdjecia.json
+        fields:
+          - name: hero
+            label: Strona główna – pierwszy ekran
+            widget: object
+            fields:
+              - { name: src, label: Zdjęcie, widget: image, choose_url: false, hint: "Poziome, najlepiej co najmniej 2000 px szerokości. Na zdjęciu stoi biały napis – lepiej sprawdzają się kadry ciemniejsze z lewej strony." }
+              - { name: alt, label: Opis zdjęcia (dla Google i niewidomych), widget: string, hint: "Co widać na zdjęciu, np. „Fasada aluminiowa biurowca w Katowicach”." }
+          - name: about
+            label: O nas – zdjęcie przy tekście
+            widget: object
+            fields:
+              - { name: src, label: Zdjęcie, widget: image, choose_url: false }
+              - { name: alt, label: Opis zdjęcia (dla Google i niewidomych), widget: string }
+          - name: contact
+            label: Strona główna – tło sekcji Kontakt
+            widget: object
+            fields:
+              - { name: src, label: Zdjęcie, widget: image, choose_url: false, hint: "Wyświetla się mocno przyciemnione – detal albo faktura sprawdzi się lepiej niż cały budynek." }
+
+  # ---------------------------------------------------------------
+  - name: teksty
+    label: Teksty
+    editor: { preview: false }
+    files:
+      - name: strona-glowna
+        label: Strona główna
+        file: src/content/strona-glowna.json
+        fields:
+          - { name: heroEyebrow, label: Napis nad nagłówkiem, widget: string }
+          - { name: heroLead, label: Tekst pod nagłówkiem, widget: text, hint: "1–2 zdania. Dłuższy tekst nie zmieści się obok nagłówka." }
+      - name: o-nas
+        label: O nas
+        file: src/content/o-nas.json
+        fields:
+          - { name: pageTitle, label: Nagłówek strony, widget: string }
+          - { name: headline, label: Tytuł przy zdjęciu – pierwsza linia, widget: string }
+          - { name: headlineAccent, label: Tytuł przy zdjęciu – druga linia (kursywa), widget: string, required: false }
+          - { name: body, label: Tekst o firmie, widget: text, hint: "Nowy akapit: zostaw pustą linię." }
+          - { name: scope, label: Zakres prac (w tabelce), widget: string, required: false }
+
+  # ---------------------------------------------------------------
+  - name: seo
+    label: Google (SEO)
+    description: >-
+      Tytuł i opis każdej podstrony w wynikach Google. Tytuł dostaje na końcu
+      „– Alukoncept”. Zmiany Google zauważa zwykle po kilku dniach.
+    editor: { preview: false }
+    files:
+      - name: seo
+        label: Tytuły i opisy podstron
+        file: src/content/seo.json
+        fields:
+          - &seoPage
+            name: home
+            label: Strona główna
+            widget: object
+            collapsed: true
+            fields:
+              - name: title
+                label: Tytuł
+                widget: string
+                pattern: ['^.{1,60}$', "Najwyżej 60 znaków – dłuższy tytuł Google utnie."]
+              - name: description
+                label: Opis
+                widget: text
+                pattern: ['^[\s\S]{50,160}$', "Od 50 do 160 znaków – tyle Google pokazuje pod tytułem."]
+          - { <<: *seoPage, name: oferta, label: Oferta }
+          - { <<: *seoPage, name: systemy, label: Systemy (katalog) }
+          - { <<: *seoPage, name: realizacje, label: Realizacje }
+          - { <<: *seoPage, name: oNas, label: O nas }
+          - { <<: *seoPage, name: kontakt, label: Kontakt }
+
+  # ---------------------------------------------------------------
+  - name: firma
+    label: Dane firmy
+    description: Dane w stopce, na stronie Kontakt, w „O nas” i w wizytówce dla Google.
+    editor: { preview: false }
+    files:
+      - name: firma
+        label: Dane firmy
+        file: src/content/firma.json
+        fields:
+          - { name: legalName, label: Pełna nazwa firmy, widget: string }
+          - { name: street, label: Ulica i numer, widget: string }
+          - { name: postalCode, label: Kod pocztowy, widget: string, pattern: ['^\d{2}-\d{3}$', "Format 00-000"] }
+          - { name: city, label: Miasto, widget: string }
+          - name: phone
+            label: Telefon
+            widget: string
+            pattern: ['^\+?[0-9 ]{9,16}$', "Same cyfry i spacje, np. 695 704 228"]
+            hint: Tak, jak ma się wyświetlać. Link do dzwonienia powstaje sam.
+          - name: email
+            label: E-mail
+            widget: string
+            required: false
+            pattern: ['^(\S+@\S+\.\S+)?$', "Niepoprawny adres e-mail"]
+            hint: Puste pole = e-mail nie wyświetla się na stronie.
+          - name: hoursWeekdays
+            label: Godziny pracy pon.–pt.
+            widget: object
+            fields:
+              - &hour { name: from, label: Od, widget: string, pattern: ['^([01]?\d|2[0-3]):[0-5]\d$', "Format 6:00"] }
+              - { <<: *hour, name: to, label: Do }
+          - name: hoursSaturday
+            label: Godziny pracy w sobotę
+            widget: object
+            hint: Oba pola puste = sobota nieczynna.
+            fields:
+              - { <<: *hour, required: false, pattern: ['^(([01]?\d|2[0-3]):[0-5]\d)?$', "Format 8:00"] }
+              - { <<: *hour, name: to, label: Do, required: false, pattern: ['^(([01]?\d|2[0-3]):[0-5]\d)?$', "Format 12:00"] }
+          - name: facebook
+            label: Facebook (adres profilu)
+            widget: string
+            required: false
+            pattern: ['^(https://\S+)?$', "Pełny adres zaczynający się od https://"]
+          - name: instagram
+            label: Instagram (adres profilu)
+            widget: string
+            required: false
+            pattern: ['^(https://\S+)?$', "Pełny adres zaczynający się od https://"]
+            hint: Puste pole = ikona widoczna jako „profil w przygotowaniu”.

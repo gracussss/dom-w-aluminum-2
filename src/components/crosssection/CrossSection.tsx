@@ -412,7 +412,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
   const drawingContent = isReal ? (
     <img
       src={current!.imageSrc as string}
-      alt={`${subject ?? ""} — ${current!.label}`}
+      alt={`${subject ?? ""} – ${current!.label}`}
       className="h-full w-full object-contain"
       draggable={false}
       loading="lazy"
@@ -476,7 +476,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
             <>
               <p className="label text-bronze-light">Rysunek producenta</p>
               <p className="mt-5 text-sm leading-relaxed text-limestone/60">
-                {subject ? `${subject} — ${current!.label}` : current!.label}
+                {subject ? `${subject} – ${current!.label}` : current!.label}
               </p>
               {current!.source && (
                 <p className="mt-3 text-xs leading-relaxed text-limestone/55">
@@ -516,7 +516,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
             ref={fullscreenRef}
             role="dialog"
             aria-modal="true"
-            aria-label={isReal ? `${subject ?? "Przekrój"} — ${current!.label}` : schematic!.label}
+            aria-label={isReal ? `${subject ?? "Przekrój"} – ${current!.label}` : schematic!.label}
             data-lenis-prevent
             className="fixed inset-0 z-[100] flex flex-col bg-void/97 backdrop-blur-sm"
           >
@@ -524,7 +524,7 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
               <div>
                 <p className="label text-bronze-light">{badge}</p>
                 <p className="mt-1.5 text-sm text-limestone/70">
-                  {isReal ? `${subject ?? ""} — ${current!.label}` : schematic!.label}
+                  {isReal ? `${subject ?? ""} – ${current!.label}` : schematic!.label}
                 </p>
               </div>
               <button

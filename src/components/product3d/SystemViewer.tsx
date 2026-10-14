@@ -214,7 +214,7 @@ export function SystemViewer({
 
         {!isRealModel && (
           <p className={`mt-4 text-xs leading-relaxed ${c.body}`}>
-            Model parametryczny, poglądowy — odwzorowuje typ konstrukcji,
+            Model parametryczny, poglądowy – odwzorowuje typ konstrukcji,
             nie rzeczywistą geometrię profili. Po otrzymaniu plików od
             producenta zostanie zastąpiony modelem systemu.
           </p>

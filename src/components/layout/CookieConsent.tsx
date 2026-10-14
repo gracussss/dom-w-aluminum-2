@@ -120,8 +120,8 @@ export function CookieConsent() {
                     id="cookie-consent-desc"
                     className="mt-2.5 text-sm leading-relaxed text-limestone/70"
                   >
-                    Używamy plików cookies niezbędnych do działania strony oraz —
-                    za Twoją zgodą — analitycznych i marketingowych. Szczegóły
+                    Używamy plików cookies niezbędnych do działania strony oraz –
+                    za Twoją zgodą – analitycznych i marketingowych. Szczegóły
                     znajdziesz w{" "}
                     <Link to="/cookies" className="underline underline-offset-2 hover:text-limestone">
                       polityce cookies
@@ -168,7 +168,7 @@ export function CookieConsent() {
               {settingsOpen && (
                 <div className="mt-5 max-w-2xl space-y-3 border-t border-limestone/10 pt-5">
                   <label className="flex items-center justify-between gap-4 py-1 text-sm text-limestone/70">
-                    <span>Niezbędne — zawsze aktywne</span>
+                    <span>Niezbędne – zawsze aktywne</span>
                     <input type="checkbox" checked disabled className="h-4 w-4 accent-bronze" />
                   </label>
                   <label className="flex items-center justify-between gap-4 py-1 text-sm text-limestone/70">

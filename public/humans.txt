@@ -1,0 +1,7 @@
+/* TEAM */
+Projekt i realizacja: Gracjan Kubala
+Kraj: Polska
+
+/* SITE */
+Klient: Alukoncept Sp. z o.o., Sosnowiec
+Technologia: React, TypeScript, Vite, three.js

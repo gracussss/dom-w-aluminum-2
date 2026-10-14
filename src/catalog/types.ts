@@ -54,7 +54,8 @@ export interface Application {
 export interface ConstructionType {
   id: string;
   name: string;
-  /** Symbol rysunkowy w katalogu — patrz ConstructionGlyph. */
+  /** Oznaczenie symbolu rysunkowego typu konstrukcji. Symbol zniknął z listy
+      katalogu (klientka nie rozumiała, co oznacza) — pole zostaje w modelu. */
   glyph: string;
 }
 

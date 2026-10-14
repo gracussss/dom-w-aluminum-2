@@ -8,9 +8,9 @@ import type { SchematicDefinition } from "../types";
 
 export const facadeSchematic: SchematicDefinition = {
   id: "fasada",
-  label: "Fasada słupowo-ryglowa — przekrój poziomy przez słup",
+  label: "Fasada słupowo-ryglowa – przekrój poziomy przez słup",
   description:
-    "Rysunek pokazuje styk dwóch pakietów szybowych na słupie. Ta sama zasada obowiązuje na ryglu — różni się tylko ułożeniem profilu i odprowadzeniem wody.",
+    "Rysunek pokazuje styk dwóch pakietów szybowych na słupie. Ta sama zasada obowiązuje na ryglu – różni się tylko ułożeniem profilu i odprowadzeniem wody.",
   viewBox: "0 0 1000 620",
   outsideLabel: "ZEWNĄTRZ",
   insideLabel: "WEWNĄTRZ",
@@ -19,14 +19,14 @@ export const facadeSchematic: SchematicDefinition = {
     {
       id: "slup",
       no: 1,
-      label: "Słup — profil nośny",
+      label: "Słup – profil nośny",
       desc: "Główny element konstrukcyjny fasady. Przenosi ciężar przeszkleń i obciążenie wiatrem na konstrukcję budynku.",
     },
     {
       id: "dociskowy",
       no: 2,
       label: "Profil dociskowy",
-      desc: "Przykręcany do słupa od zewnątrz. Dociska oba pakiety szybowe do uszczelek — to on utrzymuje szkło.",
+      desc: "Przykręcany do słupa od zewnątrz. Dociska oba pakiety szybowe do uszczelek – to on utrzymuje szkło.",
     },
     {
       id: "listwa",
@@ -44,13 +44,13 @@ export const facadeSchematic: SchematicDefinition = {
       id: "uszczelki",
       no: 5,
       label: "Uszczelki szklenia",
-      desc: "Uszczelnienie po obu stronach szkła — wewnętrzne układa szybę na słupie, zewnętrzne przejmuje docisk.",
+      desc: "Uszczelnienie po obu stronach szkła – wewnętrzne układa szybę na słupie, zewnętrzne przejmuje docisk.",
     },
     {
       id: "szyba",
       no: 6,
       label: "Pakiet szybowy",
-      desc: "Dwa sąsiednie pakiety spotykają się na osi słupa. Krawędź szkła nie styka się z aluminium — pracuje na uszczelkach.",
+      desc: "Dwa sąsiednie pakiety spotykają się na osi słupa. Krawędź szkła nie styka się z aluminium – pracuje na uszczelkach.",
     },
     {
       id: "sruba",
