@@ -1,0 +1,33 @@
+{
+  "name": "MB-SR50N IW",
+  "nameConfirmed": true,
+  "order": 220,
+  "aluprof": "mb-sr50n-iw",
+  "summary": "Okno otwierane do wewnątrz zintegrowane z fasadą",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uf od 1,68",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "E1500",
+      "note": "EN 122008"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "E2400",
+      "note": "EN 12210"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "E5/I5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

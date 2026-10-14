@@ -1,0 +1,15 @@
+{
+  "title": "Apartamentowiec",
+  "date": "2026-01-03",
+  "category": "Budynek wielorodzinny",
+  "location": "",
+  "scope": "Okna, drzwi balkonowe",
+  "system": "",
+  "description": "Przykład zabudowy wielorodzinnej z powtarzalnymi modułami stolarki. Zakres do uzupełnienia.",
+  "seoDescription": "",
+  "cover": "https://images.unsplash.com/photo-1786609836782-fafdcd51d8d8?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+  "gallery": [
+    "https://images.unsplash.com/photo-1783705093954-a4d64bb7bf69?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6"
+  ],
+  "verified": false
+}

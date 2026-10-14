@@ -1,0 +1,17 @@
+{
+  "title": "Dom jednorodzinny",
+  "date": "2026-01-06",
+  "category": "Realizacja prywatna",
+  "location": "",
+  "scope": "Okna, drzwi tarasowe",
+  "system": "",
+  "description": "Przykład zabudowy jednorodzinnej z dużymi przeszkleniami w konstrukcji aluminiowej. Opis zakresu prac do uzupełnienia.",
+  "seoDescription": "",
+  "cover": "https://images.unsplash.com/photo-1628012209120-d9db7abf7eab?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+  "gallery": [
+    "https://images.unsplash.com/photo-1783125127229-0850d689e014?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+    "https://images.unsplash.com/photo-1783125127082-3fb6c1bccd72?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+    "https://images.unsplash.com/photo-1760304879576-81565137ff2e?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6"
+  ],
+  "verified": false
+}

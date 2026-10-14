@@ -114,7 +114,10 @@ export function Footer() {
 
         <div className="flex flex-col gap-4 border-t border-limestone/10 py-8 text-xs text-limestone/55 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {company.legalName}. Wszelkie prawa zastrzeżone.
+            {/* Bez drugiej kropki po „Sp. z o.o.” — nazwa spółki kończy się kropką. */}
+            © {new Date().getFullYear()} {company.legalName.replace(/\.$/, "")}. Wszelkie prawa zastrzeżone.
+            {/* NIP dopiero, gdy klient poda go w panelu (Dane firmy). */}
+            {company.legal.nip && <span className="whitespace-nowrap"> NIP: {company.legal.nip}</span>}
           </p>
           {/* Podpis autora strony – na prośbę wykonawcy (październik 2026). */}
           <p>Projekt i realizacja: Gracjan Kubala</p>

@@ -1,0 +1,37 @@
+{
+  "name": "MB-86N",
+  "nameConfirmed": true,
+  "order": 90,
+  "aluprof": "mb-86n",
+  "summary": "System okienno-drzwiowy z izolacją termiczną",
+  "categories": [
+    "okna",
+    "drzwi",
+    "indywidualne"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna okna",
+      "value": "Uw od 0,62",
+      "note": "W(m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza okna",
+      "value": "klasa 4",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Wodoszczelność okna",
+      "value": "klasa E 4800 Pa",
+      "note": "PN-EN 12208"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem okna",
+      "value": "klasa C5",
+      "note": "PN-EN 12210"
+    }
+  ],
+  "depth": "86 mm",
+  "sourceDate": "2026-08-28"
+}

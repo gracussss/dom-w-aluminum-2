@@ -3,9 +3,10 @@
 #
 # Każdy zapis w panelu to commit do repozytorium; Netlify buduje stronę
 # od nowa i po 1–2 minutach zmiana jest widoczna. Treści leżą w plikach
-# src/content/*.json — strona czyta je przez src/data/*.ts.
+# src/content/ — strona czyta je przez src/data/*.ts.
 #
 # Instrukcja (logowanie, zapraszanie, praca lokalna): PANEL.md.
+# Testy styku panel ↔ strona: src/data/content.test.ts.
 # ------------------------------------------------------------------
 
 backend:
@@ -22,6 +23,12 @@ backend:
     uploadMedia: "Panel: wgrano plik {{path}}"
     deleteMedia: "Panel: usunięto plik {{path}}"
 
+# Wersje robocze: zapis w panelu NIE trafia od razu na stronę. Każda zmiana
+# dostaje własną gałąź i podgląd na Netlify (przycisk „Podgląd” w panelu),
+# a na stronę wchodzi dopiero po „Opublikuj”. Klient nie zepsuje strony
+# literówką ani źle wgranym zdjęciem — najpierw widzi wynik.
+publish_mode: editorial_workflow
+
 # Na localhost panel zapisuje pliki prosto na dysk przez `npx decap-server`
 # — bez logowania i bez commitów. Na serwerze to ustawienie nic nie robi.
 local_backend: true
@@ -34,88 +41,287 @@ display_url: https://domwaluminum.netlify.app
 
 # Zdjęcia z panelu: pliki w public/uploads, na stronie pod /uploads/…
 # Na Netlify skaluje je Image CDN (src/lib/responsiveImage.ts), więc zdjęcie
-# prosto z telefonu jest w porządku — limit chroni tylko repozytorium
-# przed plikami po kilkadziesiąt MB (np. zdjęcia RAW).
+# prosto z telefonu jest w porządku.
 media_folder: public/uploads
 public_folder: /uploads
 
-# Nazwy wgrywanych plików bez polskich znaków i spacji („Dom Będzin.jpg”
-# → „dom-bedzin.jpg”) — inaczej adresy zdjęć psuły się w części przeglądarek.
+# Nazwy plików i adresy wpisów bez polskich znaków i spacji („Dom Będzin.jpg”
+# → „dom-bedzin.jpg”) — inaczej adresy psuły się w części przeglądarek.
 slug:
   encoding: ascii
   clean_accents: true
   sanitize_replacement: "-"
 
+# ------------------------------------------------------------------
+# Wspólne kawałki formularzy (kotwice YAML) — zdefiniowane przy pierwszym
+# użyciu, niżej powtarzane przez *nazwa.
+# ------------------------------------------------------------------
+
 collections:
   # ---------------------------------------------------------------
   - name: realizacje
     label: Realizacje
-    label_singular: Realizacje
+    label_singular: realizację
     description: >-
-      Lista realizacji na stronie /realizacje. Kolejność tutaj = kolejność
-      na stronie (pozycje można przeciągać). Nowa realizacja dodaje się na
-      początku listy.
-    editor: { preview: false }
+      Każda realizacja to osobny wpis. Na stronie najnowsze są na górze —
+      kolejność ustawia pole „Data”.
+    folder: src/content/realizacje
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: [date, title, category]
+    view_filters:
+      - { label: Prawdziwe realizacje, field: verified, pattern: true }
+      - { label: Przykłady poglądowe, field: verified, pattern: false }
+    fields:
+      - { name: title, label: Tytuł, widget: string, hint: "Np. Dom jednorodzinny w Będzinie. Adres podstrony powstaje z tytułu przy pierwszym zapisie i później się nie zmienia." }
+      - &date
+        name: date
+        label: Data
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        default: "{{now}}"
+        hint: Ustawia kolejność na liście — najnowsze na górze.
+      - name: category
+        label: Typ obiektu
+        widget: select
+        default: Realizacja prywatna
+        options:
+          - Realizacja prywatna
+          - Budynek wielorodzinny
+          - Obiekt komercyjny
+          - Obiekt użyteczności publicznej
+      - { name: location, label: Miejscowość, widget: string, required: false, hint: "Zostaw puste, jeśli inwestor nie chce podawać lokalizacji – na stronie będzie „Do uzupełnienia”." }
+      - { name: scope, label: Zakres prac, widget: string, hint: "Np. Okna, drzwi tarasowe, fasada" }
+      - { name: system, label: Zastosowany system, widget: string, required: false, hint: "Np. MB-79N. Zostaw puste, jeśli nie wiesz." }
+      - { name: description, label: Opis, widget: text, hint: "2–4 zdania: co zostało wykonane, czym się wyróżnia." }
+      - &photo
+        name: cover
+        label: Zdjęcie główne
+        widget: image
+        choose_url: false
+        hint: "Najlepiej poziome. Zdjęcie prosto z telefonu jest w porządku."
+      - name: gallery
+        label: Pozostałe zdjęcia
+        label_singular: zdjęcie
+        widget: list
+        required: false
+        field: { name: src, label: Zdjęcie, widget: image, choose_url: false }
+      - name: verified
+        label: Prawdziwa realizacja firmy
+        widget: boolean
+        default: false
+        hint: >-
+          Zaznacz, gdy zdjęcia i opis pokazują obiekt wykonany przez
+          firmę. Dopiero wtedy realizacja trafia do Google i znika przy
+          niej etykieta „Zdjęcie poglądowe”.
+      - &seoDescription
+        name: seoDescription
+        label: Opis w Google (opcjonalnie)
+        widget: text
+        required: false
+        pattern: ['^[\s\S]{0,160}$', "Najwyżej 160 znaków – dłuższy opis Google i tak utnie."]
+        hint: "Zostaw puste – strona ułoży go sama z typu, zakresu i opisu."
+
+  # ---------------------------------------------------------------
+  - name: aktualnosci
+    label: Aktualności
+    label_singular: wpis
+    description: >-
+      Wpisy w zakładce „Aktualności” (pojawia się w menu od pierwszego
+      wpisu). Np. zakończona realizacja, nowy system w ofercie, informacja
+      o firmie.
+    folder: src/content/aktualnosci
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}} · {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Tytuł, widget: string }
+      - { <<: *date, hint: Data publikacji – widoczna przy wpisie. Najnowsze wpisy są na górze. }
+      - name: excerpt
+        label: Zajawka
+        widget: text
+        pattern: ['^[\s\S]{20,220}$', "Od 20 do 220 znaków – 1–2 zdania."]
+        hint: Widoczna na liście wpisów i w wynikach Google.
+      - { <<: *photo, required: false, hint: "Zdjęcie na górze wpisu i na liście. Bez zdjęcia wpis dostaje ciemny nagłówek." }
+      - name: body
+        label: Treść
+        widget: markdown
+        modes: [rich_text]
+        buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+        editor_components: [image]
+        hint: Śródtytuły, pogrubienia, listy, linki i zdjęcia – przyciskami nad polem.
+
+  # ---------------------------------------------------------------
+  - name: teksty
+    label: Teksty stron
+    description: >-
+      Nagłówki i teksty podstron. Nagłówek wielowierszowy: każdy wiersz
+      w polu to osobna linia na stronie, a wiersz w gwiazdkach, np.
+      *tekst*, będzie kursywą.
+    # Nazwy plików z przedrostkiem „strona-”: po nazwie pliku panel wybiera
+    # szablon podglądu, a „realizacje” czy „aktualnosci” to już kolekcje.
     files:
-      - name: realizacje
-        label: Realizacje
-        file: src/content/realizacje.json
+      - name: strona-glowna
+        label: Strona główna
+        file: src/content/strony/strona-glowna.json
         fields:
-          - name: items
-            label: Realizacje
-            label_singular: realizację
-            widget: list
+          - name: hero
+            label: Pierwszy ekran
+            widget: object
             collapsed: true
-            add_to_top: true
-            summary: "{{fields.title}} · {{fields.category}}"
             fields:
-              - { name: title, label: Tytuł, widget: string, hint: "Np. Dom jednorodzinny w Będzinie" }
-              - name: category
-                label: Typ obiektu
-                widget: select
-                default: Realizacja prywatna
-                options:
-                  - Realizacja prywatna
-                  - Budynek wielorodzinny
-                  - Obiekt komercyjny
-                  - Obiekt użyteczności publicznej
-              - { name: location, label: Miejscowość, widget: string, required: false, hint: "Zostaw puste, jeśli inwestor nie chce podawać lokalizacji – na stronie będzie „Do uzupełnienia”." }
-              - { name: scope, label: Zakres prac, widget: string, hint: "Np. Okna, drzwi tarasowe, fasada" }
-              - { name: system, label: Zastosowany system, widget: string, required: false, hint: "Np. MB-79N. Zostaw puste, jeśli nie wiesz." }
-              - { name: description, label: Opis, widget: text, hint: "2–4 zdania: co zostało wykonane, czym się wyróżnia." }
-              - name: cover
-                label: Zdjęcie główne
-                widget: image
-                choose_url: false
-                hint: "Najlepiej poziome. Zdjęcie prosto z telefonu jest w porządku (do 10 MB)."
-              - name: gallery
-                label: Pozostałe zdjęcia
-                label_singular: zdjęcie
-                widget: list
-                required: false
-                field: { name: src, label: Zdjęcie, widget: image, choose_url: false }
-              - name: verified
-                label: Prawdziwa realizacja firmy
-                widget: boolean
-                default: false
-                hint: >-
-                  Zaznacz, gdy zdjęcia i opis pokazują obiekt wykonany przez
-                  firmę. Dopiero wtedy realizacja trafia do Google i znika przy
-                  niej etykieta „Zdjęcie poglądowe”.
-              - name: seoDescription
-                label: Opis w Google (opcjonalnie)
+              - { name: eyebrow, label: Napis nad nagłówkiem, widget: string }
+              - &heading
+                name: title
+                label: Nagłówek
                 widget: text
-                required: false
-                pattern: ['^[\s\S]{0,160}$', "Najwyżej 160 znaków – dłuższy opis Google i tak utnie."]
-                hint: "Zostaw puste – strona ułoży go sama z typu, zakresu i opisu."
-              - name: slug
-                label: Adres podstrony (opcjonalnie)
-                widget: string
-                required: false
-                pattern: ['^[a-z0-9-]*$', "Tylko małe litery bez polskich znaków, cyfry i myślniki."]
-                hint: >-
-                  Zostaw puste – adres powstanie z tytułu. Zmiana adresu
-                  opublikowanej realizacji psuje linki, które ktoś już udostępnił.
+                hint: "Każdy wiersz = osobna linia. Wiersz w gwiazdkach, np. *tekst*, będzie kursywą."
+              - { name: lead, label: Tekst obok nagłówka, widget: text, hint: "1–2 zdania. Dłuższy tekst nie zmieści się obok nagłówka." }
+          - name: offer
+            label: 01 – Zakres prac
+            widget: object
+            collapsed: true
+            fields:
+              - &eyebrow { name: eyebrow, label: Nazwa sekcji (mały napis), widget: string }
+              - *heading
+              - { name: description, label: Opis obok nagłówka, widget: text, hint: "„{liczba}” zamieni się na liczbę obszarów, np. „Siedem obszarów”." }
+          - name: story
+            label: 02 – Jak powstaje konstrukcja (model 3D)
+            widget: object
+            collapsed: true
+            fields:
+              - *eyebrow
+              - name: steps
+                label: Kroki animacji
+                label_singular: krok
+                widget: list
+                allow_add: false
+                min: 6
+                max: 6
+                summary: "{{fields.label}} – {{fields.title}}"
+                hint: Sześć kroków na sztywno – każdy pasuje do jednego ujęcia modelu 3D. Zmieniaj tekst, nie kolejność.
+                fields:
+                  - { name: label, label: Krótka nazwa, widget: string }
+                  - { name: title, label: Tytuł, widget: string }
+                  - { name: body, label: Opis, widget: text }
+          - name: approach
+            label: 03 – Podejście
+            widget: object
+            collapsed: true
+            fields:
+              - *eyebrow
+              - *heading
+              - { name: lead, label: Tekst obok nagłówka, widget: text }
+              - name: principles
+                label: Zasady
+                label_singular: zasadę
+                widget: list
+                min: 2
+                max: 4
+                summary: "{{fields.title}}"
+                fields: &titleBody
+                  - { name: title, label: Tytuł, widget: string }
+                  - { name: body, label: Opis, widget: text }
+          - name: process
+            label: 04 – Proces
+            widget: object
+            collapsed: true
+            fields:
+              - *eyebrow
+              - *heading
+              - { name: description, label: Opis obok nagłówka, widget: text, hint: "„{liczba}” zamieni się na liczbę etapów, np. „Sześć etapów”." }
+              - name: stages
+                label: Etapy
+                label_singular: etap
+                widget: list
+                min: 3
+                max: 8
+                summary: "{{fields.title}}"
+                fields: *titleBody
+          - name: contact
+            label: 05 – Kontakt
+            widget: object
+            collapsed: true
+            fields:
+              - *eyebrow
+              - *heading
+              - { name: lead, label: Tekst pod nagłówkiem, widget: text }
+
+      - name: strona-oferta
+        label: Oferta
+        file: src/content/strony/oferta.json
+        fields:
+          - &pageHero
+            name: hero
+            label: Nagłówek strony
+            widget: object
+            fields:
+              - { name: eyebrow, label: Mały napis nad tytułem, widget: string }
+              - { name: title, label: Tytuł, widget: string }
+              - { name: description, label: Opis pod tytułem, widget: text, required: false }
+          - name: quote
+            label: Sekcja „Wycena”
+            widget: object
+            collapsed: true
+            fields:
+              - *eyebrow
+              - *heading
+              - { name: description, label: Opis obok nagłówka, widget: text }
+              - name: factors
+                label: Na co składa się wycena
+                label_singular: pozycję
+                widget: list
+                min: 3
+                max: 6
+                summary: "{{fields.title}}"
+                fields: *titleBody
+              - { name: note, label: Przypis pod listą, widget: text, required: false }
+
+      - name: strona-systemy
+        label: Systemy (katalog)
+        file: src/content/strony/systemy.json
+        fields: [*pageHero]
+
+      - name: strona-realizacje
+        label: Realizacje
+        file: src/content/strony/realizacje.json
+        fields: [*pageHero]
+
+      - name: strona-aktualnosci
+        label: Aktualności
+        file: src/content/strony/aktualnosci.json
+        fields: [*pageHero]
+
+      - name: strona-o-nas
+        label: O nas
+        file: src/content/strony/o-nas.json
+        fields:
+          - name: hero
+            label: Nagłówek strony
+            widget: object
+            fields:
+              - { name: eyebrow, label: Mały napis nad tytułem, widget: string }
+              - { name: title, label: Tytuł, widget: string }
+          - { <<: *heading, name: headline, label: Nagłówek przy zdjęciu }
+          - { name: body, label: Tekst o firmie, widget: text, hint: "Nowy akapit: zostaw pustą linię." }
+          - { name: scope, label: Zakres prac (w tabelce), widget: string, required: false }
+
+      - name: strona-kontakt
+        label: Kontakt
+        file: src/content/strony/kontakt.json
+        fields: [*pageHero]
 
   # ---------------------------------------------------------------
   - name: oferta
@@ -123,7 +329,6 @@ collections:
     description: >-
       Obszary oferty: lista na stronie głównej („Co wykonujemy”) i podstrona
       /oferta. Kolejność można zmieniać przeciąganiem.
-    editor: { preview: false }
     files:
       - name: oferta
         label: Zakres prac
@@ -142,7 +347,7 @@ collections:
               - name: categoryId
                 label: Przycisk „Zobacz systemy” prowadzi do kategorii
                 widget: select
-                options:
+                options: &categoryOptions
                   - { label: Okna, value: okna }
                   - { label: Drzwi, value: drzwi }
                   - { label: Drzwi przesuwne, value: przesuwne }
@@ -153,10 +358,32 @@ collections:
               - { name: image, label: Zdjęcie, widget: image, choose_url: false }
 
   # ---------------------------------------------------------------
+  - name: faq
+    label: Pytania (FAQ)
+    description: >-
+      Pytania i odpowiedzi na podstronie Oferta. Sekcja pojawia się dopiero,
+      gdy jest tu choć jedno pytanie.
+    files:
+      - name: faq
+        label: Pytania i odpowiedzi
+        file: src/content/faq.json
+        fields:
+          - *eyebrow
+          - *heading
+          - name: items
+            label: Pytania
+            label_singular: pytanie
+            widget: list
+            required: false
+            summary: "{{fields.question}}"
+            fields:
+              - { name: question, label: Pytanie, widget: string }
+              - { name: answer, label: Odpowiedź, widget: text, hint: "Nowy akapit: zostaw pustą linię." }
+
+  # ---------------------------------------------------------------
   - name: zdjecia
     label: Zdjęcia na stronie
     description: Duże zdjęcia stałych miejsc strony. Puste pole zostawia dotychczasowe zdjęcie.
-    editor: { preview: false }
     files:
       - name: zdjecia
         label: Zdjęcia na stronie
@@ -181,33 +408,11 @@ collections:
               - { name: src, label: Zdjęcie, widget: image, choose_url: false, hint: "Wyświetla się mocno przyciemnione – detal albo faktura sprawdzi się lepiej niż cały budynek." }
 
   # ---------------------------------------------------------------
-  - name: teksty
-    label: Teksty
-    editor: { preview: false }
-    files:
-      - name: strona-glowna
-        label: Strona główna
-        file: src/content/strona-glowna.json
-        fields:
-          - { name: heroEyebrow, label: Napis nad nagłówkiem, widget: string }
-          - { name: heroLead, label: Tekst pod nagłówkiem, widget: text, hint: "1–2 zdania. Dłuższy tekst nie zmieści się obok nagłówka." }
-      - name: o-nas
-        label: O nas
-        file: src/content/o-nas.json
-        fields:
-          - { name: pageTitle, label: Nagłówek strony, widget: string }
-          - { name: headline, label: Tytuł przy zdjęciu – pierwsza linia, widget: string }
-          - { name: headlineAccent, label: Tytuł przy zdjęciu – druga linia (kursywa), widget: string, required: false }
-          - { name: body, label: Tekst o firmie, widget: text, hint: "Nowy akapit: zostaw pustą linię." }
-          - { name: scope, label: Zakres prac (w tabelce), widget: string, required: false }
-
-  # ---------------------------------------------------------------
   - name: seo
     label: Google (SEO)
     description: >-
       Tytuł i opis każdej podstrony w wynikach Google. Tytuł dostaje na końcu
       „– Alukoncept”. Zmiany Google zauważa zwykle po kilku dniach.
-    editor: { preview: false }
     files:
       - name: seo
         label: Tytuły i opisy podstron
@@ -230,14 +435,14 @@ collections:
           - { <<: *seoPage, name: oferta, label: Oferta }
           - { <<: *seoPage, name: systemy, label: Systemy (katalog) }
           - { <<: *seoPage, name: realizacje, label: Realizacje }
+          - { <<: *seoPage, name: aktualnosci, label: Aktualności }
           - { <<: *seoPage, name: oNas, label: O nas }
           - { <<: *seoPage, name: kontakt, label: Kontakt }
 
   # ---------------------------------------------------------------
   - name: firma
     label: Dane firmy
-    description: Dane w stopce, na stronie Kontakt, w „O nas” i w wizytówce dla Google.
-    editor: { preview: false }
+    description: Dane w stopce, na stronie Kontakt, w „O nas”, w polityce prywatności i w wizytówce dla Google.
     files:
       - name: firma
         label: Dane firmy
@@ -256,7 +461,7 @@ collections:
             label: E-mail
             widget: string
             required: false
-            pattern: ['^(\S+@\S+\.\S+)?$', "Niepoprawny adres e-mail"]
+            pattern: &emailPattern ['^(\S+@\S+\.\S+)?$', "Niepoprawny adres e-mail"]
             hint: Puste pole = e-mail nie wyświetla się na stronie.
           - name: hoursWeekdays
             label: Godziny pracy pon.–pt.
@@ -275,10 +480,102 @@ collections:
             label: Facebook (adres profilu)
             widget: string
             required: false
-            pattern: ['^(https://\S+)?$', "Pełny adres zaczynający się od https://"]
+            pattern: &urlPattern ['^(https://\S+)?$', "Pełny adres zaczynający się od https://"]
           - name: instagram
             label: Instagram (adres profilu)
             widget: string
             required: false
-            pattern: ['^(https://\S+)?$', "Pełny adres zaczynający się od https://"]
+            pattern: *urlPattern
             hint: Puste pole = ikona widoczna jako „profil w przygotowaniu”.
+          - name: nip
+            label: NIP
+            widget: string
+            required: false
+            pattern: ['^(\d{3}-?\d{3}-?\d{2}-?\d{2}|\d{3}-?\d{2}-?\d{2}-?\d{3})?$', "10 cyfr, np. 644-123-45-67"]
+            hint: Polityka prywatności, stopka i dane dla Google. Puste = w polityce widoczne „do uzupełnienia”.
+          - { name: regon, label: REGON, widget: string, required: false, pattern: ['^(\d{9}|\d{14})?$', "9 albo 14 cyfr, bez spacji"] }
+          - { name: krs, label: KRS, widget: string, required: false, pattern: ['^(\d{10})?$', "10 cyfr, np. 0000123456"] }
+          - name: privacyEmail
+            label: E-mail do spraw danych osobowych (RODO)
+            widget: string
+            required: false
+            pattern: *emailPattern
+            hint: Puste = w polityce prywatności podany będzie ogólny e-mail firmy (albo telefon, jeśli e-maila brak).
+
+  # ---------------------------------------------------------------
+  - name: systemy
+    label: Katalog systemów
+    label_singular: system
+    description: >-
+      Systemy ALUPROF w katalogu. Każda wartość techniczna musi pochodzić
+      z karty systemu u producenta — przy zmianie parametrów ustaw datę
+      sprawdzenia. Nie wpisuj wartości „z pamięci” ani szacunkowych.
+    folder: src/content/systemy
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: name
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    sortable_fields: [name, order]
+    editor: { preview: false }
+    fields:
+      - { name: name, label: Oznaczenie systemu, widget: string, hint: "Dokładnie jak u producenta, np. MB-79N. Adres karty powstaje z oznaczenia przy pierwszym zapisie." }
+      - name: nameConfirmed
+        label: Oznaczenie potwierdzone na stronie producenta
+        widget: boolean
+        default: true
+        hint: Odznacz, jeśli to nazwa robocza – karta dostanie plakietkę „Nazwa robocza” i nie trafi do Google.
+      - name: aluprof
+        label: Adres karty u producenta (końcówka)
+        widget: string
+        pattern: ['^[a-z0-9-]+$', "Tylko końcówka adresu, np. mb-79n"]
+        hint: "Z adresu aluprof.com/produkt/mb-79n wpisz: mb-79n. To źródło wszystkich parametrów."
+      - { name: summary, label: Podtytuł z karty producenta, widget: string, required: false }
+      - name: categories
+        label: Kategorie
+        widget: select
+        multiple: true
+        min: 1
+        options: *categoryOptions
+        hint: Pierwsza wybrana jest wiodąca (ścieżka nawigacji, zdjęcie zastępcze, typ modelu 3D).
+      - name: constructionType
+        label: Typ konstrukcji
+        widget: select
+        options: &constructionOptions
+          - { label: Rozwierne, value: rozwierne }
+          - { label: Przesuwne, value: przesuwne }
+          - { label: Słupowo-ryglowe, value: slupowo-ryglowe }
+          - { label: Strukturalne, value: strukturalne }
+          - { label: Stałe / nieotwieralne, value: stale }
+      - name: tags
+        label: Cechy
+        widget: select
+        multiple: true
+        required: false
+        options: &tagOptions
+          - { label: Antywłamaniowe, value: antywlamaniowe }
+          - { label: Renowacyjne, value: renowacja }
+        hint: Tylko gdy producent tak opisuje system.
+      - name: specs
+        label: Parametry z karty producenta
+        label_singular: parametr
+        widget: list
+        required: false
+        summary: "{{fields.label}}: {{fields.value}} {{fields.note}}"
+        fields:
+          - { name: label, label: Nazwa parametru, widget: string, hint: "Dokładnie jak na karcie, np. Izolacyjność termiczna profili" }
+          - { name: value, label: Wartość, widget: string, hint: "Np. Uf > 0,83" }
+          - { name: note, label: Jednostka lub norma, widget: string, required: false, hint: "To, co na karcie stoi po pionowej kresce, np. W/(m2K) albo EN 12207:2001" }
+      - { name: depth, label: Głębokość zabudowy, widget: string, required: false, hint: "Tylko jeśli producent ją podaje, np. 79 mm." }
+      - name: sourceDate
+        label: Data sprawdzenia danych u producenta
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+        hint: Ustaw na dzień, w którym parametry zostały przepisane z karty producenta.
+      - { name: description, label: Własny opis (opcjonalnie), widget: text, required: false, hint: "Puste = opis powstaje z podtytułu producenta." }
+      - { name: image, label: Własne zdjęcie (opcjonalnie), widget: image, choose_url: false, required: false, hint: "Zastępuje zdjęcie poglądowe i zdejmuje z karty etykietę." }
+      - { name: order, label: Kolejność w kategorii, widget: number, value_type: int, required: false, hint: "Mniejsza liczba = wyżej na liście. Puste = na końcu." }

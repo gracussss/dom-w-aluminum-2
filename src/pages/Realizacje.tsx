@@ -7,6 +7,7 @@ import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { Reveal } from "../components/ui/Reveal";
 import { PORTFOLIO_DISCLAIMER, hasPlaceholderRealizations, realizations } from "../data/realizations";
 import { pageSeo } from "../data/pages";
+import { pageHeroes } from "../data/subpages";
 import { isPlaceholderImage } from "../lib/responsiveImage";
 
 /* Jeden format i jedna wielkość kafla. Wcześniej był tu celowo nierówny
@@ -28,9 +29,9 @@ export function Realizacje() {
         canonicalPath="/realizacje"
       />
       <PageHero
-        eyebrow="Realizacje"
-        title="Nasze realizacje"
-        description="Przegląd obiektów w podziale na typ inwestycji i zakres wykonanych prac."
+        eyebrow={pageHeroes.realizacje.eyebrow}
+        title={pageHeroes.realizacje.title}
+        description={pageHeroes.realizacje.description}
       />
 
       <section className="bg-limestone py-16 text-void md:py-24">

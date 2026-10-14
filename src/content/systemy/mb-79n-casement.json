@@ -1,0 +1,30 @@
+{
+  "name": "MB-79N CASEMENT",
+  "nameConfirmed": true,
+  "order": 80,
+  "aluprof": "mb-79n-casement",
+  "summary": "Okna otwierane na zewnątrz",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E 1800"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uw od 0,74 W/(m²K)"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C5/B5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-79N CO",
+  "nameConfirmed": true,
+  "order": 40,
+  "aluprof": "mb-79n-co",
+  "summary": "Okna typu \"CRANK-OUT\" i \"PUSH-OUT\"",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Zgodność z normą AAMA",
+      "value": "klasa CW50"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do 1.57 psf"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "do 7.52 psf"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-79N WW",
+  "nameConfirmed": true,
+  "order": 50,
+  "aluprof": "mb-79n-ww",
+  "summary": "Okna elementowe",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do 6.24 psf (49 mph)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "do 12 psf"
+    },
+    {
+      "label": "Odporność na dynamiczne działanie wody",
+      "value": "do 12 psf"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

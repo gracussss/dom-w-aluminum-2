@@ -30,5 +30,11 @@
   </head>
   <body>
     <script src="/admin/vendor/decap-cms/decap-cms.js"></script>
+    <script src="/admin/identity-pl.js"></script>
+    <!-- Podgląd na żywo w stylu strony (src/admin/preview.tsx), zaraz po
+         Decapie, żeby szablony były zarejestrowane przed pierwszym
+         rysowaniem edytora. Przy `npm run dev` pliku nie ma — panel pokazuje
+         wtedy zwykły podgląd pól (PANEL.md, praca lokalna). -->
+    <script src="/admin/preview/preview.js"></script>
   </body>
 </html>

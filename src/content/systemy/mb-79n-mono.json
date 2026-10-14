@@ -1,0 +1,27 @@
+{
+  "name": "MB-79N MONO",
+  "nameConfirmed": true,
+  "order": 30,
+  "aluprof": "mb-79n-mono",
+  "summary": "Okna do nowego budownictwa",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna profili",
+      "value": "Uw > 1,2",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność okien",
+      "value": "od 600 Pa do 1950 Pa"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do klasy 4"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

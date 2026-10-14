@@ -1,0 +1,29 @@
+{
+  "name": "MB-60E EI",
+  "nameConfirmed": true,
+  "order": 740,
+  "aluprof": "mb-60e-ei",
+  "summary": "Przegrody przeciwpożarowe z drzwiami w klasie EI30",
+  "categories": [
+    "ppoz"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Konstrukcje w klasach",
+      "value": "EI30",
+      "note": "EN 13501-2"
+    },
+    {
+      "label": "Dymoszczelność",
+      "value": "Sa3 , S200",
+      "note": "EN 13501-2"
+    },
+    {
+      "label": "Samozamykalność",
+      "value": "C5",
+      "note": "EN 1191"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

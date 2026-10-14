@@ -1,0 +1,22 @@
+{
+  "name": "MB-INSTALLATION SOLUTION",
+  "nameConfirmed": true,
+  "order": 270,
+  "aluprof": "mb-installation-solution",
+  "summary": "System ciepłego i szczelnego montażu okien i drzwi",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Współczynnik przewodzenia ciepła polistyrenu EPS",
+      "value": "λ = 0,032 W/(m²K)"
+    },
+    {
+      "label": "Szerokość ciepłych belek montażowych",
+      "value": "100 lub 200 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

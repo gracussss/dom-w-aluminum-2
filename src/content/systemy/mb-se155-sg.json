@@ -1,0 +1,26 @@
+{
+  "name": "MB-SE155 SG",
+  "nameConfirmed": true,
+  "order": 830,
+  "aluprof": "mb-se155-sg",
+  "summary": "Fasada elementowa",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "6.24 psf"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "15 psf; 5 gph/ft2 15 min"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "30 psf"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "OpenSlide",
+  "nameConfirmed": true,
+  "order": 500,
+  "aluprof": "mb-openslide",
+  "summary": "Całoszklana zabudowa przesuwna do pergoli, tarasów i loggii",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "sourceDate": "2026-08-28"
+}

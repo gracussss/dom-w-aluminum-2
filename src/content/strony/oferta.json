@@ -1,0 +1,35 @@
+{
+  "hero": {
+    "eyebrow": "Oferta",
+    "title": "Zakres prac",
+    "description": "Od pojedynczego okna po kompletną kopertę budynku. Każdą pozycję wyceniamy indywidualnie na podstawie projektu i pomiaru."
+  },
+  "quote": {
+    "eyebrow": "Wycena",
+    "title": "Cena powstaje\npo pomiarze",
+    "description": "Konstrukcja aluminiowa nie ma ceny katalogowej. Składa się na nią pięć decyzji, które ustalamy dla konkretnego otworu i konkretnego budynku.",
+    "factors": [
+      {
+        "title": "System",
+        "body": "Seria profili dobrana do otworu i wymagań inwestycji."
+      },
+      {
+        "title": "Konstrukcja",
+        "body": "Sposób otwierania, podziały i kierunki skrzydeł."
+      },
+      {
+        "title": "Szklenie",
+        "body": "Pakiet szybowy – termika, akustyka, bezpieczeństwo."
+      },
+      {
+        "title": "Wykończenie",
+        "body": "Kolor z palety RAL lub anoda, struktura powierzchni."
+      },
+      {
+        "title": "Wymiar",
+        "body": "Wymiar z pomiaru na budowie, nie z projektu."
+      }
+    ],
+    "note": "Ten sam zakres poprowadzi docelowo wycena online. Dziś przechodzimy przez niego w rozmowie i podczas pomiaru na budowie."
+  }
+}

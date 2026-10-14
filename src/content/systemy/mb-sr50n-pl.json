@@ -1,0 +1,34 @@
+{
+  "name": "MB-SR50N PL",
+  "nameConfirmed": true,
+  "order": 560,
+  "aluprof": "mb-sr50n-pl",
+  "summary": "Fasada w układzie poziomych linii",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE",
+      "note": "PN-EN 12152"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200",
+      "note": "EN 12154"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "2,4",
+      "note": "kN/m2"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "klasa I5/E5",
+      "note": "EN 14019"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

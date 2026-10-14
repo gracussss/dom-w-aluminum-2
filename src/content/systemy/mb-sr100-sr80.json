@@ -1,0 +1,18 @@
+{
+  "name": "MB-SR100 i MB-SR80",
+  "nameConfirmed": true,
+  "order": 860,
+  "aluprof": "mb-sr100-mb-sr80",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "≤2,8",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-86B",
+  "nameConfirmed": true,
+  "order": 100,
+  "aluprof": "mb-86b",
+  "categories": [
+    "okna",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 9A / 6A"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C5/B5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

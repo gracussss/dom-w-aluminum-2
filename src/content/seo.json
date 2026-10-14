@@ -9,7 +9,7 @@
   },
   "systemy": {
     "title": "Katalog systemów aluminiowych ALUPROF",
-    "description": "Okna, drzwi, konstrukcje przesuwne, fasady, ściany wewnętrzne i systemy przeciwpożarowe ALUPROF. Katalog z wyszukiwarką, filtrami i kartą techniczną każdego systemu."
+    "description": "Okna, drzwi, systemy przesuwne, fasady, ściany wewnętrzne i systemy ppoż. ALUPROF. Katalog z wyszukiwarką, filtrami i kartą każdego systemu."
   },
   "realizacje": {
     "title": "Realizacje · konstrukcje aluminiowe",
@@ -22,5 +22,9 @@
   "kontakt": {
     "title": "Kontakt i wycena",
     "description": "Zapytaj o wycenę okien, drzwi, systemów przesuwnych i fasad aluminiowych. Alukoncept Sp. z o.o., Stanisława Mikołajczyka 59 A, Sosnowiec, tel. 695 704 228."
+  },
+  "aktualnosci": {
+    "title": "Aktualności",
+    "description": "Zakończone realizacje, nowe rozwiązania i informacje z firmy Alukoncept z Sosnowca – okna, drzwi i fasady aluminiowe."
   }
 }

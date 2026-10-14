@@ -1,0 +1,22 @@
+{
+  "name": "MB-HARMONY OFFICE",
+  "nameConfirmed": true,
+  "order": 670,
+  "aluprof": "mb-harmony-office",
+  "summary": "Systemy ścian wewnętrznych",
+  "categories": [
+    "wewnetrzne"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Izolacyjność akustyczna",
+      "value": "Rw 48 dB/ Ra1 46 dB"
+    },
+    {
+      "label": "Wysokość",
+      "value": "do 3600 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

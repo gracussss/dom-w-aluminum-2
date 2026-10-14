@@ -1,0 +1,35 @@
+{
+  "name": "MB-59 SLIDE GALANDAGE",
+  "nameConfirmed": true,
+  "order": 390,
+  "aluprof": "mb-59-slide-galandage",
+  "summary": "System drzwi balkonowych przesuwnych",
+  "categories": [
+    "przesuwne",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3",
+      "note": "PN-EN 12207:2001"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 5A",
+      "note": "PN-EN 12208:2001"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "klasa C2 / B2",
+      "note": "PN-EN 12210:2016"
+    },
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "od 1,9",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

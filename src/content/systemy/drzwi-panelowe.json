@@ -1,0 +1,33 @@
+{
+  "name": "Drzwi panelowe",
+  "nameConfirmed": true,
+  "order": 290,
+  "aluprof": "drzwi-panelowe",
+  "summary": "Na bazie systemów MB-79N, MB-86N oraz MB-104 Passive",
+  "categories": [
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna UD",
+      "value": "od 0,44",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "> klasy E900 (900 Pa)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207:2001"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "> klasy C5/B5",
+      "note": "PN-EN 12210:2001"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

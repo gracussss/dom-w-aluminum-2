@@ -1,0 +1,26 @@
+{
+  "name": "MB-SE80 SG",
+  "nameConfirmed": true,
+  "order": 770,
+  "aluprof": "mb-se80-sg",
+  "summary": "Fasada elementowa",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE 1200 Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "1676 Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1436 Pa"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

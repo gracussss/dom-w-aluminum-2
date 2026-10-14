@@ -1,0 +1,22 @@
+{
+  "name": "MB-DPA",
+  "nameConfirmed": true,
+  "order": 490,
+  "aluprof": "mb-dpa",
+  "summary": "Drzwi przesuwne, automatycznie i manualnie",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "max. szerokość skrzydła drzwi",
+      "value": "3,0 m"
+    },
+    {
+      "label": "max. ciężar skrzydła drzwi",
+      "value": "200 kg"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

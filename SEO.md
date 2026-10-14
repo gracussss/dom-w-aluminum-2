@@ -32,6 +32,7 @@ Potwierdzone są trzy rzeczy: nazwa firmy, adres i telefon (`src/data/company.ts
 | `public/robots.txt` | blokada demo + gotowy blok produkcyjny |
 | `public/_headers` | nagłówki Netlify: `X-Robots-Tag` (demo) i cache zasobów |
 | `src/content/seo.json` | tytuły i opisy podstron — edytowane w panelu (`PANEL.md`) |
+| `src/lib/jsonLd.ts` → `articleJsonLd`, `faqJsonLd` | wpisy w aktualnościach (`Article`) i FAQ na Ofercie (`FAQPage`, tylko gdy są pytania) |
 | `index.html` | wartości domyślne meta dla robotów bez JavaScriptu |
 | `public/og-default.svg` | obraz podglądu przy udostępnianiu (1200×630) |
 | `src/fonts.css` + `public/fonts/` | kroje pisma hostowane lokalnie — bez `fonts.googleapis.com` |
@@ -145,8 +146,10 @@ Domeny nie zgadujemy — mapa ze zmyślonym adresem jest gorsza niż jej brak.
 > statyczny przed regułami przepisania.
 
 W mapie: 8 adresów stałych, kategorie, producenci, karty systemów
-z potwierdzonymi danymi (`nameStatus: "confirmed"`) i karty realizacji
-z potwierdzonymi (`verified: true`).
+z potwierdzonymi danymi (`nameStatus: "confirmed"`), karty realizacji
+z potwierdzonymi (`verified: true`) oraz — od pierwszego wpisu — lista
+aktualności i każdy wpis. Treści z panelu config czyta z dysku
+(`readContentDir`), tą samą normalizacją co strona.
 
 ---
 
@@ -240,8 +243,10 @@ do rozmowy, nie zgodą na dalsze skracanie intro.
    Google (SEO) → Realizacje) przepisać bez słowa „poglądowe”. Po wymianie
    wszystkich zdjęć usunąć `images.unsplash.com` z `SITE_CSP` (`vite.config.ts`)
    i z CSP panelu.
-7. Uzupełnić dane w `src/pages/PolitykaPrywatnosci.tsx` (NIP, REGON, KRS,
-   adres e-mail do spraw danych osobowych).
+7. NIP, REGON, KRS i e-mail do spraw danych osobowych — panel → Dane firmy
+   (trafiają do polityki prywatności, stopki i schema.org). Podstawy prawne
+   i okres przechowywania danych — w `src/pages/PolitykaPrywatnosci.tsx`,
+   po konsultacji z prawnikiem klienta.
 8. Podpiąć formularz kontaktowy: ustawić `VITE_CONTACT_ENDPOINT` na adres
    przyjmujący POST z JSON-em. Bez tej zmiennej formularz działa w trybie
    demonstracyjnym i mówi o tym wprost pod przyciskiem. Obowiązek informacyjny

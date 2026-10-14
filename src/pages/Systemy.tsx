@@ -18,6 +18,7 @@ import {
 import type { AluSystem, FacetOption, SortKey, SystemQuery, Taxonomy } from "../catalog";
 import { positions, systemsWord } from "../lib/plural";
 import { pageSeo } from "../data/pages";
+import { pageHeroes } from "../data/subpages";
 
 /* ------------------------------------------------------------------
    Stan katalogu żyje w adresie URL — komplet filtrów, fraza i sortowanie.
@@ -301,9 +302,9 @@ export function Systemy() {
         canonicalPath="/systemy"
       />
       <PageHero
-        eyebrow="Katalog"
-        title="Systemy aluminiowe"
-        description="Systemy ALUPROF w podziale na kategorie oferty producenta. Parametry pochodzą z kart systemów – przy każdej wartości podajemy źródło."
+        eyebrow={pageHeroes.systemy.eyebrow}
+        title={pageHeroes.systemy.title}
+        description={pageHeroes.systemy.description}
         variant="index"
       />
 

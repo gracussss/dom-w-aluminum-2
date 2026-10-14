@@ -1,0 +1,32 @@
+{
+  "name": "MB-SR50N EFEKT",
+  "nameConfirmed": true,
+  "order": 540,
+  "aluprof": "mb-sr50n-efektmb-sr50n-efekt",
+  "summary": "Fasada półstrukturalna",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200 Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200 Pa",
+      "note": "EN 12154"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "I5/E5",
+      "note": "EN 14019"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "do 2400 Pa"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,39 @@
+{
+  "name": "MB-104 PASSIVE",
+  "nameConfirmed": true,
+  "order": 130,
+  "aluprof": "mb-104-passive",
+  "summary": "System okienno-drzwiowy o najwyższej izolacji termicznej",
+  "categories": [
+    "okna",
+    "drzwi",
+    "indywidualne"
+  ],
+  "constructionType": "rozwierne",
+  "tags": [
+    "antywlamaniowe"
+  ],
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna dla okna otwieranego",
+      "value": "UW od 0,53",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C5/B5",
+      "note": "PN-EN 12210:2001"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa AE 1800",
+      "note": "PN-EN 12208:2001"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207:2001"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

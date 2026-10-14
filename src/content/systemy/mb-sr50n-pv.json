@@ -1,0 +1,30 @@
+{
+  "name": "MB-SR50N PV",
+  "nameConfirmed": true,
+  "order": 580,
+  "aluprof": "mb-sr50n-pv",
+  "summary": "Fasada zintegrowana z instalacją fotowoltaiczną",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200 Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200 Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "2400 Pa"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uf od 1,13 W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

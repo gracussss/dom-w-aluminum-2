@@ -1,10 +1,14 @@
+import { readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig, loadEnv, type Plugin } from 'vite'
-import { systems } from './src/catalog/dataset'
+import { build, defineConfig, loadEnv, type Plugin } from 'vite'
+import { defineSystems } from './src/catalog/systemFactory'
 import { categories, manufacturers } from './src/catalog/taxonomy'
-import { realizations } from './src/data/realizations'
+import { normalizeRealizations } from './src/data/realizationModel'
+import { normalizePosts } from './src/data/newsModel'
 import { images } from './src/data/images'
+import type { ContentEntry } from './src/lib/content'
 import { SIZES_FULL, responsiveSrcSet } from './src/lib/responsiveImage'
 
 /* ------------------------------------------------------------------
@@ -118,6 +122,56 @@ function contentSecurityPolicy(): Plugin {
 const NETLIFY_IMAGES = process.env.NETLIFY === 'true'
 
 /* ------------------------------------------------------------------
+   PODGLĄD NA ŻYWO W PANELU (/admin/preview/)
+
+   Osobna paczka budowana po stronie: src/admin/preview.tsx z tymi samymi
+   komponentami i arkuszem stylów, ale do stałych nazw plików
+   (preview.js, preview.css) — wskazuje je public/admin/index.html, który
+   Vite kopiuje bez przetwarzania i nie zna nazw z hashem.
+
+   Osobny build zamiast drugiego wejścia w tej konfiguracji: wspólne
+   pliki obu wejść zmieniłyby podział paczki strony (patrz komentarz przy
+   `manualChunks`), a panel ma prawo być ciężki — strona nie.
+   ------------------------------------------------------------------ */
+function adminPreview(): Plugin {
+  return {
+    name: 'dwa-admin-preview',
+    apply: 'build',
+    async closeBundle() {
+      await build({
+        configFile: false,
+        logLevel: 'warn',
+        plugins: [react(), tailwindcss()],
+        define: { __NETLIFY_IMAGES__: JSON.stringify(NETLIFY_IMAGES) },
+        build: {
+          outDir: 'dist/admin/preview',
+          emptyOutDir: true,
+          // /fonts/… w arkuszu wskazują pliki strony — rozwiązywane, nie kopiowane.
+          copyPublicDir: false,
+          cssCodeSplit: false,
+          chunkSizeWarningLimit: 4000,
+          rollupOptions: {
+            input: 'src/admin/preview.tsx',
+            output: {
+              /* Zwykły skrypt, nie moduł: wykonuje się od razu po Decapie, zanim
+                 ten wczyta konfigurację i narysuje edytor. Moduł (odroczony) bywał
+                 za późno — przy wejściu prosto na adres wpisu panel zdążył wybrać
+                 domyślny podgląd i już do szablonu nie wracał. */
+              format: 'iife',
+              entryFileNames: 'preview.js',
+              assetFileNames: (asset) =>
+                asset.names.some((name) => name.endsWith('.css')) ? 'preview.css' : 'assets/[name]-[hash][extname]',
+              // Jeden plik — public/admin/index.html wskazuje go stałą nazwą.
+              codeSplitting: false,
+            },
+          },
+        },
+      })
+    },
+  }
+}
+
+/* ------------------------------------------------------------------
    SITEMAP
 
    Powstaje przy buildzie z tych samych danych, z których zbudowany jest
@@ -131,6 +185,18 @@ const NETLIFY_IMAGES = process.env.NETLIFY === 'true'
    Adres produkcyjny bierzemy z VITE_SITE_URL. Bez niego mapa nie powstaje —
    domeny nie zgadujemy, a sitemapa ze zmyslonym adresem jest gorsza niz jej brak.
    ------------------------------------------------------------------ */
+/* Kolekcje „jeden plik = jeden wpis” czytane z dysku. Strona robi to przez
+   import.meta.glob, którego w konfiguracji nie ma — dlatego tu fs, a dalej
+   ta sama normalizacja co na stronie (te same adresy, te same filtry). */
+function readContentDir(dir: string): ContentEntry[] {
+  return readdirSync(dir)
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => ({
+      slug: file.replace(/\.json$/, ''),
+      data: JSON.parse(readFileSync(join(dir, file), 'utf8')) as unknown,
+    }))
+}
+
 function sitemap(): Plugin {
   const staticPaths = [
     '/',
@@ -158,12 +224,18 @@ function sitemap(): Plugin {
         return
       }
 
+      const systems = defineSystems(readContentDir('src/content/systemy'))
+      const realizations = normalizeRealizations(readContentDir('src/content/realizacje'))
+      const posts = normalizePosts(readContentDir('src/content/aktualnosci'))
+
       const paths = [
         ...staticPaths,
         ...categories.map((c) => `/systemy/kategoria/${c.slug}`),
         ...manufacturers.map((m) => `/systemy/producent/${m.slug}`),
         ...systems.filter((s) => s.dataStatus.name === 'confirmed').map((s) => `/systemy/${s.slug}`),
         ...realizations.filter((r) => r.verified).map((r) => `/realizacje/${r.slug}`),
+        // Lista aktualności dopiero z pierwszym wpisem — pusta ma `noindex`.
+        ...(posts.length > 0 ? ['/aktualnosci', ...posts.map((p) => `/aktualnosci/${p.slug}`)] : []),
       ]
 
       const lastmod = new Date().toISOString().slice(0, 10)
@@ -182,7 +254,7 @@ function sitemap(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), sitemap(), heroPreload(), contentSecurityPolicy()],
+  plugins: [react(), tailwindcss(), sitemap(), heroPreload(), contentSecurityPolicy(), adminPreview()],
 
   define: {
     __NETLIFY_IMAGES__: JSON.stringify(NETLIFY_IMAGES),

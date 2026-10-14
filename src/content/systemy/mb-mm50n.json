@@ -1,0 +1,34 @@
+{
+  "name": "MB-MM50N",
+  "nameConfirmed": true,
+  "order": 620,
+  "aluprof": "mb-mm50n",
+  "summary": "Ściana słupowo-ryglowa o wysokiej izolacyjności termicznej",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200",
+      "note": "Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200",
+      "note": "Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "2400",
+      "note": "Pa"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uf > 0,62",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

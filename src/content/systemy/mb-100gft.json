@@ -1,0 +1,30 @@
+{
+  "name": "MB-100GFT",
+  "nameConfirmed": true,
+  "order": 300,
+  "aluprof": "mb-100gft",
+  "summary": "System drzwi do galerii handlowych, urzędów i restauracji",
+  "categories": [
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do klasy 3 (600Pa), EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 4A (150Pa), EN 12208"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "do klasy C2/B4/A5, EN 12210"
+    },
+    {
+      "label": "Odporność na wielokrotne otwieranie i zamykanie",
+      "value": "klasa 8, 1 000 000 cykli (w obu kierunkach), EN 12400"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

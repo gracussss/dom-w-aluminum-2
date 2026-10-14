@@ -1,0 +1,34 @@
+{
+  "name": "MB-86US ST, SI",
+  "nameConfirmed": true,
+  "order": 110,
+  "aluprof": "mb-86us-st-si",
+  "summary": "Okno z ukrytym skrzydłem",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "od 0,86",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207:2001"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E1350",
+      "note": "PN-EN 12208:2001"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "do klasy C5/B5",
+      "note": "PN-EN 12210:2001"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

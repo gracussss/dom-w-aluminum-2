@@ -1,0 +1,35 @@
+{
+  "name": "MB-SR50N EI, MB-SR50N EI EFEKT",
+  "nameConfirmed": true,
+  "order": 590,
+  "aluprof": "mb-sr50n-eibrmb-sr50n-ei-efekt",
+  "summary": "Ściana słupowo-ryglowa przeciwpożarowa",
+  "categories": [
+    "ppoz",
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE 1050 Pa",
+      "note": "PN-EN 12152"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa RE1200",
+      "note": "PN-EN 12154"
+    },
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": ">1,8",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Klasy odporności ogniowej",
+      "value": "EI30 oraz EI60",
+      "note": "EN 13501-2"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

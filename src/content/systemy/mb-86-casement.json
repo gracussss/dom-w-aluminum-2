@@ -1,0 +1,26 @@
+{
+  "name": "MB-86 Casement",
+  "nameConfirmed": true,
+  "order": 120,
+  "aluprof": "mb-86-casement",
+  "summary": "Okna otwierane na zewnątrz",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E 1950"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

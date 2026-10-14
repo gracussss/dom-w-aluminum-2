@@ -1,0 +1,26 @@
+{
+  "name": "MB-GLASS BARRIER",
+  "nameConfirmed": true,
+  "order": 260,
+  "aluprof": "mb-glass-barrier",
+  "summary": "Balustrada zewnętrzna",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Grubość szkła",
+      "value": "od 8,8 do 20,8 mm"
+    },
+    {
+      "label": "Maksymalna szerokość szyby",
+      "value": "2600 mm"
+    },
+    {
+      "label": "Maksymalna wysokość szyby",
+      "value": "1200 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

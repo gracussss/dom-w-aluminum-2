@@ -1,0 +1,24 @@
+{
+  "name": "MB-78EI DPA",
+  "nameConfirmed": true,
+  "order": 700,
+  "aluprof": "mb-78ei-dpa",
+  "summary": "Automatyczne przeciwpożarowe drzwi przesuwne",
+  "categories": [
+    "ppoz",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "> 1,62",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Klasy przeciwpożarowe",
+      "value": "EI15, EI30"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

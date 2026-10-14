@@ -5,6 +5,16 @@ import { PageHero } from "../components/ui/PageHero";
 import { LegalPlaceholder } from "../components/ui/LegalPlaceholder";
 import { company, fullAddress } from "../data/company";
 
+const { legal } = company;
+const registry = [
+  legal.nip && `NIP: ${legal.nip}`,
+  legal.regon && `REGON: ${legal.regon}`,
+  legal.krs && `KRS: ${legal.krs}`,
+].filter(Boolean);
+/* Adres do spraw danych osobowych: osobny, jeśli podany w panelu, inaczej
+   ogólny e-mail firmy. Bez żadnego — zostaje kontakt telefoniczny. */
+const privacyEmail = legal.privacyEmail ?? company.email;
+
 const sections: { title: string; body: ReactNode }[] = [
   {
     title: "1. Administrator danych",
@@ -12,13 +22,17 @@ const sections: { title: string; body: ReactNode }[] = [
       <>
         <p>
           Administratorem danych osobowych jest {company.legalName},{" "}
-          {fullAddress}.
+          {fullAddress}
+          {registry.length > 0 ? `, ${registry.join(", ")}` : ""}.
         </p>
-        <LegalPlaceholder>
-          Miejsce na numer NIP / REGON / KRS oraz dane kontaktowe do spraw
-          związanych z ochroną danych osobowych – do uzupełnienia przez
-          klienta.
-        </LegalPlaceholder>
+        {/* Numery rejestrowe wpisuje klient w panelu (Dane firmy) — do tego
+            czasu w dokumencie stoi widoczny placeholder, a nie pusty przecinek. */}
+        {registry.length < 3 && (
+          <LegalPlaceholder>
+            Do uzupełnienia w panelu (Dane firmy):{" "}
+            {[!legal.nip && "NIP", !legal.regon && "REGON", !legal.krs && "KRS"].filter(Boolean).join(", ")}.
+          </LegalPlaceholder>
+        )}
       </>
     ),
   },
@@ -80,7 +94,17 @@ const sections: { title: string; body: ReactNode }[] = [
   },
   {
     title: "7. Kontakt",
-    body: <p>W sprawach związanych z ochroną danych osobowych prosimy o kontakt telefoniczny – {company.phone.display}.</p>,
+    body: privacyEmail ? (
+      <p>
+        W sprawach związanych z ochroną danych osobowych prosimy o kontakt pod adresem{" "}
+        <a href={`mailto:${privacyEmail}`} className="underline underline-offset-2 hover:text-bronze">
+          {privacyEmail}
+        </a>{" "}
+        lub telefonicznie – {company.phone.display}.
+      </p>
+    ) : (
+      <p>W sprawach związanych z ochroną danych osobowych prosimy o kontakt telefoniczny – {company.phone.display}.</p>
+    ),
   },
 ];
 

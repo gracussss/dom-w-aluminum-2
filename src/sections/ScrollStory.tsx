@@ -46,7 +46,9 @@ const steps = [
   },
 ];
 
-export function ScrollStory() {
+/* Teksty kroków wersji zdjęciowej zostają w kodzie: każdy stoi przy
+   konkretnym zdjęciu sekwencji. Z panelu przychodzi tylko nazwa sekcji. */
+export function ScrollStory({ eyebrow }: { eyebrow: string }) {
   const wrap = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
   const texts = useRef<(HTMLDivElement | null)[]>([]);
@@ -110,7 +112,7 @@ export function ScrollStory() {
     return (
       <section className="bg-anthracite py-24 text-limestone md:py-32" aria-label="Jak powstaje konstrukcja aluminiowa">
         <div className="container-edge">
-          <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
+          <Eyebrow index="02" label={eyebrow} tone="light" />
           <div className="mt-14 space-y-16">
             {steps.map((s) => (
               <Reveal key={s.no} className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -178,7 +180,7 @@ export function ScrollStory() {
         {/* Treść */}
         <div className="container-edge relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="pt-6">
-            <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
+            <Eyebrow index="02" label={eyebrow} tone="light" />
           </div>
 
           <div className="relative h-[270px] max-w-2xl sm:h-[250px]">

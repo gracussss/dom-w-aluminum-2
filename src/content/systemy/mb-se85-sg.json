@@ -1,0 +1,30 @@
+{
+  "name": "MB-SE85 SG",
+  "nameConfirmed": true,
+  "order": 800,
+  "aluprof": "mb-se85-sg",
+  "summary": "Fasada elementowa strukturalna",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE 1200 Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa RE 1200 Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "3000 Pa"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "klasa I5/E5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

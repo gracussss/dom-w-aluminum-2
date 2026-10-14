@@ -1,6 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useMemo, useRef } from "react";
 import { SIZES_HALF, responsiveSrcSet } from "../../lib/responsiveImage";
+import { useStaticMotion } from "../../lib/staticMotion";
 
 interface ParallaxImageProps {
   src: string;
@@ -21,7 +22,8 @@ export function ParallaxImage({
   sizes = SIZES_HALF,
 }: ParallaxImageProps) {
   const srcSet = useMemo(() => responsiveSrcSet(src), [src]);
-  const reduced = useReducedMotion();
+  const isStatic = useStaticMotion();
+  const reduced = useReducedMotion() || isStatic;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -35,7 +37,7 @@ export function ParallaxImage({
   return (
     <motion.div
       ref={ref}
-      initial={reduced ? { opacity: 0 } : { clipPath: "inset(6% 6% 6% 6%)", opacity: 0 }}
+      initial={isStatic ? false : reduced ? { opacity: 0 } : { clipPath: "inset(6% 6% 6% 6%)", opacity: 0 }}
       whileInView={reduced ? { opacity: 1 } : { clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
       viewport={{ once: true, margin: "-5% 0px -5% 0px" }}
       transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
@@ -48,7 +50,7 @@ export function ParallaxImage({
         alt={alt}
         style={{ scale }}
         className={`h-full w-full object-cover ${imgClassName}`}
-        loading="lazy"
+        loading={isStatic ? undefined : "lazy"}
       />
     </motion.div>
   );

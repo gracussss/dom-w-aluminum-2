@@ -1,0 +1,34 @@
+{
+  "name": "MB-59HS",
+  "nameConfirmed": true,
+  "order": 370,
+  "aluprof": "mb-59hs",
+  "summary": "System drzwi podnoszono-przesuwnych",
+  "categories": [
+    "przesuwne",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "klasa C3",
+      "note": "PN-EN 12210"
+    },
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "> 1,8",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "do klasy 9A (600 Pa), EN 12208"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

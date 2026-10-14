@@ -5,8 +5,18 @@
   "city": "Sosnowiec",
   "phone": "695 704 228",
   "email": "",
-  "hoursWeekdays": { "from": "6:00", "to": "16:00" },
-  "hoursSaturday": { "from": "", "to": "" },
+  "hoursWeekdays": {
+    "from": "6:00",
+    "to": "16:00"
+  },
+  "hoursSaturday": {
+    "from": "",
+    "to": ""
+  },
   "facebook": "https://www.facebook.com/AlukonceptSosnowiec/",
-  "instagram": ""
+  "instagram": "",
+  "nip": "",
+  "regon": "",
+  "krs": "",
+  "privacyEmail": ""
 }

@@ -1,0 +1,28 @@
+{
+  "name": "MB-45",
+  "nameConfirmed": true,
+  "order": 190,
+  "aluprof": "mb-45",
+  "summary": "System okienno-drzwiowy bez izolacji termicznej",
+  "categories": [
+    "okna",
+    "drzwi",
+    "wewnetrzne"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Max wymiary skrzydła drzwi (H×L)",
+      "value": "H do 2400 mm; L do 1250 mm"
+    },
+    {
+      "label": "Max ciężar skrzydła (drzwi / okna)",
+      "value": "120-130 kg"
+    },
+    {
+      "label": "Odporność na przenikanie wody",
+      "value": "580 Pa (12 psf)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

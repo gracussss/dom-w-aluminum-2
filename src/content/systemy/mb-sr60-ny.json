@@ -1,0 +1,12 @@
+{
+  "name": "MB-SR60 NY",
+  "nameConfirmed": true,
+  "order": 850,
+  "aluprof": "mb-sr60-ny",
+  "summary": "Fasada słupowo-ryglowa",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "sourceDate": "2026-08-28"
+}

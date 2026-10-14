@@ -4,19 +4,38 @@ import { ParallaxImage } from "../components/ui/ParallaxImage";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { Reveal, RevealText } from "../components/ui/Reveal";
 import { imageAlts, images } from "../data/images";
-import { aboutContent, pageSeo } from "../data/pages";
+import { pageSeo } from "../data/pages";
+import { aboutContent } from "../data/subpages";
 import { isPlaceholderImage } from "../lib/responsiveImage";
-import { company, fullAddress } from "../data/company";
+import { addressLine, company } from "../data/company";
+import type { Company } from "../data/company";
+import type { AboutContent } from "../data/subpages";
 
 export function ONas() {
   const seo = pageSeo("oNas");
   return (
     <>
-      <Seo
-        title={seo.title}
-        description={seo.description}
-      />
-      <PageHero eyebrow="O nas" title={aboutContent.pageTitle} />
+      <Seo title={seo.title} description={seo.description} />
+      <AboutView />
+    </>
+  );
+}
+
+interface AboutViewProps {
+  content?: AboutContent;
+  firm?: Company;
+  image?: { src: string; alt: string };
+}
+
+/** Treść „O nas” bez meta — tę samą część rysuje podgląd na żywo w panelu. */
+export function AboutView({
+  content = aboutContent,
+  firm = company,
+  image = { src: images.about, alt: imageAlts.about },
+}: AboutViewProps) {
+  return (
+    <>
+      <PageHero eyebrow={content.hero.eyebrow} title={content.hero.title} description={content.hero.description} />
 
       <section className="bg-limestone py-16 text-void md:py-24">
         {/* Na desktopie zdjęcie ma dokładnie wysokość kolumny tekstu (wiersz
@@ -26,14 +45,14 @@ export function ONas() {
         <div className="container-edge grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="relative lg:col-span-5">
             <ParallaxImage
-              src={images.about}
-              alt={imageAlts.about}
+              src={image.src}
+              alt={image.alt}
               /* Poniżej `lg` kolumny stoją jedna pod drugą, więc kadr musi mieć
                  własną proporcję — pełna szerokość z 4/5 dawała przy 941 px
                  zdjęcie 887 x 1108 px, cały ekran przed pierwszym zdaniem. */
               className="aspect-[4/3] w-full sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
             />
-            {isPlaceholderImage(images.about) && <PlaceholderTag className="absolute right-3 top-3" />}
+            {isPlaceholderImage(image.src) && <PlaceholderTag className="absolute right-3 top-3" />}
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
@@ -42,16 +61,15 @@ export function ONas() {
                 bo `.display` ustawia interlinię i stoi w arkuszu za
                 klasami Tailwinda – bez tego `leading-*` nic nie zmieniało. */}
             <h2 className="display display-tight text-[8vw] leading-[1.08]! sm:text-4xl md:text-5xl">
-              {aboutContent.headline && <RevealText>{aboutContent.headline}</RevealText>}
-              {aboutContent.headlineAccent && (
-                <RevealText delay={0.08}>
-                  <span className="editorial text-sand-deep">{aboutContent.headlineAccent}</span>
+              {content.headline.map((line, i) => (
+                <RevealText key={i} delay={i * 0.08}>
+                  {line.accent ? <span className="editorial text-sand-deep">{line.text}</span> : line.text}
                 </RevealText>
-              )}
+              ))}
             </h2>
 
             <Reveal delay={0.14}>
-              {aboutContent.body.map((paragraph, i) => (
+              {content.body.map((paragraph, i) => (
                 <p
                   key={i}
                   className={`${i === 0 ? "mt-7" : "mt-5"} max-w-xl text-pretty leading-relaxed text-void/65 md:text-lg`}
@@ -65,28 +83,28 @@ export function ONas() {
               <dl className="mt-10 divide-y divide-void/12 border-y border-void/12">
                 <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                   <dt className="label text-void/70">Firma</dt>
-                  <dd className="text-[15px] text-void/75">{company.legalName}</dd>
+                  <dd className="text-[15px] text-void/75">{firm.legalName}</dd>
                 </div>
                 <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                   <dt className="label text-void/70">Siedziba</dt>
-                  <dd className="text-[15px] text-void/75">{fullAddress}</dd>
+                  <dd className="text-[15px] text-void/75">{addressLine(firm)}</dd>
                 </div>
                 <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                   <dt className="label text-void/70">Telefon</dt>
                   <dd>
-                    <a href={company.phone.href} className="text-[15px] text-void/75 hover:text-bronze">
-                      {company.phone.display}
+                    <a href={firm.phone.href} className="text-[15px] text-void/75 hover:text-bronze">
+                      {firm.phone.display}
                     </a>
                   </dd>
                 </div>
                 <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                   <dt className="label text-void/70">Godziny pracy</dt>
-                  <dd className="text-[15px] text-void/75">{company.hours}</dd>
+                  <dd className="text-[15px] text-void/75">{firm.hours}</dd>
                 </div>
-                {aboutContent.scope && (
+                {content.scope && (
                   <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                     <dt className="label text-void/70">Zakres prac</dt>
-                    <dd className="text-[15px] text-void/75">{aboutContent.scope}</dd>
+                    <dd className="text-[15px] text-void/75">{content.scope}</dd>
                   </div>
                 )}
               </dl>

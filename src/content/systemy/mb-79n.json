@@ -1,0 +1,30 @@
+{
+  "name": "MB-79N",
+  "nameConfirmed": true,
+  "order": 10,
+  "aluprof": "mb-79n",
+  "summary": "System okienno-drzwiowy z izolacją termiczną",
+  "categories": [
+    "okna",
+    "drzwi",
+    "indywidualne"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna profili",
+      "value": "Uf > 0,83",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność okien",
+      "value": "E 1950"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "EN 12207:2001"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

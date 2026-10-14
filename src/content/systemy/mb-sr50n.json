@@ -1,0 +1,36 @@
+{
+  "name": "MB-SR50N",
+  "nameConfirmed": true,
+  "order": 510,
+  "aluprof": "mb-sr50n",
+  "summary": "Ściana słupowo-ryglowa",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "tags": [
+    "antywlamaniowe"
+  ],
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "od 0,6",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200",
+      "note": "EN 12154"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "I5/E5",
+      "note": "EN 14019"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

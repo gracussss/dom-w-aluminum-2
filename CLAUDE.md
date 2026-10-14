@@ -91,6 +91,9 @@ Język komentarzy i treści: **polski**.
 - `src/catalog/` — model domenowy. **Bez Reacta i bez I/O.** Silnik zapytań
   to czyste funkcje; te same reguły mają zadziałać na serwerze.
 - `src/catalog/source.ts` — jedyne miejsce, które wie, skąd biorą się dane.
+  Rekordy systemów leżą w `src/content/systemy/*.json` (panel), model składa
+  `src/catalog/systemFactory.ts` — źródło każdej wartości wynika z pliku,
+  nie wpisuje się go ręcznie.
 - Widoki sięgają po dane **wyłącznie** przez hooki (`useSystems`, `useSystem`,
   `useTaxonomy`). Nigdy nie importuj `dataset.ts` w komponencie.
 - `src/lib/scroll.ts` — sterowanie przewijaniem bez Reacta i bez GSAP-a
@@ -99,6 +102,16 @@ Język komentarzy i treści: **polski**.
   klient, bez przeglądu kodu: komponent nigdy nie czyta JSON-a wprost, tylko
   przez `src/data/*.ts`, które dają wartości zapasowe dla pustych pól.
   Nowe pole w JSON-ie = pole w `public/admin/config.yml` i odczyt w `src/data/`.
+- Kolekcje „plik na wpis” (realizacje, aktualności, systemy) mają moduł
+  modelu bez `import.meta.glob` (`*Model.ts`, `systemFactory.ts`) — ten sam
+  kod czyta vite.config.ts (sitemapa) przez fs. Nie importuj w vite.config.ts
+  modułu z `import.meta.glob`.
+- Komponent sekcji, który ma podgląd w panelu, przyjmuje treść propsem
+  z domyślną wartością z `src/data/` (np. `<Hero content={…} />`) — podgląd
+  (`src/admin/preview.tsx`) podaje tam dane jeszcze niezapisane.
+- Animacje wejścia (`Reveal`, `RevealText`, `ParallaxImage`) honorują
+  `StaticMotionContext` — nowa animacja na `whileInView` też musi, inaczej
+  w podglądzie panelu sekcja zostanie niewidoczna.
 
 ---
 

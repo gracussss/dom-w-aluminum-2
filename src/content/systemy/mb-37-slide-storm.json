@@ -1,0 +1,33 @@
+{
+  "name": "MB-37 SLIDE STORM",
+  "nameConfirmed": true,
+  "order": 460,
+  "aluprof": "mb-37-slide-storm",
+  "summary": "Drzwi balkonowe przesuwne z odpornością na huragan",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "0.30 cfm/ft2K)",
+      "note": "ASTM E283, TAS 202-94"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "12 psf",
+      "note": "ASTM E331, TAS 202-9"
+    },
+    {
+      "label": "Odporność na statyczne ciśnienie powietrza",
+      "value": "±60 psf / ±90 psf",
+      "note": "ASTM E330, TAS 202-94"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "Klasa 10, ASTM F588, TAS 202-94"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Pawilon wystawowy",
+  "date": "2026-01-01",
+  "category": "Obiekt użyteczności publicznej",
+  "location": "",
+  "scope": "Przekrycie, ściany osłonowe",
+  "system": "",
+  "description": "Przykład obiektu z przekryciem przeszklonym i ścianami osłonowymi. Dane do uzupełnienia.",
+  "seoDescription": "",
+  "cover": "https://images.unsplash.com/photo-1768396856060-0e1feac4084e?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+  "gallery": [
+    "https://images.unsplash.com/photo-1558455322-911adf441b5a?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+    "https://images.unsplash.com/photo-1490656568362-e261fb612849?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6"
+  ],
+  "verified": false
+}

@@ -1,0 +1,30 @@
+{
+  "name": "MB-86N Pivot Door",
+  "nameConfirmed": true,
+  "order": 280,
+  "aluprof": "mb-86n-pivot-door",
+  "summary": "Drzwi zewnętrzne z przesuniętą osią obrotu",
+  "categories": [
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Max. wymiary skrzydła",
+      "value": "2,0 x 3,4 m"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "UD od 0,73 (W/m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 3B"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

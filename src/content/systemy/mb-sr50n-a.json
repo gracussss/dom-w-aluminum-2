@@ -1,0 +1,29 @@
+{
+  "name": "MB-SR50N A",
+  "nameConfirmed": true,
+  "order": 550,
+  "aluprof": "mb-sr50n-a",
+  "summary": "System nakładkowy na drewno i stal",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Szklenie zestawami przeziernymi o grubości",
+      "value": "24-64",
+      "note": "mm"
+    },
+    {
+      "label": "Maksymalny ciężar wypełnienia",
+      "value": "do 600",
+      "note": "kg"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uf od 0,72",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}
