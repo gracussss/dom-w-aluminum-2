@@ -4,6 +4,8 @@ import { taxonomy } from "./taxonomy";
 import { countActiveFilters, selectSystems } from "./query";
 import { explainSpec, explainSpecs } from "./glossary";
 import { validateSource } from "./repository";
+import { defineSystem } from "./systemFactory";
+import { sourceNote } from "./messages";
 import type { AluSystem, SystemSpec } from "./types";
 
 /* ------------------------------------------------------------------
@@ -174,5 +176,68 @@ describe("słownik parametrów", () => {
   it("nie podaje skali klas, dopóki nie ma dla niej źródła", () => {
     const entry = explainSpec(spec({ standard: "PN-EN 12210" }));
     expect(entry?.scale).toBeNull();
+  });
+});
+
+describe("plik systemu z panelu", () => {
+  const base = { name: "MB-TEST", aluprof: "mb-test", categories: ["okna"], constructionType: "rozwierne", sourceDate: "2026-10-14" };
+
+  it("wartość bez wskazanego dokumentu przypisuje karcie systemu, z dokumentem – temu dokumentowi", () => {
+    const system = defineSystem({
+      slug: "mb-test",
+      data: {
+        ...base,
+        specs: [
+          { label: "Przepuszczalność powietrza", value: "klasa 4", note: "PN-EN 12207" },
+          { label: "Głębokość skrzydła", value: "59 mm", source: "ALUPROF – katalog techniczny MB-TEST" },
+        ],
+        depth: "120 mm",
+        depthSource: "ALUPROF – katalog techniczny MB-TEST",
+      },
+    });
+
+    const [card, catalog, depth] = system.specs;
+    expect(card.source?.url).toBe("https://aluprof.com/produkt/mb-test");
+    expect(catalog.source).toEqual({ label: "ALUPROF – katalog techniczny MB-TEST", url: null, accessedAt: "2026-10-14" });
+    expect(depth.source?.label).toBe("ALUPROF – katalog techniczny MB-TEST");
+    /* Podpis pod tabelą wymienia oba dokumenty, nie tylko pierwszy. */
+    expect(sourceNote(system)).toContain("karta systemu");
+    expect(sourceNote(system)).toContain("katalog techniczny MB-TEST");
+  });
+
+  it("rysunek przekroju zawsze ma źródło, a pusty wiersz listy wypada", () => {
+    const system = defineSystem({
+      slug: "mb-test",
+      data: {
+        ...base,
+        drawings: [
+          { image: "/przekroje/mb-test.png", kind: "horizontal" },
+          { label: "Bez pliku" },
+        ],
+      },
+    });
+
+    expect(system.crossSections).toEqual([
+      {
+        id: "horizontal-1",
+        kind: "horizontal",
+        label: "Przekrój poziomy",
+        imageSrc: "/przekroje/mb-test.png",
+        source: { label: "ALUPROF – dokumentacja techniczna systemu", url: null, accessedAt: "2026-10-14" },
+      },
+    ]);
+    expect(system.dataStatus.crossSection).toBe("verified");
+    expect(defineSystem({ slug: "mb-test", data: base }).dataStatus.crossSection).toBe("missing");
+  });
+
+  it("walidator łapie przekrój bez źródła", () => {
+    const broken: AluSystem = {
+      ...systems[0],
+      id: "test-rysunek",
+      slug: "test-rysunek",
+      relatedSystemIds: [],
+      crossSections: [{ id: "x", kind: "other", label: "Przekrój", imageSrc: "/przekroje/x.png", source: null }],
+    };
+    expect(validateSource({ systems: [broken], taxonomy }).join(" ")).toContain("bez źródła");
   });
 });

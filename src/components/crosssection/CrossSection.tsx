@@ -410,10 +410,14 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
   const badge = isReal ? "Przekrój systemu" : "Schemat poglądowy";
 
   const drawingContent = isReal ? (
+    /* Rysunki katalogowe są czarne na białym. Na ciemnym kadrze odwracamy
+       jasność (hue-rotate oddaje z powrotem kolory uszczelek i przekładek),
+       a `screen` wygasza tło do siatki pod spodem — biały prostokąt
+       w antracytowej sekcji wyglądał jak wklejony zrzut ekranu. */
     <img
       src={current!.imageSrc as string}
       alt={`${subject ?? ""} – ${current!.label}`}
-      className="h-full w-full object-contain"
+      className="h-full w-full object-contain p-4 invert hue-rotate-180 mix-blend-screen md:p-6"
       draggable={false}
       loading="lazy"
     />

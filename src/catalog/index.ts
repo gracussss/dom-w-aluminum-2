@@ -73,5 +73,6 @@ export {
   hasManufacturerCrossSection,
   nameStatusNote,
   sourceNote,
+  specSources,
   specsStatusNote,
 } from "./messages";

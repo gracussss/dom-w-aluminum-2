@@ -23,6 +23,7 @@ import {
   findManufacturer,
   nameStatusNote,
   sourceNote,
+  specSources,
   specsStatusNote,
   useRelatedSystems,
   useSystem,
@@ -77,6 +78,7 @@ export function SystemDetail() {
   const showCrossSection = hasDrawing || Boolean(schematic);
   const schematicLabel = schematic ? MODEL_TYPE_LABEL[schematic.id].toLowerCase() : "";
   const specsSource = sourceNote(system);
+  const mixedSources = specSources(system).length > 1;
   const quote = system.cta.find((c) => c.kind === "quote");
 
   const crumbs = [
@@ -230,7 +232,7 @@ export function SystemDetail() {
             <Reveal delay={0.12}>
               <p className="mt-5 max-w-xl text-sm leading-relaxed text-limestone/55">
                 {hasDrawing
-                  ? `Przekrój systemu ${system.name} dostarczony przez producenta.`
+                  ? `Rysunki przekrojów systemu ${system.name} z dokumentacji technicznej producenta.`
                   : `Poniżej schemat poglądowy dla konstrukcji typu „${schematicLabel}”. Rysunek przekroju tego konkretnego systemu dodamy po otrzymaniu dokumentacji od producenta.`}
               </p>
             </Reveal>
@@ -361,6 +363,11 @@ export function SystemDetail() {
                       {/* Norma stoi przy wartości, której dotyczy */}
                       {spec.standard && (
                         <p className="label-sm mt-2 text-limestone/55">{spec.standard}</p>
+                      )}
+                      {/* Przy jednym źródle wystarcza podpis pod tabelą; przy kilku
+                          czytelnik musi wiedzieć, z którego dokumentu jest TA wartość. */}
+                      {mixedSources && spec.source && (
+                        <p className="mt-2 text-xs leading-relaxed text-limestone/45">{spec.source.label}</p>
                       )}
                     </>
                   ) : (
