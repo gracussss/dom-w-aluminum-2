@@ -25,7 +25,14 @@
     {
       "label": "Grubość szklenia",
       "value": "5 – 52 mm"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "69 mm",
+      "source": "ALUPROF – katalog techniczny MB-69V (strefa partnera), rozdz. 02 Opis techniczny, s. 02-1-01-00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "60 mm (ościeżnica)",
+  "depthSource": "ALUPROF – katalog techniczny MB-69V (strefa partnera), rozdz. 02 Opis techniczny, s. 02-1-01-00",
+  "sourceDate": "2026-10-14"
 }

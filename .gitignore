@@ -163,3 +163,7 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# Dokumentacja producenta sciagnieta ze strefy partnera — nigdy do repozytorium
+# (prawa ALUPROF, publikacja wymaga pisemnej zgody — patrz MATERIALY.md)
+dokumentacja-aluprof/
