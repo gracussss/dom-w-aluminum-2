@@ -1,0 +1,35 @@
+{
+  "name": "MB-77HSB",
+  "nameConfirmed": true,
+  "order": 350,
+  "aluprof": "mb-77hsb",
+  "summary": "Drzwi balkonowe podnoszono-przesuwne",
+  "categories": [
+    "przesuwne",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 9A",
+      "note": "EN 12208"
+    },
+    {
+      "label": "Uw",
+      "value": "> 0,88",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "do klasy C2",
+      "note": "EN 12210"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

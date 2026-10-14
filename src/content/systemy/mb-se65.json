@@ -1,0 +1,30 @@
+{
+  "name": "MB-SE65",
+  "nameConfirmed": true,
+  "order": 630,
+  "aluprof": "mb-se65",
+  "summary": "Fasada elementowa",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200 Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200 Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "±2000 Pa"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "UCW < 0,9 W/(m²K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

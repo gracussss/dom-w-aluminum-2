@@ -1,0 +1,33 @@
+{
+  "name": "MB-FERROLINE",
+  "nameConfirmed": true,
+  "order": 150,
+  "aluprof": "mb-ferroline",
+  "summary": "System okien o wąskich profilach",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E1350",
+      "note": "EN 12208"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "do klasy C5",
+      "note": "EN 12210"
+    },
+    {
+      "label": "Klasa antywłamaniowa",
+      "value": "RC2"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

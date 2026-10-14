@@ -1,0 +1,33 @@
+{
+  "name": "MB-SR50N HI",
+  "nameConfirmed": true,
+  "order": 520,
+  "aluprof": "mb-sr50n-hi",
+  "summary": "Ściana słupowo-ryglowa o podwyższonej izolacyjności termicznej",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "AE 1200"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1500",
+      "note": "EN 12154"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "I5/E5",
+      "note": "EN 14019"
+    },
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": ">0,85",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

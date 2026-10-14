@@ -1,0 +1,35 @@
+{
+  "name": "MB-78EI",
+  "nameConfirmed": true,
+  "order": 690,
+  "aluprof": "mb-78ei",
+  "summary": "Przegrody przeciwpożarowe z drzwiami w klasach EI15 do EI90",
+  "categories": [
+    "ppoz",
+    "drzwi",
+    "wewnetrzne"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Klasy odporności ogniowej",
+      "value": "od EI 15 do EI 90",
+      "note": "EN 13501-2:2016-07"
+    },
+    {
+      "label": "Dymoszczelność",
+      "value": "Sa3 , S200",
+      "note": "EN 13501-2:2016-07"
+    },
+    {
+      "label": "Izolacyjność akustyczna",
+      "value": "RW do 41dB"
+    },
+    {
+      "label": "Samozamykalność",
+      "value": "C5",
+      "note": "EN 1191:2013-06"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

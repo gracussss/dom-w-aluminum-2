@@ -1,0 +1,30 @@
+{
+  "name": "MB-SE90 SG",
+  "nameConfirmed": true,
+  "order": 810,
+  "aluprof": "mb-se90-sg",
+  "summary": "Fasada elementowa strukturalna",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa A4 (600 Pa)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa RE 1200"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "±2000 Pa"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "klasa I5/E5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

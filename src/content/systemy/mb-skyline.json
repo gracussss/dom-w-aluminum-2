@@ -1,0 +1,34 @@
+{
+  "name": "MB-SKYLINE",
+  "nameConfirmed": true,
+  "order": 400,
+  "aluprof": "mb-skyline",
+  "summary": "Drzwi przesuwne z ukrytą ramą",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3",
+      "note": "EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "do klasy 9A (600Pa)",
+      "note": "EN 12208"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "do klasy C5 (2000Pa)",
+      "note": "EN 12210"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "UW od 0,85",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

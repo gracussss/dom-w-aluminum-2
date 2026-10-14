@@ -1,0 +1,30 @@
+{
+  "name": "MB-60E, MB-60E HI",
+  "nameConfirmed": true,
+  "order": 310,
+  "aluprof": "mb-60e-mb-60e-hi",
+  "summary": "System drzwi ekonomicznych izolowanych termicznie",
+  "categories": [
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E1200"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C1"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "klasa 3"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-79N CSF",
+  "nameConfirmed": true,
+  "order": 60,
+  "aluprof": "mb-79n-csf",
+  "summary": "Okna wąskoprofilowe",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Minimalna szerokość profili okna stałego",
+      "value": "35,2 mm"
+    },
+    {
+      "label": "Minimalna szerokość profili okna otwieranego",
+      "value": "60,5 mm"
+    },
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "80 kg"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-SKYLINE TYPE S",
+  "nameConfirmed": true,
+  "order": 420,
+  "aluprof": "mb-skyline-type-s",
+  "summary": "Drzwi przesuwne wąskoprofilowe",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "750 kg"
+    },
+    {
+      "label": "Maksymalna wysokość drzwi",
+      "value": "4 m"
+    },
+    {
+      "label": "Szerokość słupka na połączeniu skrzydeł",
+      "value": "25 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

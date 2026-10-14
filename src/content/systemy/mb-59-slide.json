@@ -1,0 +1,35 @@
+{
+  "name": "MB-59 SLIDE",
+  "nameConfirmed": true,
+  "order": 380,
+  "aluprof": "mb-59-slide",
+  "summary": "System drzwi balkonowych przesuwnych",
+  "categories": [
+    "przesuwne",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 3",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa 6A",
+      "note": "PN-EN 12208:2001"
+    },
+    {
+      "label": "Obciążenie wiatrem",
+      "value": "klasa C3",
+      "note": "PN-EN 12210:2001"
+    },
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "> 1,9",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

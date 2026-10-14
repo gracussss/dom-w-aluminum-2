@@ -1,0 +1,34 @@
+{
+  "name": "MB-82HS",
+  "nameConfirmed": true,
+  "order": 360,
+  "aluprof": "mb-82hs",
+  "summary": "Drzwi tarasowe podnoszono-przesuwne",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "PN-EN 12207"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "od 750 Pa do 1800 Pa",
+      "note": "EN 12208"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "od 1200 Pa do 2400 Pa",
+      "note": "EN 12210"
+    },
+    {
+      "label": "Izolacyjność termiczna UW",
+      "value": "od 0,62",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { imageAlts, images } from "../data/images";
 import { homeContent } from "../data/pages";
+import type { HomeContent } from "../data/pages";
 import { company } from "../data/company";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { EASE_OUT } from "../lib/motion";
@@ -29,7 +30,13 @@ const fadeUp = { out: { opacity: 0, y: 14 }, in: { opacity: 1, y: 0 } };
 const fadeUpFar = { out: { opacity: 0, y: 18 }, in: { opacity: 1, y: 0 } };
 const settle = { out: { scale: 1.14 }, in: { scale: 1 } };
 
-export function Hero() {
+interface HeroProps {
+  /** Teksty z panelu — podgląd na żywo podaje tu dane jeszcze niezapisane. */
+  content?: HomeContent["hero"];
+  image?: { src: string; alt: string };
+}
+
+export function Hero({ content = homeContent.hero, image = { src: images.heroBg, alt: imageAlts.hero } }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -42,10 +49,10 @@ export function Hero() {
       {/* Tło architektoniczne */}
       <motion.div style={{ y: imgY }} className="absolute inset-0 -bottom-[18%]">
         <motion.img
-          src={images.heroBg}
-          srcSet={responsiveSrcSet(images.heroBg)}
+          src={image.src}
+          srcSet={responsiveSrcSet(image.src)}
           sizes={SIZES_FULL}
-          alt={imageAlts.hero}
+          alt={image.alt}
           variants={settle}
           initial="out"
           animate="in"
@@ -90,46 +97,32 @@ export function Hero() {
               className="mb-8"
             >
               {/* Bez kreski — tak jak etykiety wszystkich sekcji (`Eyebrow`). */}
-              <span className="label text-sm text-limestone/80 md:text-base">{homeContent.heroEyebrow}</span>
+              <span className="label text-sm text-limestone/80 md:text-base">{content.eyebrow}</span>
             </motion.div>
 
             {/* Maski linii: `overflow-clip` z marginesem zamiast `overflow-hidden`.
                 Przy interlinii 0.88 line-box jest niższy niż tusz kroju i ogonki
                 „j" w „nowoczesnej" oraz „y" w „architektury" były ścinane płasko. */}
             <h1 className="display display-tight text-[13.5vw] leading-[0.88] text-limestone sm:text-[9vw] lg:text-[6.2rem] xl:text-[6.9rem] 2xl:text-[7.4rem]">
-              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
-                <motion.span
-                  variants={rise}
-                  initial="out"
-                  animate="in"
-                  transition={{ duration: 1.05, delay: 0.1, ease: EASE_OUT }}
-                  className="block"
-                >
-                  STOLARKA
-                </motion.span>
-              </span>
-              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
-                <motion.span
-                  variants={rise}
-                  initial="out"
-                  animate="in"
-                  transition={{ duration: 1.05, delay: 0.19, ease: EASE_OUT }}
-                  className="block"
-                >
-                  ALUMINIOWA
-                </motion.span>
-              </span>
-              <span className="block overflow-clip [overflow-clip-margin:0.18em]">
-                <motion.span
-                  variants={rise}
-                  initial="out"
-                  animate="in"
-                  transition={{ duration: 1.05, delay: 0.28, ease: EASE_OUT }}
-                  className="editorial block text-[0.78em] tracking-[-0.02em] text-aluminium-light"
-                >
-                  dla nowoczesnej architektury
-                </motion.span>
-              </span>
+              {/* Linie z panelu: wiersz w gwiazdkach to kursywa (człon
+                  podrzędny, mniejszy i jaśniejszy), pozostałe — wersaliki. */}
+              {content.title.map((line, i) => (
+                <span key={i} className="block overflow-clip [overflow-clip-margin:0.18em]">
+                  <motion.span
+                    variants={rise}
+                    initial="out"
+                    animate="in"
+                    transition={{ duration: 1.05, delay: 0.1 + i * 0.09, ease: EASE_OUT }}
+                    className={
+                      line.accent
+                        ? "editorial block text-[0.78em] tracking-[-0.02em] text-aluminium-light"
+                        : "block"
+                    }
+                  >
+                    {line.text}
+                  </motion.span>
+                </span>
+              ))}
             </h1>
           </div>
 
@@ -145,7 +138,7 @@ export function Hero() {
                 lewy gradient już nie sięga — przy 15 px i 60% krycia klientka
                 oceniła go jako „średnio widoczny”. */}
             <p className="text-pretty text-lg leading-relaxed text-limestone/90 [text-shadow:0_1px_14px_rgb(11_12_13/0.75)] md:text-xl">
-              {homeContent.heroLead}
+              {content.lead}
             </p>
 
             {/* „Opisz projekt”, nie „Zapytaj o wycenę”: ten drugi przycisk stoi
@@ -174,7 +167,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {isPlaceholderImage(images.heroBg) && (
+        {isPlaceholderImage(image.src) && (
           <PlaceholderTag className="mt-8 self-start lg:absolute lg:bottom-14 lg:right-0 lg:mt-0" />
         )}
       </motion.div>

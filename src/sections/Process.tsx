@@ -3,49 +3,25 @@ import { useReducedMotion } from "framer-motion";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { prefersReducedMotion } from "../lib/motion";
 import { loadScrollAnimation } from "../lib/scrollAnimation";
+import { homeContent, withCount } from "../data/pages";
+import type { HomeContent } from "../data/pages";
+import { headingNodes } from "../components/ui/headingNodes";
+import { countInWords } from "../lib/plural";
+import { useStaticMotion } from "../lib/staticMotion";
 
-const stages = [
-  {
-    no: "01",
-    title: "Rozmowa i zakres",
-    body: "Ustalamy, czego dotyczy inwestycja: pojedyncze okno, komplet stolarki czy fasada. Zbieramy rysunki i wymagania.",
-  },
-  {
-    no: "02",
-    title: "Pomiar na budowie",
-    body: "Otwory mierzymy na miejscu. To moment, w którym wychodzą różnice między projektem a stanem faktycznym.",
-  },
-  {
-    no: "03",
-    title: "Dobór systemu",
-    body: "Do warunków otworu dobieramy system profili, rodzaj szklenia i sposób otwierania konstrukcji.",
-  },
-  {
-    no: "04",
-    title: "Rysunki warsztatowe",
-    body: "Każda pozycja trafia na rysunek – z podziałami, kierunkami otwierania i sposobem osadzenia.",
-  },
-  {
-    no: "05",
-    title: "Produkcja",
-    body: "Cięcie, obróbka i montaż konstrukcji. Przed wysyłką każda pozycja przechodzi kontrolę.",
-  },
-  {
-    no: "06",
-    title: "Montaż i odbiór",
-    body: "Osadzenie, uszczelnienie i regulacja okuć. Odbiór potwierdza poprawność działania konstrukcji.",
-  },
-];
-
-export function Process() {
+export function Process({ content = homeContent.process }: { content?: HomeContent["process"] }) {
+  const stages = content.stages;
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  /* W podglądzie panelu tor jest zawsze pionowy — przypięcie sekcji
+     i przewijanie w poziomie nie mają sensu w ramce obok formularza. */
+  const isStatic = useStaticMotion();
+  const reduced = useReducedMotion() || isStatic;
 
   /* GSAP dociągany na żądanie — sekcja leży kilka ekranów pod pierwszym
      kadrem, więc nie ma powodu, żeby jechał w pliku startowym. */
   useLayoutEffect(() => {
-    if (prefersReducedMotion()) return;
+    if (prefersReducedMotion() || isStatic) return;
 
     let ctx: { revert: () => void } | null = null;
     let cancelled = false;
@@ -84,7 +60,7 @@ export function Process() {
       cancelled = true;
       ctx?.revert();
     };
-  }, []);
+  }, [isStatic]);
 
   return (
     <section
@@ -97,11 +73,11 @@ export function Process() {
               akapit spadał pod tytuł do prawej kolumny i wisiał w pustym polu. */}
           <SectionHeading
             index="04"
-            eyebrow="Proces"
+            eyebrow={content.eyebrow}
             tone="dark"
             variant="split"
-            lines={["Od rozmowy", "do odbioru"]}
-            description="Sześć etapów, przez które przechodzi każda konstrukcja."
+            lines={headingNodes(content.title, "text-sand-deep")}
+            description={withCount(content.description, countInWords(stages.length, "etap", "etapy", "etapów"))}
           />
         </div>
 
@@ -120,7 +96,7 @@ export function Process() {
           >
             {stages.map((s, i) => (
               <div
-                key={s.no}
+                key={i}
                 className={`flex gap-5 bg-limestone ${
                   reduced
                     ? ""
@@ -129,12 +105,14 @@ export function Process() {
               >
                 {/* Gutter mobilny — numer i szyna łącząca kolejne etapy */}
                 <div className="flex w-9 shrink-0 flex-col items-center lg:hidden">
-                  <span className="display text-2xl leading-none text-bronze">{s.no}</span>
+                  <span className="display text-2xl leading-none text-bronze">{String(i + 1).padStart(2, "0")}</span>
                   {i < stages.length - 1 && <span className="mt-3 w-px flex-1 bg-void/15" />}
                 </div>
 
                 <div className="pb-10 lg:pb-0">
-                  <span className="display hidden text-3xl leading-none text-bronze lg:block">{s.no}</span>
+                  <span className="display hidden text-3xl leading-none text-bronze lg:block">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <h3 className="text-2xl font-semibold leading-tight tracking-[-0.03em] lg:mt-5">
                     {s.title}
                   </h3>

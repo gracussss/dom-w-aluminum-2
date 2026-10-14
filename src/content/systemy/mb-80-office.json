@@ -1,0 +1,26 @@
+{
+  "name": "MB-80 OFFICE",
+  "nameConfirmed": true,
+  "order": 680,
+  "aluprof": "mb-80-office",
+  "summary": "System ścian działowych",
+  "categories": [
+    "wewnetrzne"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Grubość ścian działowych",
+      "value": "80 mm oraz 92 mm"
+    },
+    {
+      "label": "Grubość wypełnień (szyb lub płyt)",
+      "value": "4-18 mm"
+    },
+    {
+      "label": "Izolacyjność akustyczna",
+      "value": "do 50dB"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

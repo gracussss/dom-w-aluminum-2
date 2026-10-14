@@ -1,0 +1,25 @@
+{
+  "name": "Przeszklone dachy przeciwpożarowe",
+  "nameConfirmed": true,
+  "order": 750,
+  "aluprof": "przeszklone-dachy-przeciwpozarowe",
+  "categories": [
+    "ppoz"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Odporność ogniowa",
+      "value": "klasa REI30, RE45"
+    },
+    {
+      "label": "Pochylenie dachu",
+      "value": "5°- 75°"
+    },
+    {
+      "label": "Max wymiar szyb",
+      "value": "1250 mm x 3250 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "MB-86EI",
+  "nameConfirmed": true,
+  "order": 710,
+  "aluprof": "mb-86ei",
+  "summary": "Okna, drzwi i ścianki przeciwpożarowe klasy EI15, EW30, EI30",
+  "categories": [
+    "ppoz",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E 1500 Pa",
+      "note": "EN 12208"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uw od 0,86",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4",
+      "note": "EN 12207"
+    },
+    {
+      "label": "Odporność ogniowa",
+      "value": "klasa EI30",
+      "note": "EN 13501-2:2016-07"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

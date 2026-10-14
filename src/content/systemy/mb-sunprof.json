@@ -1,0 +1,22 @@
+{
+  "name": "MB-SUNPROF",
+  "nameConfirmed": true,
+  "order": 650,
+  "aluprof": "mb-sunprof",
+  "summary": "Żaluzje fasadowe",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Kąt pochylenia żaluzji",
+      "value": "od 0 do 45 st."
+    },
+    {
+      "label": "Szerokość profili żaluzji",
+      "value": "od 100 do 300 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

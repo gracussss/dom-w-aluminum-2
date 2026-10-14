@@ -3,11 +3,17 @@ import { Link } from "react-router-dom";
 import { Reveal } from "../components/ui/Reveal";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
-import { offerAreas, offerAreasCount } from "../data/products";
+import { offerAreas as defaultAreas, offerAreasCount } from "../data/products";
+import type { OfferArea } from "../data/products";
+import { homeContent, withCount } from "../data/pages";
+import type { HomeContent } from "../data/pages";
+import { headingNodes } from "../components/ui/headingNodes";
 import { isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
 
-/* Jedna wspólna etykieta, dopóki choć jedna miniatura jest z banku zdjęć. */
-const anyPlaceholder = offerAreas.some((area) => isPlaceholderImage(area.image));
+interface OfferAreasProps {
+  content?: HomeContent["offer"];
+  areas?: OfferArea[];
+}
 
 /**
  * Obszary oferty jako lista wierszy z miniaturą.
@@ -18,17 +24,20 @@ const anyPlaceholder = offerAreas.some((area) => isPlaceholderImage(area.image))
  * małą miniaturą w wierszu, na który wskazuje kursor, więc zawsze mieści się
  * w całości i nie odrywa się od nazwy, której dotyczy.
  */
-export function OfferAreas() {
+export function OfferAreas({ content = homeContent.offer, areas = defaultAreas }: OfferAreasProps) {
+  /* Jedna wspólna etykieta, dopóki choć jedna miniatura jest z banku zdjęć. */
+  const anyPlaceholder = areas.some((area) => isPlaceholderImage(area.image));
+
   return (
     <section id="oferta" className="grain relative overflow-hidden bg-void py-20 text-limestone md:py-28">
       <div className="container-edge relative">
         <SectionHeading
           index="01"
-          eyebrow="Zakres prac"
+          eyebrow={content.eyebrow}
           tone="light"
           variant="split"
-          lines={["Co wykonujemy"]}
-          description={`${offerAreasCount()} – od pojedynczego okna po kompletną kopertę budynku.`}
+          lines={headingNodes(content.title, "text-aluminium-light")}
+          description={withCount(content.description, offerAreasCount(areas.length))}
         />
 
         {/* Jedna etykieta dla wszystkich miniatur — na kadrze 176 px
@@ -40,7 +49,7 @@ export function OfferAreas() {
         )}
 
         <ul className={`${anyPlaceholder ? "mt-4" : "mt-10"} border-t border-limestone/12`}>
-          {offerAreas.map((area, i) => (
+          {areas.map((area, i) => (
             <li key={area.id}>
               <Reveal delay={Math.min(i * 0.04, 0.2)}>
                 <Link

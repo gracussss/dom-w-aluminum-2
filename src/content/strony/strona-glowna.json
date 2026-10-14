@@ -1,0 +1,102 @@
+{
+  "hero": {
+    "eyebrow": "Producent stolarki aluminiowej",
+    "title": "STOLARKA\nALUMINIOWA\n*dla nowoczesnej architektury*",
+    "lead": "Projektujemy i wykonujemy konstrukcje aluminiowe – od pojedynczego okna po kompletną fasadę budynku."
+  },
+  "offer": {
+    "eyebrow": "Zakres prac",
+    "title": "Co wykonujemy",
+    "description": "{liczba} – od pojedynczego okna po kompletną kopertę budynku."
+  },
+  "story": {
+    "eyebrow": "Jak powstaje konstrukcja",
+    "steps": [
+      {
+        "label": "Konstrukcja",
+        "title": "Zaczynamy od całości",
+        "body": "Ościeżnica osadzona w murze, skrzydło i pakiet szybowy. Trzy elementy, które muszą pracować jak jeden."
+      },
+      {
+        "label": "Profil",
+        "title": "Rama, która ma zniknąć",
+        "body": "Im węższy profil w widoku, tym więcej szkła. Granicę wyznacza statyka konstrukcji i masa skrzydła."
+      },
+      {
+        "label": "Skrzydło",
+        "title": "Ruch musi być powtarzalny",
+        "body": "Ciężar pakietu szybowego przenoszą okucia i naroża ramy – przy tym samym ruchu, tysiące razy."
+      },
+      {
+        "label": "Warstwy",
+        "title": "Konstrukcja rozłożona",
+        "body": "Powłoka zewnętrzna, przekładka termiczna, powłoka wewnętrzna, skrzydło i szyba. Każda warstwa odpowiada za co innego."
+      },
+      {
+        "label": "Przekrój",
+        "title": "Wnętrze profilu",
+        "body": "Dwie powłoki aluminium rozdzielone przekładką termiczną – to ona przerywa drogę ciepła między zewnętrzem a wnętrzem."
+      },
+      {
+        "label": "Realizacja",
+        "title": "Wszystko wraca do całości",
+        "body": "Zmontowana konstrukcja trafia na budowę jako jeden, sprawdzony element koperty budynku."
+      }
+    ]
+  },
+  "approach": {
+    "eyebrow": "Podejście",
+    "title": "Aluminium daje architekturze\n*smukłość, której nie da*\nżaden inny materiał.",
+    "lead": "Wąska rama, duża tafla szkła i konstrukcja, która utrzymuje swoją geometrię przez dziesięciolecia. Naszym zadaniem jest sprawić, żeby stolarka zniknęła – a został widok.",
+    "principles": [
+      {
+        "title": "Projekt przed produkcją",
+        "body": "Każdą konstrukcję rozrysowujemy pod konkretny otwór i konkretny budynek, zanim trafi na produkcję."
+      },
+      {
+        "title": "Systemy, nie improwizacja",
+        "body": "Pracujemy na sprawdzonych systemach profili aluminiowych – dobieranych do wymagań inwestycji."
+      },
+      {
+        "title": "Detal decyduje",
+        "body": "Uszczelnienie, przekładka i sposób osadzenia decydują o tym, jak konstrukcja zachowa się po latach."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Proces",
+    "title": "Od rozmowy\ndo odbioru",
+    "description": "{liczba}, przez które przechodzi każda konstrukcja.",
+    "stages": [
+      {
+        "title": "Rozmowa i zakres",
+        "body": "Ustalamy, czego dotyczy inwestycja: pojedyncze okno, komplet stolarki czy fasada. Zbieramy rysunki i wymagania."
+      },
+      {
+        "title": "Pomiar na budowie",
+        "body": "Otwory mierzymy na miejscu. To moment, w którym wychodzą różnice między projektem a stanem faktycznym."
+      },
+      {
+        "title": "Dobór systemu",
+        "body": "Do warunków otworu dobieramy system profili, rodzaj szklenia i sposób otwierania konstrukcji."
+      },
+      {
+        "title": "Rysunki warsztatowe",
+        "body": "Każda pozycja trafia na rysunek – z podziałami, kierunkami otwierania i sposobem osadzenia."
+      },
+      {
+        "title": "Produkcja",
+        "body": "Cięcie, obróbka i montaż konstrukcji. Przed wysyłką każda pozycja przechodzi kontrolę."
+      },
+      {
+        "title": "Montaż i odbiór",
+        "body": "Osadzenie, uszczelnienie i regulacja okuć. Odbiór potwierdza poprawność działania konstrukcji."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Porozmawiajmy\n*o Twojej konstrukcji*",
+    "lead": "Pojedyncze okno, kompletna stolarka domu czy fasada budynku – opisz projekt, a wrócimy z konkretną propozycją i realnym terminem realizacji."
+  }
+}

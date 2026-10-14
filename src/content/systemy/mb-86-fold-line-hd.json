@@ -1,0 +1,26 @@
+{
+  "name": "MB-86 FOLD LINE HD",
+  "nameConfirmed": true,
+  "order": 430,
+  "aluprof": "mb-86-fold-line-hd",
+  "summary": "Drzwi harmonijkowe",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "120 kg"
+    },
+    {
+      "label": "Maksymalna wysokość drzwi",
+      "value": "3,0 m"
+    },
+    {
+      "label": "Maksymalna szerokość skrzydła drzwi",
+      "value": "1,2 m"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

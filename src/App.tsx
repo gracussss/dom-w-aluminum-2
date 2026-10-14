@@ -26,6 +26,10 @@ const Realizacje = lazy(() => loadRealizacje().then((m) => ({ default: m.Realiza
 const RealizacjaDetail = lazy(() =>
   import("./pages/RealizacjaDetail").then((m) => ({ default: m.RealizacjaDetail }))
 );
+const Aktualnosci = lazy(() => import("./pages/Aktualnosci").then((m) => ({ default: m.Aktualnosci })));
+const AktualnoscDetail = lazy(() =>
+  import("./pages/AktualnoscDetail").then((m) => ({ default: m.AktualnoscDetail }))
+);
 const ONas = lazy(() => loadONas().then((m) => ({ default: m.ONas })));
 const Kontakt = lazy(() => loadKontakt().then((m) => ({ default: m.Kontakt })));
 const PolitykaPrywatnosci = lazy(() =>
@@ -85,6 +89,8 @@ function App() {
                 <Route path="systemy/:slug" element={<SystemDetail />} />
                 <Route path="realizacje" element={<Realizacje />} />
                 <Route path="realizacje/:slug" element={<RealizacjaDetail />} />
+                <Route path="aktualnosci" element={<Aktualnosci />} />
+                <Route path="aktualnosci/:slug" element={<AktualnoscDetail />} />
                 <Route path="o-nas" element={<ONas />} />
                 <Route path="kontakt" element={<Kontakt />} />
                 <Route path="polityka-prywatnosci" element={<PolitykaPrywatnosci />} />

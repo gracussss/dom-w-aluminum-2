@@ -1,0 +1,18 @@
+{
+  "name": "MB-PŁYTY",
+  "nameConfirmed": true,
+  "order": 250,
+  "aluprof": "mb-plyty",
+  "summary": "System zabudowy w płycie warstwowej",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Grubość płyt warstwowych objętych systemem",
+      "value": "od 60 do 250 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

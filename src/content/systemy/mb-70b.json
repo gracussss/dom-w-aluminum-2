@@ -1,0 +1,31 @@
+{
+  "name": "MB-70B",
+  "nameConfirmed": true,
+  "order": 170,
+  "aluprof": "mb-70b",
+  "summary": "System okienno-drzwiowy",
+  "categories": [
+    "okna",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4, EN 1026; EN 12207"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "do klasy C5, EN 12211; EN 12210"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "9A, EN 1027; EN 12208"
+    },
+    {
+      "label": "Izolacyjność termiczna",
+      "value": "Uw od 0,8 W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

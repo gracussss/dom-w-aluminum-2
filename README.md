@@ -68,6 +68,7 @@ src/
   components/     UI (layout, ui, catalog, crosssection, product3d)
   sections/       sekcje strony głównej
   pages/          podstrony (routing w App.tsx)
+  admin/          podgląd na żywo dla panelu (osobny build do /admin/preview/)
   content/        treści edytowane w panelu /admin (JSON) — patrz PANEL.md
   data/           odczyt treści z content/ + nawigacja
   lib/            scroll, animacje, SEO, zgody cookies

@@ -1,0 +1,34 @@
+{
+  "name": "MB-SR60N, MB-SR60N HI",
+  "nameConfirmed": true,
+  "order": 600,
+  "aluprof": "mb-sr60n-brmb-sr60n-hi",
+  "summary": "Ściana słupowo-ryglowa",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do AE 1350",
+      "note": "EN 12152"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "do RE 1500",
+      "note": "EN 12154"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "2,4 kN/m",
+      "note": "EN 13116"
+    },
+    {
+      "label": "Odporność na uderzenie",
+      "value": "I5/E5",
+      "note": "EN 14019"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

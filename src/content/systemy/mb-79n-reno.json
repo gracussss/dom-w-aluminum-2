@@ -1,0 +1,30 @@
+{
+  "name": "MB-79N RENO",
+  "nameConfirmed": true,
+  "order": 20,
+  "aluprof": "mb-79n-reno",
+  "summary": "Okna do renowacji budynków",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "tags": [
+    "renowacja"
+  ],
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna profili",
+      "value": "Uw > 1,2",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność okien",
+      "value": "od 600 Pa do 1950 Pa"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "do klasy 4"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

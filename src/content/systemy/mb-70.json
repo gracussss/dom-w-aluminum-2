@@ -1,0 +1,35 @@
+{
+  "name": "MB-70",
+  "nameConfirmed": true,
+  "order": 160,
+  "aluprof": "mb-70",
+  "summary": "System okienno-drzwiowy z izolacją termiczną",
+  "categories": [
+    "okna",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "tags": [
+    "antywlamaniowe"
+  ],
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna Uf",
+      "value": "> 1,5",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E1200"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "klasa C5"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

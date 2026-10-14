@@ -1,0 +1,31 @@
+{
+  "name": "MB-69V",
+  "nameConfirmed": true,
+  "order": 180,
+  "aluprof": "mb-69v",
+  "summary": "Okna i drzwi",
+  "categories": [
+    "okna",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Maksymalna wysokość skrzydła okna i drzwi",
+      "value": "2700 mm"
+    },
+    {
+      "label": "Maksymalna szerokość skrzydła okna i drzwi",
+      "value": "1700 mm"
+    },
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "160 kg"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "5 – 52 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

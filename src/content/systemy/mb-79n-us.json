@@ -1,0 +1,12 @@
+{
+  "name": "MB-79N US",
+  "nameConfirmed": true,
+  "order": 70,
+  "aluprof": "mb-79n-us",
+  "summary": "Okna z ukrytym skrzydłem",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "sourceDate": "2026-08-28"
+}

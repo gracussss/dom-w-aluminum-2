@@ -1,0 +1,26 @@
+{
+  "name": "EARTHLINE",
+  "nameConfirmed": true,
+  "order": 660,
+  "aluprof": "earthline",
+  "summary": "Lamele elewacyjne",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "stale",
+  "specs": [
+    {
+      "label": "Szerokość lameli w wariancie pionowym",
+      "value": "30 mm lub 90 mm"
+    },
+    {
+      "label": "Szerokość lameli w wariancie poziomym",
+      "value": "45 mm"
+    },
+    {
+      "label": "Wysokość lameli",
+      "value": "19,5 mm lub 40,5 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

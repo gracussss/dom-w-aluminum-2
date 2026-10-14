@@ -1,0 +1,29 @@
+{
+  "name": "MB-SLIDER WINDOW",
+  "nameConfirmed": true,
+  "order": 240,
+  "aluprof": "mb-slider-window",
+  "summary": "Systemy okien przesuwnych",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Maksymalny ciężar skrzydła przesuwnego w poziomie",
+      "value": "80",
+      "note": "kg"
+    },
+    {
+      "label": "Maksymalny ciężar skrzydła przesuwnego w pionie",
+      "value": "25,5",
+      "note": "kg"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "4 do 10,5",
+      "note": "mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

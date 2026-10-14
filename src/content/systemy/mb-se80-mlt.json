@@ -1,0 +1,26 @@
+{
+  "name": "MB-SE80 MLT",
+  "nameConfirmed": true,
+  "order": 790,
+  "aluprof": "mb-se80-mlt",
+  "summary": "Ściana elementowa",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE, 6.24 psf (300 Pa)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "RE 1200, 15psf"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "+/- 2250 Pa, +/- 48psf"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

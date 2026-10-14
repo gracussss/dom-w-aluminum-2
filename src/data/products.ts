@@ -1,7 +1,7 @@
 import raw from "../content/oferta.json";
 import { categories } from "../catalog/taxonomy";
 import { slugify, text, uniqueSlugs } from "../lib/content";
-import { plural } from "../lib/plural";
+import { countInWords } from "../lib/plural";
 
 export interface OfferArea {
   id: string;
@@ -28,35 +28,38 @@ const knownCategories = new Set(categories.map((c) => c.id));
    istniejące kategorie, ale plik da się zapisać też ręcznie. */
 const FALLBACK_CATEGORY = "indywidualne";
 
-const items = ((raw as { items?: RawOfferArea[] }).items ?? []).filter(
-  (item) => text(item.name) && text(item.image)
-);
-
-/* Kotwica (`/oferta#okna-aluminiowe`) z nazwy — klient jej nie wpisuje. */
-const ids = uniqueSlugs(items, (item) => slugify(text(item.name)));
-
 /**
  * Obszary oferty prezentowane na stronie głównej i w „Ofercie”.
  * Edytowane w panelu (/admin → „Zakres prac”), plik src/content/oferta.json.
+ * Funkcja osobno, bo podgląd w panelu składa listę z niezapisanych danych.
  */
-export const offerAreas: OfferArea[] = items.map((item, i) => {
-  const categoryId = text(item.categoryId);
-  return {
-    id: ids[i],
-    categoryId: knownCategories.has(categoryId) ? categoryId : FALLBACK_CATEGORY,
-    name: text(item.name),
-    short: text(item.short),
-    description: text(item.description),
-    image: text(item.image),
-  };
-});
+export function buildOfferAreas(input: unknown): OfferArea[] {
+  const items = ((input as { items?: RawOfferArea[] } | undefined)?.items ?? []).filter(
+    (item) => text(item.name) && text(item.image)
+  );
 
-const COUNT_WORDS = ["", "Jeden", "Dwa", "Trzy", "Cztery", "Pięć", "Sześć", "Siedem", "Osiem", "Dziewięć", "Dziesięć"];
+  /* Kotwica (`/oferta#okna-aluminiowe`) z nazwy — klient jej nie wpisuje. */
+  const ids = uniqueSlugs(items, (item) => slugify(text(item.name)));
+
+  return items.map((item, i) => {
+    const categoryId = text(item.categoryId);
+    return {
+      id: ids[i],
+      categoryId: knownCategories.has(categoryId) ? categoryId : FALLBACK_CATEGORY,
+      name: text(item.name),
+      short: text(item.short),
+      description: text(item.description),
+      image: text(item.image),
+    };
+  });
+}
+
+export const offerAreas: OfferArea[] = buildOfferAreas(raw);
 
 /**
  * „Siedem obszarów”, „Cztery obszary”, „Jeden obszar”. Liczba była wpisana
  * w nagłówek na sztywno — po dodaniu pozycji w panelu nagłówek kłamałby.
  */
 export function offerAreasCount(count = offerAreas.length): string {
-  return `${COUNT_WORDS[count] ?? String(count)} ${plural(count, "obszar", "obszary", "obszarów")}`;
+  return countInWords(count, "obszar", "obszary", "obszarów");
 }

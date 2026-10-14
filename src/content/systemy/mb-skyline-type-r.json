@@ -1,0 +1,31 @@
+{
+  "name": "MB-SKYLINE TYPE R",
+  "nameConfirmed": true,
+  "order": 410,
+  "aluprof": "mb-skyline-type-r",
+  "summary": "Drzwi przesuwne z ukrytą ramą",
+  "categories": [
+    "przesuwne",
+    "drzwi"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "1200 kg"
+    },
+    {
+      "label": "Maksymalna wysokość drzwi",
+      "value": "4 m"
+    },
+    {
+      "label": "Szerokość słupka na połączeniu skrzydeł",
+      "value": "25 mm"
+    },
+    {
+      "label": "Głębokość ościeżnicy",
+      "value": "23 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

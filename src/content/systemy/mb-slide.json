@@ -1,0 +1,12 @@
+{
+  "name": "MB-Slide, MB-Slide ST",
+  "nameConfirmed": true,
+  "order": 480,
+  "aluprof": "mb-slide-mb-slide-st",
+  "summary": "Okna i drzwi przesuwne",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "sourceDate": "2026-08-28"
+}

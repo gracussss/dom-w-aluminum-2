@@ -28,3 +28,13 @@ export function positions(n: number): string {
 export function systemsWord(n: number): string {
   return plural(n, "system", "systemy", "systemów");
 }
+
+const COUNT_WORDS = ["", "Jeden", "Dwa", "Trzy", "Cztery", "Pięć", "Sześć", "Siedem", "Osiem", "Dziewięć", "Dziesięć"];
+
+/**
+ * Liczba słownie z odmienionym rzeczownikiem: „Siedem obszarów”, „Cztery
+ * etapy”, „Jeden obszar”. Powyżej dziesięciu — cyframi („12 etapów”).
+ */
+export function countInWords(n: number, one: string, few: string, many: string): string {
+  return `${COUNT_WORDS[n] ?? String(n)} ${plural(n, one, few, many)}`;
+}

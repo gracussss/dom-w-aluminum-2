@@ -1,0 +1,23 @@
+{
+  "name": "MB-45S",
+  "nameConfirmed": true,
+  "order": 320,
+  "aluprof": "mb-45s",
+  "summary": "System drzwi wrębowych bez izolacji termicznej",
+  "categories": [
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Max ciężar skrzydła (drzwi / okna)",
+      "value": "130",
+      "note": "kg"
+    },
+    {
+      "label": "Max wymiary skrzydła drzwi (H×L)",
+      "value": "H do 2400 mm; L do 1250 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

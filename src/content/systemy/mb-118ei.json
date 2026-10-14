@@ -1,0 +1,26 @@
+{
+  "name": "MB-118EI",
+  "nameConfirmed": true,
+  "order": 730,
+  "aluprof": "mb-118ei",
+  "summary": "Przegrody przeciwpożarowe w klasie EI120",
+  "categories": [
+    "ppoz"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa A4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa RE 750"
+    },
+    {
+      "label": "Odporność ogniowa",
+      "value": "klasa EI120"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -8,6 +8,7 @@ import { ParallaxImage } from "../components/ui/ParallaxImage";
 import { SIZES_FULL, isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
 import { NotFound } from "./NotFound";
 import { PORTFOLIO_DISCLAIMER, realizations } from "../data/realizations";
+import type { Realization } from "../data/realizations";
 import { breadcrumbJsonLd } from "../lib/jsonLd";
 import { siteOrigin } from "../lib/seo";
 
@@ -32,10 +33,6 @@ export function RealizacjaDetail() {
         `${item.category}. Zakres prac: ${item.scope}.`
       );
 
-  /* Etykieta „Zdjęcie poglądowe” przy każdym kadrze, który nie dokumentuje
-     prawdziwej realizacji: z banku zdjęć albo z pozycji niepotwierdzonej. */
-  const placeholder = (src: string) => !item.verified || isPlaceholderImage(src);
-
   const crumbs = [{ label: "Realizacje", to: "/realizacje" }, { label: item.title }];
   /* Origin z konfiguracji, nie z przeglądarki — inaczej po ustawieniu
      VITE_SITE_URL canonical wskazywałby domenę produkcyjną, a adresy
@@ -57,6 +54,48 @@ export function RealizacjaDetail() {
         jsonLd={breadcrumbJsonLd(crumbs, origin)}
       />
 
+      <RealizationView item={item} />
+
+      {/* KOLEJNA REALIZACJA */}
+      <section className="relative bg-void">
+        <Link to={`/realizacje/${next.slug}`} className="group relative block h-[52svh] min-h-[360px] overflow-hidden">
+          <img
+            src={next.cover}
+            srcSet={responsiveSrcSet(next.cover)}
+            sizes={SIZES_FULL}
+            alt={next.title}
+            loading="lazy"
+            className="h-full w-full object-cover opacity-45 transition-all duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-105 group-hover:opacity-65"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-void/40" />
+
+          <div className="container-edge absolute inset-0 flex flex-col items-start justify-center">
+            <span className="label text-limestone/55">Kolejna realizacja</span>
+            <h2 className="display display-tight mt-5 max-w-3xl text-[10vw] leading-[0.94] text-limestone sm:text-5xl md:text-6xl">
+              {next.title}
+            </h2>
+            <span className="mt-8 inline-flex items-center gap-3 label text-limestone">
+              Zobacz
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1.5"
+                strokeWidth={1.4}
+              />
+            </span>
+          </div>
+        </Link>
+      </section>
+    </>
+  );
+}
+
+/** Karta realizacji bez meta i bez „kolejnej” — tę część rysuje też podgląd na żywo w panelu. */
+export function RealizationView({ item }: { item: Realization }) {
+  /* Etykieta „Zdjęcie poglądowe” przy każdym kadrze, który nie dokumentuje
+     prawdziwej realizacji: z banku zdjęć albo z pozycji niepotwierdzonej. */
+  const placeholder = (src: string) => !item.verified || isPlaceholderImage(src);
+
+  return (
+    <>
       {/* DUŻE ZDJĘCIE */}
       <section className="relative h-[78svh] min-h-[520px] w-full overflow-hidden bg-void">
         <img
@@ -174,35 +213,6 @@ export function RealizacjaDetail() {
           </div>
         </section>
       )}
-
-      {/* KOLEJNA REALIZACJA */}
-      <section className="relative bg-void">
-        <Link to={`/realizacje/${next.slug}`} className="group relative block h-[52svh] min-h-[360px] overflow-hidden">
-          <img
-            src={next.cover}
-            srcSet={responsiveSrcSet(next.cover)}
-            sizes={SIZES_FULL}
-            alt={next.title}
-            loading="lazy"
-            className="h-full w-full object-cover opacity-45 transition-all duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-105 group-hover:opacity-65"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-void/40" />
-
-          <div className="container-edge absolute inset-0 flex flex-col items-start justify-center">
-            <span className="label text-limestone/55">Kolejna realizacja</span>
-            <h2 className="display display-tight mt-5 max-w-3xl text-[10vw] leading-[0.94] text-limestone sm:text-5xl md:text-6xl">
-              {next.title}
-            </h2>
-            <span className="mt-8 inline-flex items-center gap-3 label text-limestone">
-              Zobacz
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1.5"
-                strokeWidth={1.4}
-              />
-            </span>
-          </div>
-        </Link>
-      </section>
     </>
   );
 }

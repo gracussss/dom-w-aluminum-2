@@ -1,0 +1,27 @@
+{
+  "name": "MB-43 SLIDE MONO",
+  "nameConfirmed": true,
+  "order": 450,
+  "aluprof": "mb-43-slide-mono",
+  "summary": "Przesuwne drzwi tarasowe",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna profili",
+      "value": "Uw > 1,2",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność okien",
+      "value": "Klasa E 250"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "Klasa 3"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

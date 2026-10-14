@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { EASE_OUT } from "../../lib/motion";
+import { useStaticMotion } from "../../lib/staticMotion";
 
 const VIEWPORT = { once: true, margin: "-8% 0px -8% 0px" } as const;
 
@@ -12,6 +13,7 @@ interface RevealProps {
 }
 
 export function Reveal({ children, delay = 0, y = 26, className = "" }: RevealProps) {
+  if (useStaticMotion()) return <div className={className}>{children}</div>;
   return (
     <motion.div
       initial={{ opacity: 0, y }}
@@ -32,9 +34,11 @@ interface RevealGroupProps {
 }
 
 export function RevealGroup({ children, className = "", stagger = 0.1 }: RevealGroupProps) {
+  const isStatic = useStaticMotion();
   return (
     <motion.div
-      initial="hidden"
+      /* W trybie statycznym dzieci (warianty `revealItem`) od razu w stanie końcowym. */
+      initial={isStatic ? "visible" : "hidden"}
       whileInView="visible"
       viewport={VIEWPORT}
       transition={{ staggerChildren: stagger }}
@@ -82,6 +86,13 @@ export function RevealText({
   delay?: number;
   className?: string;
 }) {
+  if (useStaticMotion()) {
+    return (
+      <span className="block overflow-clip [overflow-clip-margin:0.18em]">
+        <span className={`block ${className}`}>{children}</span>
+      </span>
+    );
+  }
   return (
     <motion.span
       initial="hidden"

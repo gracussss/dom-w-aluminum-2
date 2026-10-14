@@ -1,0 +1,13 @@
+{
+  "name": "MB-45 OFFICE",
+  "nameConfirmed": true,
+  "order": 330,
+  "aluprof": "mb-45-office",
+  "summary": "System stałych i otwieranych ścian działowych",
+  "categories": [
+    "wewnetrzne",
+    "drzwi"
+  ],
+  "constructionType": "rozwierne",
+  "sourceDate": "2026-08-28"
+}

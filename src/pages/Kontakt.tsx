@@ -11,6 +11,7 @@ import { Reveal } from "../components/ui/Reveal";
 import { findManufacturer, primaryCategory, useSystem, useTaxonomy } from "../catalog";
 import { company, fullAddress, googleMapsSearchUrl } from "../data/company";
 import { pageSeo } from "../data/pages";
+import { pageHeroes } from "../data/subpages";
 
 const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
   `${company.legalName}, ${fullAddress}`
@@ -117,9 +118,9 @@ export function Kontakt() {
         jsonLd={organizationJsonLd()}
       />
       <PageHero
-        eyebrow="Kontakt"
-        title="Zapytaj o wycenę"
-        description="Opisz projekt – wrócimy z konkretną propozycją i realnym terminem realizacji."
+        eyebrow={pageHeroes.kontakt.eyebrow}
+        title={pageHeroes.kontakt.title}
+        description={pageHeroes.kontakt.description}
       />
 
       <section className="bg-limestone py-16 text-void md:py-24">

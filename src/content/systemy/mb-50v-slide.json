@@ -1,0 +1,26 @@
+{
+  "name": "MB-50V SLIDE",
+  "nameConfirmed": true,
+  "order": 470,
+  "aluprof": "mb-50v-slide",
+  "summary": "Drzwi tarasowe przesuwne",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "specs": [
+    {
+      "label": "Maksymalny wymiar skrzydła",
+      "value": "3000 x 3000 mm"
+    },
+    {
+      "label": "Maksymalny ciężar skrzydła",
+      "value": "220 kg"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "4 – 34 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

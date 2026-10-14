@@ -4,48 +4,11 @@ import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { canRunWebGL } from "../lib/motion";
 import { loadScrollAnimation } from "../lib/scrollAnimation";
 import { ScrollStory } from "./ScrollStory";
+import { STORY_STEPS, homeContent } from "../data/pages";
+import type { HomeContent } from "../data/pages";
 
 // Three.js dociągany dopiero, gdy sekcja zbliża się do ekranu.
 const StoryScene = lazy(() => import("../components/product3d/StoryScene"));
-
-const steps = [
-  {
-    no: "01",
-    label: "Konstrukcja",
-    title: "Zaczynamy od całości",
-    body: "Ościeżnica osadzona w murze, skrzydło i pakiet szybowy. Trzy elementy, które muszą pracować jak jeden.",
-  },
-  {
-    no: "02",
-    label: "Profil",
-    title: "Rama, która ma zniknąć",
-    body: "Im węższy profil w widoku, tym więcej szkła. Granicę wyznacza statyka konstrukcji i masa skrzydła.",
-  },
-  {
-    no: "03",
-    label: "Skrzydło",
-    title: "Ruch musi być powtarzalny",
-    body: "Ciężar pakietu szybowego przenoszą okucia i naroża ramy – przy tym samym ruchu, tysiące razy.",
-  },
-  {
-    no: "04",
-    label: "Warstwy",
-    title: "Konstrukcja rozłożona",
-    body: "Powłoka zewnętrzna, przekładka termiczna, powłoka wewnętrzna, skrzydło i szyba. Każda warstwa odpowiada za co innego.",
-  },
-  {
-    no: "05",
-    label: "Przekrój",
-    title: "Wnętrze profilu",
-    body: "Dwie powłoki aluminium rozdzielone przekładką termiczną – to ona przerywa drogę ciepła między zewnętrzem a wnętrzem.",
-  },
-  {
-    no: "06",
-    label: "Realizacja",
-    title: "Wszystko wraca do całości",
-    body: "Zmontowana konstrukcja trafia na budowę jako jeden, sprawdzony element koperty budynku.",
-  },
-];
 
 /**
  * Sekwencja produktowa prowadzona scrollem.
@@ -54,7 +17,10 @@ const steps = [
  * pełne okno → zbliżenie na profil → ruch skrzydła → rozłożenie na warstwy →
  * przekrój → powrót do całości.
  */
-function Story3D() {
+function Story3D({ content }: { content: HomeContent["story"] }) {
+  /* Teksty kroków z panelu; numer wynika z kolejności. Liczba kroków jest
+     stała (STORY_STEPS) — idzie za ujęciami kamery, nie za treścią. */
+  const steps = content.steps.map((s, i) => ({ ...s, no: String(i + 1).padStart(2, "0") }));
   const wrap = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   /** Postęp sekwencji poza stanem Reacta — scroll nie może wywoływać renderów. */
@@ -108,7 +74,7 @@ function Story3D() {
             end: "bottom bottom",
             scrub: 0.6,
             onUpdate: (self) => {
-              const idx = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
+              const idx = Math.min(STORY_STEPS - 1, Math.floor(self.progress * STORY_STEPS));
               // Stan tylko przy zmianie kroku — inaczej render przy każdej klatce scrolla.
               setStep((prev) => (prev === idx ? prev : idx));
             },
@@ -129,7 +95,7 @@ function Story3D() {
       className="relative bg-anthracite text-limestone"
       /* 0,75 ekranu na krok zamiast pełnego: sekwencja czyta się tak samo,
          a strona główna traci ~1,5 ekranu jałowego przewijania. */
-      style={{ height: `${steps.length * 75}svh` }}
+      style={{ height: `${STORY_STEPS * 75}svh` }}
       aria-label="Budowa konstrukcji aluminiowej krok po kroku"
     >
       <div ref={stage} className="sticky top-0 h-[100svh] overflow-hidden">
@@ -161,7 +127,7 @@ function Story3D() {
 
         <div className="container-edge pointer-events-none relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="pt-6">
-            <Eyebrow index="02" label="Jak powstaje konstrukcja" tone="light" />
+            <Eyebrow index="02" label={content.eyebrow} tone="light" />
           </div>
 
           {/* Tekst kroku przyklejony do GÓRY swojego pola, nie do dołu. Pole
@@ -233,8 +199,8 @@ function Story3D() {
  * Wersja zdjęciowa zostaje dla braku WebGL i dla prefers-reduced-motion —
  * to wybór użytkownika, a nie ograniczenie sprzętu, i musi być uszanowany.
  */
-export function ProductStory() {
+export function ProductStory({ content = homeContent.story }: { content?: HomeContent["story"] }) {
   const [use3d] = useState(() => canRunWebGL());
 
-  return use3d ? <Story3D /> : <ScrollStory />;
+  return use3d ? <Story3D content={content} /> : <ScrollStory eyebrow={content.eyebrow} />;
 }

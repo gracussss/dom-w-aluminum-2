@@ -1,0 +1,30 @@
+{
+  "name": "MB-43 SLIDE RENO",
+  "nameConfirmed": true,
+  "order": 440,
+  "aluprof": "mb-43-slide-reno",
+  "summary": "Przesuwne drzwi tarasowe do renowacji budynków",
+  "categories": [
+    "przesuwne"
+  ],
+  "constructionType": "przesuwne",
+  "tags": [
+    "renowacja"
+  ],
+  "specs": [
+    {
+      "label": "Izolacyjność termiczna profili",
+      "value": "Uw > 1,4",
+      "note": "W/(m2K)"
+    },
+    {
+      "label": "Wodoszczelność okien",
+      "value": "Klasa E 250"
+    },
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "Klasa 3"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

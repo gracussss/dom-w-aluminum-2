@@ -1,0 +1,27 @@
+{
+  "name": "MB-SLIMLINE",
+  "nameConfirmed": true,
+  "order": 140,
+  "aluprof": "mb-slimline",
+  "summary": "System okien o wąskich profilach",
+  "categories": [
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa 4"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa E 1500"
+    },
+    {
+      "label": "Izolacyjność termiczna Uw",
+      "value": "z 0,8",
+      "note": "W/(m2K)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "MB-SE98 SG",
+  "nameConfirmed": true,
+  "order": 820,
+  "aluprof": "mb-se98-sg",
+  "summary": "Fasada elementowa",
+  "categories": [
+    "indywidualne"
+  ],
+  "constructionType": "strukturalne",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "6.24psf (298 Pa)"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "15psf"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "±50/-100 psf (+2394/-4788 Pa)"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

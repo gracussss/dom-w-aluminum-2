@@ -1,0 +1,18 @@
+{
+  "name": "MB-WG60",
+  "nameConfirmed": true,
+  "order": 640,
+  "aluprof": "mb-wg60",
+  "summary": "System ogrodów zimowych",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Pochylenie dachu",
+      "value": "od 5 do 45 st."
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

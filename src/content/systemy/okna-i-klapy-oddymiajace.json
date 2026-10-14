@@ -1,0 +1,27 @@
+{
+  "name": "Okna i klapy oddymiające",
+  "nameConfirmed": true,
+  "order": 760,
+  "aluprof": "okna-i-klapy-oddymiajace",
+  "summary": "Klapy, świetliki przeciwpożarowe",
+  "categories": [
+    "ppoz",
+    "okna"
+  ],
+  "constructionType": "rozwierne",
+  "specs": [
+    {
+      "label": "Wymiary maksymalne skrzydła okna (układ poziomy)",
+      "value": "L do 2500 mm, H do 1600 mm"
+    },
+    {
+      "label": "Wymiary maksymalne skrzydła okna (układ pionowy)",
+      "value": "L do 1600 mm, H do 2500 mm"
+    },
+    {
+      "label": "Wymiary max. skrzydła okna dachowego",
+      "value": "L do 1500 mm, H do 2200 mm"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}

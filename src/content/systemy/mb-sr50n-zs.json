@@ -1,0 +1,29 @@
+{
+  "name": "MB-SR50N ZS",
+  "nameConfirmed": true,
+  "order": 570,
+  "aluprof": "mb-sr50n-zs",
+  "summary": "System fasadowy kompatybilny z żaluzjami SkyFlow",
+  "categories": [
+    "fasady"
+  ],
+  "constructionType": "slupowo-ryglowe",
+  "specs": [
+    {
+      "label": "Przepuszczalność powietrza",
+      "value": "klasa AE1200",
+      "note": "Pa"
+    },
+    {
+      "label": "Wodoszczelność",
+      "value": "klasa RE1200",
+      "note": "Pa"
+    },
+    {
+      "label": "Odporność na obciążenie wiatrem",
+      "value": "2,4",
+      "note": "kN/m2"
+    }
+  ],
+  "sourceDate": "2026-08-28"
+}
