@@ -22,5 +22,6 @@ Disallow: /
 
 # User-agent: *
 # Allow: /
+# Disallow: /admin/
 #
 # Sitemap: https://DOMENA-DO-USTALENIA/sitemap.xml

@@ -17,6 +17,7 @@ import {
 } from "../catalog";
 import type { AluSystem, FacetOption, SortKey, SystemQuery, Taxonomy } from "../catalog";
 import { positions, systemsWord } from "../lib/plural";
+import { pageSeo } from "../data/pages";
 
 /* ------------------------------------------------------------------
    Stan katalogu żyje w adresie URL — komplet filtrów, fraza i sortowanie.
@@ -290,12 +291,13 @@ export function Systemy() {
   const searchValue = params.get(PARAM.search) ?? "";
   const total = list?.total ?? 0;
   const manyManufacturers = (taxonomy?.manufacturers.length ?? 0) > 1;
+  const seo = pageSeo("systemy");
 
   return (
     <>
       <Seo
-        title="Katalog systemów aluminiowych ALUPROF"
-        description="Okna, drzwi, konstrukcje przesuwne, fasady, ściany wewnętrzne i systemy przeciwpożarowe ALUPROF. Katalog z wyszukiwarką, filtrami i kartą techniczną każdego systemu."
+        title={seo.title}
+        description={seo.description}
         canonicalPath="/systemy"
       />
       <PageHero

@@ -1,0 +1,13 @@
+{
+  "hero": {
+    "src": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=2400&q=80&auto=format&fit=crop&sat=-32&con=6",
+    "alt": "Nowoczesna architektura – konstrukcja ze szkła i aluminium"
+  },
+  "about": {
+    "src": "https://images.unsplash.com/photo-1666634157070-6fd830fb5672?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6",
+    "alt": "Precyzja wykonania – zdjęcie poglądowe"
+  },
+  "contact": {
+    "src": "https://images.unsplash.com/photo-1759604218664-f4f714869555?w=1800&q=80&auto=format&fit=crop&sat=-32&con=6"
+  }
+}

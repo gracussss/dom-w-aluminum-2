@@ -8,6 +8,14 @@ import { SmoothScroll } from './lib/SmoothScroll'
 import { CatalogProvider } from './catalog'
 import { ErrorBoundary } from './components/ErrorBoundary'
 
+/* Linki z maili logowania do panelu (zaproszenie, reset hasła) Netlify
+   kieruje na stronę główną z tokenem w adresie. Token obsługuje widżet
+   logowania w /admin — przekierowanie zamiast ładowania widżetu (180 kB)
+   na stronie, którą oglądają klienci. */
+if (/^#(invite|recovery|confirmation|email_change)_token=/.test(window.location.hash)) {
+  window.location.replace(`/admin/${window.location.hash}`)
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* Ostatnia linia obrony: błąd poza treścią podstrony (np. w nagłówku). */}

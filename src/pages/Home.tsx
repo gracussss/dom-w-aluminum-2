@@ -1,5 +1,6 @@
 import { Seo } from "../components/Seo";
 import { organizationJsonLd } from "../lib/jsonLd";
+import { pageSeo } from "../data/pages";
 import { Hero } from "../sections/Hero";
 import { Manifest } from "../sections/Manifest";
 import { OfferAreas } from "../sections/OfferAreas";
@@ -8,12 +9,13 @@ import { Process } from "../sections/Process";
 import { ContactSection } from "../sections/ContactSection";
 
 export function Home() {
+  const seo = pageSeo("home");
   return (
     <>
       {/* Wizytówka firmy w danych strukturalnych — tylko potwierdzone dane. */}
       <Seo
-        title="Okna, drzwi i fasady aluminiowe"
-        description="Projektujemy i wykonujemy stolarkę aluminiową: okna, drzwi, systemy przesuwne i fasady. Alukoncept Sp. z o.o. z Sosnowca. Wycena po pomiarze na budowie."
+        title={seo.title}
+        description={seo.description}
         canonicalPath="/"
         jsonLd={organizationJsonLd()}
       />

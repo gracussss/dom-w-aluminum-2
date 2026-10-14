@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { Reveal } from "../components/ui/Reveal";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
-import { offerAreas } from "../data/products";
-import { responsiveSrcSet } from "../lib/responsiveImage";
+import { offerAreas, offerAreasCount } from "../data/products";
+import { isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
+
+/* Jedna wspólna etykieta, dopóki choć jedna miniatura jest z banku zdjęć. */
+const anyPlaceholder = offerAreas.some((area) => isPlaceholderImage(area.image));
 
 /**
  * Obszary oferty jako lista wierszy z miniaturą.
@@ -25,16 +28,18 @@ export function OfferAreas() {
           tone="light"
           variant="split"
           lines={["Co wykonujemy"]}
-          description="Siedem obszarów – od pojedynczego okna po kompletną kopertę budynku."
+          description={`${offerAreasCount()} – od pojedynczego okna po kompletną kopertę budynku.`}
         />
 
         {/* Jedna etykieta dla wszystkich miniatur — na kadrze 176 px
             plakietka zasłaniałaby połowę zdjęcia. */}
-        <div className="mt-10 flex justify-end">
-          <PlaceholderTag label="Zdjęcia poglądowe" />
-        </div>
+        {anyPlaceholder && (
+          <div className="mt-10 flex justify-end">
+            <PlaceholderTag label="Zdjęcia poglądowe" />
+          </div>
+        )}
 
-        <ul className="mt-4 border-t border-limestone/12">
+        <ul className={`${anyPlaceholder ? "mt-4" : "mt-10"} border-t border-limestone/12`}>
           {offerAreas.map((area, i) => (
             <li key={area.id}>
               <Reveal delay={Math.min(i * 0.04, 0.2)}>
@@ -45,7 +50,7 @@ export function OfferAreas() {
                   {/* Numer w kroju nagłówków, nie w 11-pikselowej etykiecie —
                       „te cyfry większe” (uwaga klientki). */}
                   <span className="display w-10 shrink-0 text-xl tabular-nums text-limestone/45 transition-colors duration-500 group-hover:text-bronze-light md:w-14 md:text-2xl">
-                    0{i + 1}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
 
                   <div className="min-w-0 flex-1">

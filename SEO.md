@@ -31,6 +31,7 @@ Potwierdzone są trzy rzeczy: nazwa firmy, adres i telefon (`src/data/company.ts
 | `vite.config.ts` (plugin `dwa-sitemap`) | `sitemap.xml` generowany przy buildzie z danych katalogu |
 | `public/robots.txt` | blokada demo + gotowy blok produkcyjny |
 | `public/_headers` | nagłówki Netlify: `X-Robots-Tag` (demo) i cache zasobów |
+| `src/content/seo.json` | tytuły i opisy podstron — edytowane w panelu (`PANEL.md`) |
 | `index.html` | wartości domyślne meta dla robotów bez JavaScriptu |
 | `public/og-default.svg` | obraz podglądu przy udostępnianiu (1200×630) |
 | `src/fonts.css` + `public/fonts/` | kroje pisma hostowane lokalnie — bez `fonts.googleapis.com` |
@@ -233,26 +234,29 @@ do rozmowy, nie zgodą na dalsze skracanie intro.
    `public/og-default.png` i zmienić `OG_IMAGE` w `src/lib/seo.ts`
    (Facebook i LinkedIn nie renderują SVG). Zaktualizować też `og:image`
    w `index.html` na adres bezwzględny.
-6. Podmienić zdjęcia poglądowe (Unsplash) na własne — patrz `MATERIALY.md`.
-   Po podmianie przepisać `PORTFOLIO_SEO_DESCRIPTION` i `PORTFOLIO_DISCLAIMER`
-   w `src/data/realizations.ts` (znika słowo „poglądowe”, wchodzą realne
-   inwestycje: lokalizacja, zakres, zastosowany system).
+6. Podmienić zdjęcia poglądowe (Unsplash) na własne — w panelu (`PANEL.md`).
+   Przypis o portfolio poglądowym znika sam, gdy wszystkie realizacje mają
+   „Prawdziwa realizacja firmy”. Opis listy realizacji dla Google (panel →
+   Google (SEO) → Realizacje) przepisać bez słowa „poglądowe”. Po wymianie
+   wszystkich zdjęć usunąć `images.unsplash.com` z `SITE_CSP` (`vite.config.ts`)
+   i z CSP panelu.
 7. Uzupełnić dane w `src/pages/PolitykaPrywatnosci.tsx` (NIP, REGON, KRS,
    adres e-mail do spraw danych osobowych).
 8. Podpiąć formularz kontaktowy: ustawić `VITE_CONTACT_ENDPOINT` na adres
    przyjmujący POST z JSON-em. Bez tej zmiennej formularz działa w trybie
    demonstracyjnym i mówi o tym wprost pod przyciskiem. Obowiązek informacyjny
    (art. 13 RODO) jest już pod formularzem — sprawdzić go z prawnikiem klienta.
-9. Podpiąć profile społecznościowe (`socialLinks` w `src/data/company.ts`),
-   potem dopisać `sameAs` w danych strukturalnych. Dopóki wartości to `"#"`,
-   ikony **nie są renderowane** — nie ma martwych odnośników.
-10. Ustawić `verified: true` przy realizacjach, które faktycznie zostały
-   wykonane przez firmę (`src/data/realizations.ts`) — dopiero wtedy wejdą do
-   sitemapy i do indeksu.
+9. Profile społecznościowe — panel → Dane firmy. `sameAs` w danych
+   strukturalnych uzupełnia się samo.
+10. Zaznaczyć „Prawdziwa realizacja firmy” (`verified: true`) przy
+   realizacjach, które faktycznie zostały wykonane przez firmę — dopiero
+   wtedy wejdą do sitemapy i do indeksu.
 11. Po podpięciu Google Analytics / Meta Pixel: dopisać inicjalizację
    w `storeConsent` (`src/lib/cookieConsent.ts`) **i** uzupełnić wykaz
    na `/cookies` — dokument opisuje stan faktyczny, nie plan.
 12. Google Search Console: zgłosić domenę i `sitemap.xml`, sprawdzić raport
     „Strony” i test wyników z elementami rozszerzonymi.
 13. Wizytówka Google (Profil Firmy) dla adresu w Sosnowcu — dane muszą być
-    identyczne jak w `company.ts` i w danych strukturalnych.
+    identyczne jak w panelu (Dane firmy) i w danych strukturalnych.
+14. Panel: w `public/admin/config.yml` zmienić `backend.branch` na `main`
+    oraz `site_url` / `display_url` na docelową domenę (`PANEL.md`, sekcja 3).

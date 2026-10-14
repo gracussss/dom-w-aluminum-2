@@ -5,7 +5,9 @@ import { PageHero } from "../components/ui/PageHero";
 import { ParallaxImage } from "../components/ui/ParallaxImage";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { Reveal } from "../components/ui/Reveal";
-import { PORTFOLIO_DISCLAIMER, PORTFOLIO_SEO_DESCRIPTION, realizations } from "../data/realizations";
+import { PORTFOLIO_DISCLAIMER, hasPlaceholderRealizations, realizations } from "../data/realizations";
+import { pageSeo } from "../data/pages";
+import { isPlaceholderImage } from "../lib/responsiveImage";
 
 /* Jeden format i jedna wielkość kafla. Wcześniej był tu celowo nierówny
    układ editorial: sześć różnych proporcji (4/3, 3/4, 16/10, 4/5) i kafle
@@ -17,11 +19,12 @@ import { PORTFOLIO_DISCLAIMER, PORTFOLIO_SEO_DESCRIPTION, realizations } from ".
 const TILE_RATIO = "aspect-[4/3]";
 
 export function Realizacje() {
+  const seo = pageSeo("realizacje");
   return (
     <>
       <Seo
-        title="Realizacje · konstrukcje aluminiowe"
-        description={PORTFOLIO_SEO_DESCRIPTION}
+        title={seo.title}
+        description={seo.description}
         canonicalPath="/realizacje"
       />
       <PageHero
@@ -42,7 +45,9 @@ export function Realizacje() {
                     className="h-full w-full"
                     imgClassName="transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.06]"
                   />
-                  <PlaceholderTag className="absolute right-4 top-4" />
+                  {(!item.verified || isPlaceholderImage(item.cover)) && (
+                    <PlaceholderTag className="absolute right-4 top-4" />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-void via-void/15 to-transparent opacity-75 transition-opacity duration-700 group-hover:opacity-95" />
 
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 md:p-7">
@@ -62,7 +67,9 @@ export function Realizacje() {
             ))}
           </div>
 
-          <p className="mt-14 max-w-3xl text-xs leading-relaxed text-void/60">{PORTFOLIO_DISCLAIMER}</p>
+          {hasPlaceholderRealizations && (
+            <p className="mt-14 max-w-3xl text-xs leading-relaxed text-void/60">{PORTFOLIO_DISCLAIMER}</p>
+          )}
         </div>
       </section>
     </>

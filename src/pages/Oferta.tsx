@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { responsiveSrcSet } from "../lib/responsiveImage";
+import { isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { PageHero } from "../components/ui/PageHero";
@@ -8,6 +8,7 @@ import { Reveal } from "../components/ui/Reveal";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { ArrowButton } from "../components/ui/ArrowButton";
 import { offerAreas } from "../data/products";
+import { pageSeo } from "../data/pages";
 import { findCategory, useTaxonomy } from "../catalog";
 
 /**
@@ -35,12 +36,13 @@ const factorsFillLast = quoteFactors.length % 2 === 1 ? "sm:col-span-2 lg:col-sp
 export function Oferta() {
   /* Slug kategorii bierzemy z taksonomii — obszar oferty wskazuje id. */
   const { data: taxonomy } = useTaxonomy();
+  const seo = pageSeo("oferta");
 
   return (
     <>
       <Seo
-        title="Oferta · okna, drzwi i fasady"
-        description="Zakres prac: okna i drzwi aluminiowe, systemy przesuwne, fasady, konstrukcje przeciwpożarowe, ogrody zimowe i rozwiązania indywidualne."
+        title={seo.title}
+        description={seo.description}
       />
       <PageHero
         eyebrow="Oferta"
@@ -76,7 +78,7 @@ export function Oferta() {
                       loading="lazy"
                       className="h-full w-full object-cover"
                     />
-                    <PlaceholderTag className="absolute right-4 top-4" />
+                    {isPlaceholderImage(area.image) && <PlaceholderTag className="absolute right-4 top-4" />}
                   </div>
 
                   <div

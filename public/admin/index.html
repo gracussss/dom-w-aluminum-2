@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Panel ma własną politykę CSP, luźniejszą niż strona:
+      - 'unsafe-eval' – Decap sprawdza config.yml walidatorem (ajv), który
+        kompiluje schemat przez new Function; bez tego panel się nie uruchamia,
+      - blob:/data: w connect-src – wgrywane zdjęcie panel czyta przez
+        fetch(blob:…) i zamienia na base64; bez tego przycisk „Prześlij
+        nowe” po cichu nic nie robił,
+      - netlifystatus.com – wskaźnik awarii Netlify w panelu,
+      - localhost:8081 – praca lokalna (`npx decap-server`, patrz PANEL.md).
+      Strona publiczna tych wyjątków nie dostaje – jej CSP stoi
+      w vite.config.ts (SITE_CSP), a wspólny nagłówek w public/_headers
+      zawiera tylko reguły bezpieczne dla obu.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com; font-src 'self' data:; connect-src 'self' blob: data: https://www.netlifystatus.com http://localhost:8081; frame-src 'self' blob:; worker-src 'self' blob:; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Panel – Alukoncept</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Ścieżka bezwzględna: pod adresem /admin (bez ukośnika) względne
+         „config.yml” wskazywałoby /config.yml. -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <script src="/admin/vendor/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <script src="/admin/vendor/decap-cms/decap-cms.js"></script>
+  </body>
+</html>

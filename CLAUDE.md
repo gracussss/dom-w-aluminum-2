@@ -3,6 +3,7 @@
 Kontekst projektu i uruchomienie: `README.md`.
 Dane techniczne i prawa producentów: `MATERIALY.md`.
 Treść, meta i checklista publikacji: `SEO.md`.
+Panel administracyjny (/admin): `PANEL.md`.
 
 ---
 
@@ -94,6 +95,10 @@ Język komentarzy i treści: **polski**.
   `useTaxonomy`). Nigdy nie importuj `dataset.ts` w komponencie.
 - `src/lib/scroll.ts` — sterowanie przewijaniem bez Reacta i bez GSAP-a
   (żeby nie było cyklu importów z leniwym mostem do ScrollTriggera).
+- `src/content/*.json` — treści edytowane w panelu (`PANEL.md`). Zapisuje je
+  klient, bez przeglądu kodu: komponent nigdy nie czyta JSON-a wprost, tylko
+  przez `src/data/*.ts`, które dają wartości zapasowe dla pustych pól.
+  Nowe pole w JSON-ie = pole w `public/admin/config.yml` i odczyt w `src/data/`.
 
 ---
 
@@ -120,10 +125,13 @@ Język komentarzy i treści: **polski**.
 - **Nic z obcego serwera nie ładuje się przed zgodą.** Osadzenie (mapa, wideo,
   pixel) przepuść przez `useConsent()` — wzór: `src/components/ui/MapEmbed.tsx`.
 - Kroje pisma hostujemy lokalnie. Nie wracaj do `fonts.googleapis.com`.
-- **Nagłówki bezpieczeństwa i CSP** stoją w `public/_headers` (działa na
-  Netlify) i lustrzanie w `vercel.json`. Każdy nowy zewnętrzny host (obrazy,
-  osadzenie, odbiorca formularza, analityka) trzeba dopisać do odpowiedniej
-  dyrektywy CSP w obu plikach — inaczej przeglądarka go po cichu zablokuje.
+- **Nagłówki bezpieczeństwa** stoją w `public/_headers` (działa na Netlify)
+  i lustrzanie w `vercel.json`. **CSP strony** jest w `vite.config.ts`
+  (`SITE_CSP`, build wstawia ją jako `<meta>`), CSP panelu — w
+  `public/admin/index.html`; nagłówek ma tylko część wspólną (powód
+  w komentarzu przy `SITE_CSP`). Każdy nowy zewnętrzny host (obrazy,
+  osadzenie, odbiorca formularza, analityka) trzeba dopisać do `SITE_CSP` —
+  inaczej przeglądarka go po cichu zablokuje.
 
 ---
 

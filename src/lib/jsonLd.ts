@@ -30,7 +30,8 @@ export function breadcrumbJsonLd(items: Crumb[], origin: string) {
 
 /**
  * Wizytówka firmy. Wyłącznie dane potwierdzone przez klienta: nazwa, adres,
- * telefon, logo, profil na Facebooku i godziny pracy (pon.–pt. 6–16).
+ * telefon, logo, profile społecznościowe, godziny pracy i e-mail — wszystko
+ * z panelu („Dane firmy”). Puste pole w panelu znika też ze schema.org.
  * Bez NIP-u i obszaru działania.
  */
 export function organizationJsonLd() {
@@ -44,7 +45,8 @@ export function organizationJsonLd() {
     alternateName: SITE_NAME,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/logo.png"),
-    openingHours: "Mo-Fr 06:00-16:00",
+    ...(company.openingHours.length > 0 ? { openingHours: company.openingHours } : {}),
+    ...(company.email ? { email: company.email } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
     telephone: company.phone.href.replace("tel:", ""),
     address: {

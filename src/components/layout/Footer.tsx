@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { company, googleMapsSearchUrl } from "../../data/company";
 import { footerNav } from "../../data/nav";
 import { SocialIcons } from "../ui/SocialIcons";
@@ -93,6 +93,17 @@ export function Footer() {
                   <span>{company.phone.display}</span>
                 </a>
               </li>
+              {company.email && (
+                <li>
+                  <a
+                    href={`mailto:${company.email}`}
+                    className="inline-flex items-center gap-2.5 text-limestone/65 transition-colors hover:text-bronze-light"
+                  >
+                    <Mail className="h-4 w-4 shrink-0" strokeWidth={1.4} />
+                    <span className="break-all">{company.email}</span>
+                  </a>
+                </li>
+              )}
               <li className="inline-flex items-center gap-2.5 text-limestone/65">
                 <Clock className="h-4 w-4 shrink-0" strokeWidth={1.4} aria-hidden />
                 <span>{company.hours}</span>

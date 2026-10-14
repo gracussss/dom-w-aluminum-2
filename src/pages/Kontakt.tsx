@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Clock, MapPin, Phone, X } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Clock, Mail, MapPin, Phone, X } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { organizationJsonLd } from "../lib/jsonLd";
 import { PageHero } from "../components/ui/PageHero";
@@ -10,6 +10,7 @@ import { MapEmbed } from "../components/ui/MapEmbed";
 import { Reveal } from "../components/ui/Reveal";
 import { findManufacturer, primaryCategory, useSystem, useTaxonomy } from "../catalog";
 import { company, fullAddress, googleMapsSearchUrl } from "../data/company";
+import { pageSeo } from "../data/pages";
 
 const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
   `${company.legalName}, ${fullAddress}`
@@ -105,12 +106,13 @@ export function Kontakt() {
   }, [status]);
 
   const sending = status === "sending";
+  const seo = pageSeo("kontakt");
 
   return (
     <>
       <Seo
-        title="Kontakt i wycena"
-        description="Zapytaj o wycenę okien, drzwi, systemów przesuwnych i fasad aluminiowych. Alukoncept Sp. z o.o., Stanisława Mikołajczyka 59 A, Sosnowiec, tel. 695 704 228."
+        title={seo.title}
+        description={seo.description}
         canonicalPath="/kontakt"
         jsonLd={organizationJsonLd()}
       />
@@ -348,6 +350,16 @@ export function Kontakt() {
                 <Phone className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} />
                 <span>{company.phone.display}</span>
               </a>
+
+              {company.email && (
+                <a
+                  href={`mailto:${company.email}`}
+                  className="mt-3 flex items-center gap-3 py-1 text-lg leading-snug text-void/75 transition-colors hover:text-bronze"
+                >
+                  <Mail className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} />
+                  <span className="break-all">{company.email}</span>
+                </a>
+              )}
 
               <p className="mt-3 flex items-center gap-3 py-1 text-lg leading-snug text-void/75">
                 <Clock className="h-[18px] w-[18px] shrink-0" strokeWidth={1.4} aria-hidden />

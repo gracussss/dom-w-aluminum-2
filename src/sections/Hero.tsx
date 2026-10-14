@@ -2,11 +2,12 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { ArrowUpRight, Phone } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { images } from "../data/images";
+import { imageAlts, images } from "../data/images";
+import { homeContent } from "../data/pages";
 import { company } from "../data/company";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { EASE_OUT } from "../lib/motion";
-import { SIZES_FULL, responsiveSrcSet } from "../lib/responsiveImage";
+import { SIZES_FULL, isPlaceholderImage, responsiveSrcSet } from "../lib/responsiveImage";
 
 const ticker = [
   "OKNA",
@@ -44,7 +45,7 @@ export function Hero() {
           src={images.heroBg}
           srcSet={responsiveSrcSet(images.heroBg)}
           sizes={SIZES_FULL}
-          alt="Nowoczesna architektura – konstrukcja ze szkła i aluminium"
+          alt={imageAlts.hero}
           variants={settle}
           initial="out"
           animate="in"
@@ -89,7 +90,7 @@ export function Hero() {
               className="mb-8"
             >
               {/* Bez kreski — tak jak etykiety wszystkich sekcji (`Eyebrow`). */}
-              <span className="label text-sm text-limestone/80 md:text-base">Producent stolarki aluminiowej</span>
+              <span className="label text-sm text-limestone/80 md:text-base">{homeContent.heroEyebrow}</span>
             </motion.div>
 
             {/* Maski linii: `overflow-clip` z marginesem zamiast `overflow-hidden`.
@@ -144,8 +145,7 @@ export function Hero() {
                 lewy gradient już nie sięga — przy 15 px i 60% krycia klientka
                 oceniła go jako „średnio widoczny”. */}
             <p className="text-pretty text-lg leading-relaxed text-limestone/90 [text-shadow:0_1px_14px_rgb(11_12_13/0.75)] md:text-xl">
-              Projektujemy i wykonujemy konstrukcje aluminiowe – od
-              pojedynczego okna po kompletną fasadę budynku.
+              {homeContent.heroLead}
             </p>
 
             {/* „Opisz projekt”, nie „Zapytaj o wycenę”: ten drugi przycisk stoi
@@ -174,7 +174,9 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <PlaceholderTag className="mt-8 self-start lg:absolute lg:bottom-14 lg:right-0 lg:mt-0" />
+        {isPlaceholderImage(images.heroBg) && (
+          <PlaceholderTag className="mt-8 self-start lg:absolute lg:bottom-14 lg:right-0 lg:mt-0" />
+        )}
       </motion.div>
 
       {/* Pasek zakresu oferty */}

@@ -1,0 +1,12 @@
+{
+  "legalName": "Alukoncept Sp. z o.o.",
+  "street": "Stanisława Mikołajczyka 59 A",
+  "postalCode": "41-400",
+  "city": "Sosnowiec",
+  "phone": "695 704 228",
+  "email": "",
+  "hoursWeekdays": { "from": "6:00", "to": "16:00" },
+  "hoursSaturday": { "from": "", "to": "" },
+  "facebook": "https://www.facebook.com/AlukonceptSosnowiec/",
+  "instagram": ""
+}

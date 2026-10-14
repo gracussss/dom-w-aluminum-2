@@ -23,7 +23,9 @@ function heroPreload(): Plugin {
   return {
     name: 'dwa-hero-preload',
     transformIndexHtml() {
-      const srcSet = responsiveSrcSet(images.heroBg)
+      // Te same warianty co w <img> (patrz NETLIFY_IMAGES niżej) — inaczej
+      // przeglądarka pobrałaby tło dwa razy: z preloadu i z komponentu.
+      const srcSet = responsiveSrcSet(images.heroBg, NETLIFY_IMAGES)
       const origin = images.heroBg.startsWith('http') ? new URL(images.heroBg).origin : null
 
       return [
@@ -46,6 +48,74 @@ function heroPreload(): Plugin {
     },
   }
 }
+
+/* ------------------------------------------------------------------
+   CONTENT SECURITY POLICY STRONY
+
+   Polityka stoi w <meta> strony, a nie w nagłówku z public/_headers:
+   nagłówek obejmuje każdy adres (`/*`), także panel w /admin, a panel
+   potrzebuje 'unsafe-eval' (walidator konfiguracji Decap CMS). Netlify
+   nie ma reguły „wszystko poza /admin”, a dwie polityki CSP się nie
+   znoszą — przeglądarka egzekwuje obie, więc luźniejsza dla panelu
+   w nagłówku nic by nie dała. Panel ma własną w public/admin/index.html.
+
+   Wspólny nagłówek zostawia to, czego meta nie obsługuje albo co pasuje
+   wszędzie (frame-ancestors, object-src, base-uri).
+
+   Tylko w buildzie: serwer deweloperski Vite wstrzykuje skrypt odświeżania
+   inline i łączy się przez WebSocket — pod tą polityką by nie ruszył.
+
+   CSP wymienia wszystko, z czego strona korzysta poza własną domeną:
+     images.unsplash.com  – zdjęcia poglądowe (do usunięcia po wymianie
+                            wszystkich na zdjęcia firmy),
+     www.google.com       – osadzona mapa, ładowana dopiero po zgodzie.
+   'unsafe-inline' w style-src jest konieczne: React i framer-motion
+   ustawiają style w atrybutach. Skrypty – wyłącznie z własnej domeny.
+   Po ustawieniu VITE_CONTACT_ENDPOINT (zewnętrzny odbiorca formularza)
+   trzeba dopisać jego domenę do connect-src.
+   Przetestowane w przeglądarce (październik 2026): strona główna ze sceną
+   3D, katalog, karta systemu, kontakt z mapą – bez naruszeń CSP.
+   ------------------------------------------------------------------ */
+const SITE_CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://images.unsplash.com",
+  "font-src 'self'",
+  "connect-src 'self'",
+  'frame-src https://www.google.com',
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  'upgrade-insecure-requests',
+].join('; ')
+
+function contentSecurityPolicy(): Plugin {
+  return {
+    name: 'dwa-csp',
+    apply: 'build',
+    transformIndexHtml() {
+      // Na samej górze <head>: polityka obejmuje tylko to, co stoi po niej.
+      return [
+        {
+          tag: 'meta',
+          attrs: { 'http-equiv': 'Content-Security-Policy', content: SITE_CSP },
+          injectTo: 'head-prepend',
+        },
+      ]
+    },
+  }
+}
+
+/* ------------------------------------------------------------------
+   ZDJĘCIA Z PANELU NA NETLIFY
+
+   Netlify ustawia w buildzie NETLIFY=true. Tylko wtedy istnieje Image CDN
+   (`/.netlify/images`), który skaluje zdjęcia wgrane w panelu — patrz
+   src/lib/responsiveImage.ts. Lokalnie zostaje oryginalny plik.
+   ------------------------------------------------------------------ */
+const NETLIFY_IMAGES = process.env.NETLIFY === 'true'
 
 /* ------------------------------------------------------------------
    SITEMAP
@@ -112,7 +182,11 @@ function sitemap(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), sitemap(), heroPreload()],
+  plugins: [react(), tailwindcss(), sitemap(), heroPreload(), contentSecurityPolicy()],
+
+  define: {
+    __NETLIFY_IMAGES__: JSON.stringify(NETLIFY_IMAGES),
+  },
 
   /* ------------------------------------------------------------------
      PODZIAŁ BUNDLA
