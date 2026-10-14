@@ -55,12 +55,6 @@ Klientka nie potrzebuje konta na GitHubie.
 5. Zaproszenie przychodzi mailem z linkiem do strony głównej. Strona sama
    przekierowuje taki link do `/admin` (`src/main.tsx`), gdzie ustawia się hasło.
 
-> **Na czas podglądu** link z maila prowadzi na stronę główną
-> (`domwaluminum.netlify.app`), na której panelu jeszcze nie ma — ta wersja
-> czeka na akceptację. Wtedy w linku z maila zamienić początek adresu na
-> `https://deploy-preview-3--domwaluminum.netlify.app/admin/` (token po `#`
-> zostaje bez zmian). Po scaleniu PR-a problem znika.
-
 **Stan Netlify Identity:** w 2025 r. Netlify ogłosił wygaszanie Identity,
 a w lutym 2026 r. według doniesień z forum Netlify wycofał tę decyzję. Przed
 włączeniem sprawdzić na stronie Netlify, czy Identity da się włączyć dla
@@ -72,14 +66,14 @@ Reszta panelu działa bez zmian.
 
 ## 3. Gałąź, na którą zapisuje panel
 
-`public/admin/config.yml` → `backend.branch`.
+`public/admin/config.yml` → `backend.branch: main` — ta sama gałąź, z której
+Netlify buduje stronę główną. Zapis w panelu = zmiana na stronie po 1–2 min.
 
-- **Teraz:** `claude/ecstatic-thompson-y5bxrd` — gałąź podglądu (PR #3).
-  Zmiany z panelu widać na `deploy-preview-3--domwaluminum.netlify.app`,
-  strona główna zostaje nietknięta.
-- **Po akceptacji i scaleniu PR-a:** zmienić na `main` (i `site_url` /
-  `display_url` na docelową domenę). Bez tego panel zapisywałby na starą
-  gałąź podglądu.
+Panel zapisuje commity prosto na `main`. Przed własną pracą w kodzie zawsze
+`git pull` — inaczej przy wypychaniu wyjdzie konflikt z poprawkami klientki.
+
+Po podpięciu domeny: `site_url` i `display_url` w tym samym pliku zmienić
+na nową domenę.
 
 ---
 

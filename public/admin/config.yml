@@ -12,9 +12,9 @@ backend:
   # Logowanie e-mailem i hasłem (Netlify Identity) — klient nie potrzebuje
   # konta na GitHubie. Konfiguracja po stronie Netlify: PANEL.md.
   name: git-gateway
-  # PODGLĄD: zmiany z panelu trafiają na gałąź podglądu (PR #3), a nie na
-  # stronę główną. PO AKCEPTACJI KLIENTKI i scaleniu PR-a zmienić na: main
-  branch: claude/ecstatic-thompson-y5bxrd
+  # Gałąź, z której Netlify buduje stronę główną — zapis w panelu od razu
+  # trafia na stronę. Inna gałąź = zmiany widoczne tylko w jej podglądzie.
+  branch: main
   commit_messages:
     create: "Panel: dodano {{collection}} „{{slug}}”"
     update: "Panel: zmieniono {{collection}} „{{slug}}”"
@@ -28,8 +28,9 @@ local_backend: true
 
 locale: pl
 logo_url: /logo.png
-site_url: https://deploy-preview-3--domwaluminum.netlify.app
-display_url: https://deploy-preview-3--domwaluminum.netlify.app
+# Po podpięciu domeny: zmienić oba adresy na nią (PANEL.md, sekcja 3).
+site_url: https://domwaluminum.netlify.app
+display_url: https://domwaluminum.netlify.app
 
 # Zdjęcia z panelu: pliki w public/uploads, na stronie pod /uploads/…
 # Na Netlify skaluje je Image CDN (src/lib/responsiveImage.ts), więc zdjęcie

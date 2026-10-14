@@ -258,5 +258,5 @@ do rozmowy, nie zgodą na dalsze skracanie intro.
     „Strony” i test wyników z elementami rozszerzonymi.
 13. Wizytówka Google (Profil Firmy) dla adresu w Sosnowcu — dane muszą być
     identyczne jak w panelu (Dane firmy) i w danych strukturalnych.
-14. Panel: w `public/admin/config.yml` zmienić `backend.branch` na `main`
-    oraz `site_url` / `display_url` na docelową domenę (`PANEL.md`, sekcja 3).
+14. Panel: w `public/admin/config.yml` zmienić `site_url` / `display_url`
+    na docelową domenę (`PANEL.md`, sekcja 3).
