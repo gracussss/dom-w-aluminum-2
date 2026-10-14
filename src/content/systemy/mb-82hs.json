@@ -28,7 +28,19 @@
       "label": "Izolacyjność termiczna UW",
       "value": "od 0,62",
       "note": "W/(m2K)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "82 mm",
+      "source": "ALUPROF – ulotka produktowa MB-82HS (MB-82HS_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "18 – 66 mm",
+      "source": "ALUPROF – ulotka produktowa MB-82HS (MB-82HS_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "186 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-82HS (MB-82HS_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

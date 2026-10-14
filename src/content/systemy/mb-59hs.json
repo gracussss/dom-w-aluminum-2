@@ -28,7 +28,19 @@
     {
       "label": "Wodoszczelność",
       "value": "do klasy 9A (600 Pa), EN 12208"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "59 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59HS (PL-10.2016), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "do 42 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59HS (PL-10.2016), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "120 mm (profil 2-szynowy), 199 mm (profil 3-szynowy)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-59HS (PL-10.2016), s. 2",
+  "sourceDate": "2026-10-14"
 }

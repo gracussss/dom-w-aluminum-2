@@ -39,7 +39,13 @@ describe("panel ↔ strona", () => {
   function anchoredOptions(anchor: string): string[] {
     const start = config.indexOf(`&${anchor}`);
     expect(start, anchor).toBeGreaterThan(-1);
-    const block = config.slice(start).split("\n").slice(1);
+    /* Podział po /?
+/, a nie po samym 
+: przy core.autocrlf=true plik
+       trafia na dysk z CRLF, a zostawiony na końcu wiersza znak CR nie mieści
+       się w regule niżej — kończy się ona na $ bez flagi `m`, więc dopina się
+       do końca napisu. W CI test przechodził, na Windowsie zwracał pustą listę
+       i przewracał się na porównaniu z taksonomią. */    const block = config.slice(start).split(/\r?\n/).slice(1);
     const values: string[] = [];
     for (const line of block) {
       const match = /^\s+- \{ label: [^,]+, value: ([a-z-]+) \}$/.exec(line);

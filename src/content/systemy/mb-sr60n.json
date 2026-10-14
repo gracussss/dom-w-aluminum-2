@@ -28,7 +28,19 @@
       "label": "Odporność na uderzenie",
       "value": "I5/E5",
       "note": "EN 14019"
+    },
+    {
+      "label": "Głębokość rygli",
+      "value": "49,5 – 249,5 mm",
+      "source": "ALUPROF – ulotka produktowa MB-SR60N (MB-SR60N_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Zakres szklenia",
+      "value": "4 – 72 mm",
+      "source": "ALUPROF – ulotka produktowa MB-SR60N (MB-SR60N_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "słupy 65 – 325 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-SR60N (MB-SR60N_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

@@ -20,7 +20,14 @@
     {
       "label": "Maksymalna szerokość skrzydła drzwi",
       "value": "1,2 m"
+    },
+    {
+      "label": "Głębokość skrzydła drzwi",
+      "value": "77 mm",
+      "source": "ALUPROF – ulotka produktowa MB-86 FOLD LINE HD (MB-Fold_Line_HD_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "86 mm (ościeżnice)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-86 FOLD LINE HD (MB-Fold_Line_HD_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

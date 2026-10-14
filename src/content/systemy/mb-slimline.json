@@ -21,7 +21,14 @@
       "label": "Izolacyjność termiczna Uw",
       "value": "z 0,8",
       "note": "W/(m2K)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "77,5 mm / 99,5 mm",
+      "source": "ALUPROF – ulotka produktowa MB-SLIMLINE (mb-slimline_a4_pl.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "68,5 – 123,5 mm / 90,5 – 145,5 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-SLIMLINE (mb-slimline_a4_pl.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

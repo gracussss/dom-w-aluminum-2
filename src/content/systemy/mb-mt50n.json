@@ -25,7 +25,19 @@
     {
       "label": "Izolacyjność termiczna",
       "value": "Uf od 0,55 W/(m2K)"
+    },
+    {
+      "label": "Głębokość rygli 1-go rzędu",
+      "value": "20 – 254,5 mm",
+      "source": "ALUPROF – ulotka produktowa MB-MT50N (MB-MT50N_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Głębokość rygli 2-go rzędu",
+      "value": "85 – 175 mm",
+      "source": "ALUPROF – ulotka produktowa MB-MT50N (MB-MT50N_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "słupy 20 – 250 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-MT50N (MB-MT50N_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

@@ -29,7 +29,19 @@
       "label": "Samozamykalność",
       "value": "C5",
       "note": "EN 1191:2013-06"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "78 mm",
+      "source": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość wypełnienia",
+      "value": "6 – 49 mm",
+      "source": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "78 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

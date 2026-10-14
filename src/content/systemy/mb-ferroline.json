@@ -27,7 +27,14 @@
     {
       "label": "Klasa antywłamaniowa",
       "value": "RC2"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "86 – 93,5 mm",
+      "source": "ALUPROF – ulotka produktowa MB-FERROLINE (mb-ferroline_a4_pl.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 – 110 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-FERROLINE (mb-ferroline_a4_pl.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

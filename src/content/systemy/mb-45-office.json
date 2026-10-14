@@ -9,5 +9,7 @@
     "drzwi"
   ],
   "constructionType": "rozwierne",
-  "sourceDate": "2026-08-28"
+  "depth": "45 mm",
+  "depthSource": "ALUPROF – karta produktowa MB-45 OFFICE (mb-45-office-52-pl.pdf), s. 1",
+  "sourceDate": "2026-10-14"
 }

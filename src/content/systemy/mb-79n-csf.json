@@ -20,7 +20,19 @@
     {
       "label": "Maksymalny ciężar skrzydła",
       "value": "80 kg"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "70 mm",
+      "source": "ALUPROF – ulotka produktowa MB-79N CSF (MB-79N_CSF_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "ościeżnica i skrzydło: 10,5 – 42 mm",
+      "source": "ALUPROF – ulotka produktowa MB-79N CSF (MB-79N_CSF_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "70 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-79N CSF (MB-79N_CSF_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

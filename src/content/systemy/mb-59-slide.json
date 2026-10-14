@@ -29,7 +29,19 @@
       "label": "Izolacyjność termiczna Uf",
       "value": "> 1,9",
       "note": "W/(m2K)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "59 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59 SLIDE (MB-59_SLIDE_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "10,5 mm – 42 mm",
+      "source": "ALUPROF – ulotka produktowa MB-59 SLIDE (MB-59_SLIDE_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "120 mm (profil 2-szynowy), 199 mm (profil 3-szynowy)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-59 SLIDE (MB-59_SLIDE_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

@@ -28,7 +28,14 @@
       "label": "Obciążenie wiatrem",
       "value": "do klasy C5/B5",
       "note": "PN-EN 12210:2001"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "80,8 mm",
+      "source": "ALUPROF – karta produktowa MB-86US ST, SI (mb-86us-st-si-13-pl.pdf), s. 1"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 mm (ościeżnica)",
+  "depthSource": "ALUPROF – karta produktowa MB-86US ST, SI (mb-86us-st-si-13-pl.pdf), s. 1",
+  "sourceDate": "2026-10-14"
 }

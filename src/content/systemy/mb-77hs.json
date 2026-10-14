@@ -32,7 +32,19 @@
       "label": "Odporność na obciążenie wiatrem",
       "value": "do klasy C4",
       "note": "EN 12210"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "77 mm",
+      "source": "ALUPROF – ulotka produktowa MB-77HS (mb-77hs_a3_pl.pdf), s. 4"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "13,5 – 58,5 mm",
+      "source": "ALUPROF – ulotka produktowa MB-77HS (mb-77hs_a3_pl.pdf), s. 4"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "174 mm (profil 2-szynowy), 271 mm (profil 3-szynowy)",
+  "depthSource": "ALUPROF – ulotka produktowa MB-77HS (mb-77hs_a3_pl.pdf), s. 4",
+  "sourceDate": "2026-10-14"
 }

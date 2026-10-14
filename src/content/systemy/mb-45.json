@@ -22,7 +22,14 @@
     {
       "label": "Odporność na przenikanie wody",
       "value": "580 Pa (12 psf)"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "45 mm (drzwi), 54 mm (okno)",
+      "source": "ALUPROF – ulotka produktowa MB-45 (MB-45_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "45 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-45 (MB-45_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

@@ -23,7 +23,19 @@
       "label": "Samozamykalność",
       "value": "C5",
       "note": "EN 1191"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "60 mm",
+      "source": "ALUPROF – ulotka produktowa MB-60E EI (MB-60E_EI_A4_PL.pdf), s. 2"
+    },
+    {
+      "label": "Grubość szklenia",
+      "value": "5 – 41 mm",
+      "source": "ALUPROF – ulotka produktowa MB-60E EI (MB-60E_EI_A4_PL.pdf), s. 2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "60 mm",
+  "depthSource": "ALUPROF – ulotka produktowa MB-60E EI (MB-60E_EI_A4_PL.pdf), s. 2",
+  "sourceDate": "2026-10-14"
 }

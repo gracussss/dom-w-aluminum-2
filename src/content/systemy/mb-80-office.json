@@ -22,5 +22,7 @@
       "value": "do 50dB"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "80 mm (układ płytki), 92 mm (układ głęboki)",
+  "depthSource": "ALUPROF – karta produktowa MB-80 OFFICE (mb-80-office-51-pl.pdf), s. 1",
+  "sourceDate": "2026-10-14"
 }

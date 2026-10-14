@@ -20,7 +20,14 @@
     {
       "label": "Odporność na obciążenie wiatrem",
       "value": "klasa C5"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "86 mm",
+      "source": "ALUPROF – karta produktowa MB-86 Casement (mb-86-casement-99-pl.pdf), s. 1"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 mm (ościeżnica)",
+  "depthSource": "ALUPROF – karta produktowa MB-86 Casement (mb-86-casement-99-pl.pdf), s. 1",
+  "sourceDate": "2026-10-14"
 }
