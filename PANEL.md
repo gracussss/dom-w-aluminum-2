@@ -149,8 +149,18 @@ zaznaczone”. Zdjęcie z telefonu jest w porządku.
 **Google (SEO):** tytuł do 60 znaków, opis 50–160 znaków. Panel nie pozwoli
 zapisać dłuższego, a podgląd po prawej pokazuje, jak to wygląda w Google.
 
-**Katalog systemów:** wartości techniczne przepisuj wyłącznie z karty
-systemu na aluprof.com i ustaw datę sprawdzenia. Nie wpisuj nic z pamięci.
+**Katalog systemów:** wartości techniczne przepisuj wyłącznie z dokumentów
+producenta i ustaw datę sprawdzenia. Nie wpisuj nic z pamięci. Wartość
+z katalogu technicznego (strefa partnera), a nie z karty na aluprof.com:
+wpisz nazwę dokumentu w polu „Źródło”, np. „ALUPROF – katalog techniczny
+MB-59HS, s. 12”.
+
+**Przekrój systemu:** Katalog systemów → system → „Rysunki przekrojów” →
+„Dodaj rysunek” → plik (PNG albo SVG wycięty z katalogu technicznego,
+najlepiej co najmniej 2000 px szerokości), rodzaj, podpis i dokument
+źródłowy. Rysunek zastępuje na karcie schemat poglądowy. Przed publikacją
+rysunków producenta na stronie potrzebna jest zgoda (`MATERIALY.md`) —
+do tego czasu zapisuj je jako wersję roboczą i oglądaj w podglądzie.
 
 **Pomyłka?** Każda zmiana jest zapisana w historii. Wykonawca może cofnąć
 dowolną wersję, więc nic nie ginie.

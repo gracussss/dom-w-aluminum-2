@@ -618,6 +618,6 @@ collections:
         date_format: "DD.MM.YYYY"
         time_format: false
         hint: Ustaw na dzień, w którym parametry zostały przepisane z karty producenta.
-      - { name: description, label: Własny opis (opcjonalnie), widget: text, required: false, hint: "Puste = opis powstaje z podtytułu producenta." }
-      - { name: image, label: Własne zdjęcie (opcjonalnie), widget: image, choose_url: false, required: false, hint: "Zastępuje zdjęcie poglądowe i zdejmuje z karty etykietę." }
+      - { name: description, label: Własny opis, widget: text, required: false, hint: "Puste = opis powstaje z podtytułu producenta." }
+      - { name: image, label: Własne zdjęcie, widget: image, choose_url: false, required: false, hint: "Zastępuje zdjęcie poglądowe i zdejmuje z karty etykietę." }
       - { name: order, label: Kolejność w kategorii, widget: number, value_type: int, required: false, hint: "Mniejsza liczba = wyżej na liście. Puste = na końcu." }
