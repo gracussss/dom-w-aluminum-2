@@ -489,10 +489,13 @@ export function SystemDetail() {
                   })}
                 </ul>
               ) : (
+                /* Zdanie mówiło wcześniej, że nie pokazujemy rysunków technicznych —
+                   przestało być prawdziwe w dniu, w którym pierwszy przekrój
+                   z katalogu producenta trafił na kartę systemu. Teraz mówi o tym,
+                   czego faktycznie tu nie ma: plików do pobrania. */
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-limestone/55">
-                  Nie udostępniamy tu kart katalogowych, rysunków technicznych ani plików BIM.
-                  Samo pobranie ich ze strony producenta nie jest zgodą na publikację na stronie
-                  komercyjnej – dodamy je po uzyskaniu pisemnej zgody.
+                  Plików do pobrania – kart katalogowych, rysunków CAD i modeli BIM – tu nie
+                  udostępniamy. Są na stronie producenta, pod odnośnikiem niżej.
                 </p>
               )}
 
