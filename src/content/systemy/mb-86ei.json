@@ -29,7 +29,14 @@
       "label": "Odporność ogniowa",
       "value": "klasa EI30",
       "note": "EN 13501-2:2016-07"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "86 mm (okno), 77 mm (drzwi)",
+      "source": "ALUPROF – katalog techniczny MB-86EI, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 mm (ościeżnica)",
+  "depthSource": "ALUPROF – katalog techniczny MB-86EI, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

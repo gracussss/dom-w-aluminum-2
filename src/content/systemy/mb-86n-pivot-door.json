@@ -24,7 +24,14 @@
     {
       "label": "Wodoszczelność",
       "value": "klasa 3B"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "77 mm",
+      "source": "ALUPROF – katalog techniczny MB-86N Pivot Door, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "77 mm (ościeżnica)",
+  "depthSource": "ALUPROF – katalog techniczny MB-86N Pivot Door, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

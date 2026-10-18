@@ -27,7 +27,14 @@
       "label": "Izolacyjność termiczna Uf",
       "value": ">0,85",
       "note": "W/(m2K)"
+    },
+    {
+      "label": "Głębokość rygli",
+      "value": "5 – 189,5 mm",
+      "source": "ALUPROF – katalog techniczny MB-SR50N HI, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "słupy 50 – 325 mm",
+  "depthSource": "ALUPROF – katalog techniczny MB-SR50N HI, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

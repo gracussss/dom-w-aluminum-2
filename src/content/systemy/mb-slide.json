@@ -8,5 +8,14 @@
     "przesuwne"
   ],
   "constructionType": "przesuwne",
-  "sourceDate": "2026-08-28"
+  "specs": [
+    {
+      "label": "Głębokość skrzydeł",
+      "value": "37 mm",
+      "source": "ALUPROF – katalog techniczny MB-Slide, MB-Slide ST, część opisowa, s. 02-0-01.00"
+    }
+  ],
+  "depth": "50 mm (szyny 2-torowe), 97 mm (szyny 3-torowe)",
+  "depthSource": "ALUPROF – katalog techniczny MB-Slide, MB-Slide ST, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

@@ -16,7 +16,12 @@
     {
       "label": "Szerokość profili żaluzji",
       "value": "od 100 do 300 mm"
+    },
+    {
+      "label": "Głębokość lameli",
+      "value": "28,9 mm",
+      "source": "ALUPROF – katalog techniczny MB-SUNPROF, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "sourceDate": "2026-10-19"
 }

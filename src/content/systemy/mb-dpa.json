@@ -16,7 +16,12 @@
     {
       "label": "max. ciężar skrzydła drzwi",
       "value": "200 kg"
+    },
+    {
+      "label": "Głębokość konstrukcyjna kształtowników skrzydeł",
+      "value": "50 mm (MB-59S Casement), 70 mm (MB-70 Casement, MB-79N Casement), 45 mm (MB-45)",
+      "source": "ALUPROF – katalog techniczny MB-DPA, część opisowa, s. 02-0-00.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "sourceDate": "2026-10-19"
 }

@@ -25,7 +25,14 @@
     {
       "label": "Głębokość ościeżnicy",
       "value": "23 mm"
+    },
+    {
+      "label": "Głębokość skrzydła drzwi",
+      "value": "71 mm (szyba dwukomorowa)",
+      "source": "ALUPROF – katalog techniczny MB-SKYLINE TYPE-R, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "190 mm (ościeżnice)",
+  "depthSource": "ALUPROF – katalog techniczny MB-SKYLINE TYPE-R, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

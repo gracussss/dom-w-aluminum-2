@@ -22,5 +22,7 @@
       "value": "1200 mm"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "37 mm",
+  "depthSource": "ALUPROF – katalog techniczny MB-GLASS BARRIER, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

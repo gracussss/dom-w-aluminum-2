@@ -29,7 +29,14 @@
       "label": "Odporność na obciążenie wiatrem",
       "value": "do klasy C2",
       "note": "EN 12210"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "77 mm",
+      "source": "ALUPROF – katalog techniczny MB-77HSB, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "174 mm (ościeżnica 2-szynowa), 271 mm (ościeżnica 3-szynowa)",
+  "depthSource": "ALUPROF – katalog techniczny MB-77HSB, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

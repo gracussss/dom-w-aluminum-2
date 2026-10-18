@@ -24,7 +24,14 @@
     {
       "label": "Odporność na obciążenie wiatrem",
       "value": "klasa C5/B5"
+    },
+    {
+      "label": "Głębokość skrzydła",
+      "value": "79 mm",
+      "source": "ALUPROF – katalog techniczny MB-79N Casement, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "70 mm (ościeżnica)",
+  "depthSource": "ALUPROF – katalog techniczny MB-79N Casement, część opisowa, s. 02-0-01.00",
+  "sourceDate": "2026-10-19"
 }

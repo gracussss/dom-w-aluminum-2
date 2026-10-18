@@ -18,5 +18,7 @@
       "value": "do 3600 mm"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "depth": "45 mm (MB-HARMONY), 92 mm (MB-HARMONY DUO)",
+  "depthSource": "ALUPROF – katalog techniczny MB-HARMONY OFFICE, część opisowa, s. 02-0-01-00",
+  "sourceDate": "2026-10-19"
 }
