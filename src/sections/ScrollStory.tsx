@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Eyebrow } from "../components/ui/Eyebrow";
+import { SkipSequence } from "../components/ui/SkipSequence";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
 import { Reveal } from "../components/ui/Reveal";
 import { prefersReducedMotion } from "../lib/motion";
@@ -209,24 +210,28 @@ export function ScrollStory({ eyebrow }: { eyebrow: string }) {
             ))}
           </div>
 
-          {/* Wskaźnik postępu */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {steps.map((s, i) => (
-              <div key={s.no} className="flex items-center gap-2 sm:gap-3">
-                <span
-                  className={`h-px transition-all duration-500 ${
-                    i === activeStep ? "w-7 bg-bronze-light sm:w-12" : "w-3.5 bg-limestone/25 sm:w-6"
-                  }`}
-                />
-                <span
-                  className={`label-sm transition-colors duration-500 ${
-                    i === activeStep ? "text-limestone" : "text-limestone/55"
-                  }`}
-                >
-                  {s.no}
-                </span>
-              </div>
-            ))}
+          {/* Wskaźnik postępu i wyjście z sekwencji */}
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {steps.map((s, i) => (
+                <div key={s.no} className="flex items-center gap-2 sm:gap-3">
+                  <span
+                    className={`h-px transition-all duration-500 ${
+                      i === activeStep ? "w-7 bg-bronze-light sm:w-12" : "w-3.5 bg-limestone/25 sm:w-6"
+                    }`}
+                  />
+                  <span
+                    className={`label-sm transition-colors duration-500 ${
+                      i === activeStep ? "text-limestone" : "text-limestone/55"
+                    }`}
+                  >
+                    {s.no}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <SkipSequence section={wrap} />
           </div>
         </div>
 

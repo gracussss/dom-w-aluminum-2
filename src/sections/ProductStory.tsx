@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { PlaceholderTag } from "../components/ui/PlaceholderTag";
+import { SkipSequence } from "../components/ui/SkipSequence";
 import { canRunWebGL } from "../lib/motion";
 import { loadScrollAnimation } from "../lib/scrollAnimation";
 import { ScrollStory } from "./ScrollStory";
@@ -158,24 +159,28 @@ function Story3D({ content }: { content: HomeContent["story"] }) {
             ))}
           </div>
 
-          {/* Wskaźnik postępu sekwencji */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {steps.map((s, i) => (
-              <div key={s.no} className="flex items-center gap-2 sm:gap-3">
-                <span
-                  className={`h-px transition-all duration-500 ${
-                    i === step ? "w-7 bg-bronze-light sm:w-12" : "w-3.5 bg-limestone/25 sm:w-6"
-                  }`}
-                />
-                <span
-                  className={`label text-[13px] tabular-nums transition-colors duration-500 sm:text-sm ${
-                    i === step ? "text-limestone" : "text-limestone/55"
-                  }`}
-                >
-                  {s.no}
-                </span>
-              </div>
-            ))}
+          {/* Wskaźnik postępu sekwencji i wyjście z niej */}
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {steps.map((s, i) => (
+                <div key={s.no} className="flex items-center gap-2 sm:gap-3">
+                  <span
+                    className={`h-px transition-all duration-500 ${
+                      i === step ? "w-7 bg-bronze-light sm:w-12" : "w-3.5 bg-limestone/25 sm:w-6"
+                    }`}
+                  />
+                  <span
+                    className={`label text-[13px] tabular-nums transition-colors duration-500 sm:text-sm ${
+                      i === step ? "text-limestone" : "text-limestone/55"
+                    }`}
+                  >
+                    {s.no}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <SkipSequence section={wrap} />
           </div>
         </div>
 
