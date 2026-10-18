@@ -47,9 +47,19 @@ export function SystemDetail() {
   const allCategories = systemCategories(taxonomy, system);
   const construction = findConstructionType(taxonomy, system.constructionTypeId);
   const applications = findApplications(taxonomy, system.applicationIds);
+  /* Na stronie pokazujemy wyłącznie parametry, które mają wartość.
+
+     Wcześniej pusta rubryka wchodziła do siatki z podpisem „Do uzupełnienia”
+     — przy systemie bez potwierdzonych danych karta składała się z samych
+     takich kafelków i wyglądała jak niedokończona strona, a nie jak katalog
+     (uwaga klientki). Czego brakuje, nadal widać w bloku „Status danych”
+     i przy pozycji w katalogu — nic nie udajemy, po prostu nie drukujemy
+     pustych pól. */
+  const podaneSpecs = system.specs.filter((spec) => spec.value !== null);
+
   /* Legenda mówi o wielkościach, które faktycznie stoją wyżej w siatce —
      nie o całym słowniku. Parametry nierozpoznane pewnie nie dostają wpisu. */
-  const glossary = explainSpecs(system.specs);
+  const glossary = explainSpecs(podaneSpecs);
 
   /* Ostatnia komórka domyka rząd parametrów.
 
@@ -60,10 +70,10 @@ export function SystemDetail() {
      Rozciągnięcie ostatniej pozycji na wolne kolumny zamyka rząd.
      `lg:col-span-1` jest potrzebne, żeby zdjąć rozciągnięcie z `sm`. */
   const specsFillLast = [
-    system.specs.length % 2 === 1 ? "sm:col-span-2" : "",
-    system.specs.length % 3 === 1
+    podaneSpecs.length % 2 === 1 ? "sm:col-span-2" : "",
+    podaneSpecs.length % 3 === 1
       ? "lg:col-span-3"
-      : system.specs.length % 3 === 2
+      : podaneSpecs.length % 3 === 2
         ? "lg:col-span-2"
         : "lg:col-span-1",
   ].join(" ");
@@ -350,35 +360,33 @@ export function SystemDetail() {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <div className="mt-12 grid grid-cols-1 gap-px border border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-3">
-              {system.specs.map((spec, i) => (
-                <div
-                  key={spec.id}
-                  className={`bg-void p-6 ${i === system.specs.length - 1 ? specsFillLast : ""}`}
-                >
-                  <p className="label text-limestone/55">{spec.label}</p>
-                  {spec.value ? (
-                    <>
-                      <p className="mt-3 text-xl font-semibold tracking-[-0.02em]">{spec.value}</p>
-                      {/* Norma stoi przy wartości, której dotyczy */}
-                      {spec.standard && (
-                        <p className="label-sm mt-2 text-limestone/55">{spec.standard}</p>
-                      )}
-                      {/* Przy jednym źródle wystarcza podpis pod tabelą; przy kilku
-                          czytelnik musi wiedzieć, z którego dokumentu jest TA wartość. */}
-                      {mixedSources && spec.source && (
-                        <p className="mt-2 text-xs leading-relaxed text-limestone/45">{spec.source.label}</p>
-                      )}
-                    </>
-                  ) : (
-                    <p className="mt-3 flex items-center gap-2 text-sm text-limestone/55">
-                      <Clock className="h-3.5 w-3.5 shrink-0 text-bronze-light/70" strokeWidth={1.5} />
-                      Do uzupełnienia
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+            {podaneSpecs.length > 0 ? (
+              <div className="mt-12 grid grid-cols-1 gap-px border border-limestone/12 bg-limestone/12 sm:grid-cols-2 lg:grid-cols-3">
+                {podaneSpecs.map((spec, i) => (
+                  <div
+                    key={spec.id}
+                    className={`bg-void p-6 ${i === podaneSpecs.length - 1 ? specsFillLast : ""}`}
+                  >
+                    <p className="label text-limestone/55">{spec.label}</p>
+                    <p className="mt-3 text-xl font-semibold tracking-[-0.02em]">{spec.value}</p>
+                    {/* Norma stoi przy wartości, której dotyczy */}
+                    {spec.standard && <p className="label-sm mt-2 text-limestone/55">{spec.standard}</p>}
+                    {/* Przy jednym źródle wystarcza podpis pod tabelą; przy kilku
+                        czytelnik musi wiedzieć, z którego dokumentu jest TA wartość. */}
+                    {mixedSources && spec.source && (
+                      <p className="mt-2 text-xs leading-relaxed text-limestone/45">{spec.source.label}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Zamiast siatki pustych rubryk jedno zdanie i wyjście do kontaktu —
+                 czytelnik dostaje informację, a nie formularz do wypełnienia. */
+              <p className="mt-12 max-w-2xl text-pretty leading-relaxed text-limestone/55">
+                Parametrów tego systemu nie mamy jeszcze potwierdzonych dokumentem producenta.
+                Podajemy je przy wycenie — razem z kartą katalogową systemu.
+              </p>
+            )}
           </Reveal>
 
           {glossary.length > 0 && (
