@@ -251,6 +251,7 @@ export function SystemDetail() {
               <CrossSection
                 drawings={system.crossSections}
                 type={modelType}
+                systemId={system.id}
                 subject={`${manufacturer?.name ?? ""} · ${system.name}`}
               />
             </Reveal>

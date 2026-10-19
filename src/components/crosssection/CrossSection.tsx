@@ -336,17 +336,44 @@ export interface CrossSectionProps {
   drawings?: CrossSectionRef[];
   /** Typ konstrukcji — decyduje, który schemat poglądowy pokazujemy. */
   type?: ModelType;
+  /** Identyfikator systemu — pozwala pokazać rysunek zrobiony pod tę konstrukcję. */
+  systemId?: string;
   /** Czego dotyczy rysunek, np. „ALUPROF · MB-86N”. */
   subject?: string;
 }
 
-export function CrossSection({ className = "", drawings = [], type = "okno", subject }: CrossSectionProps) {
+export function CrossSection({
+  className = "",
+  drawings = [],
+  type = "okno",
+  systemId,
+  subject,
+}: CrossSectionProps) {
   const idPrefix = useId();
-  const schematic = getSchematic(type);
+  const schematic = getSchematic(type, systemId);
 
   /* Tylko rysunki, które faktycznie mają plik. */
   const available = drawings.filter((d) => d.imageSrc);
-  const isReal = available.length > 0;
+
+  /* Zakładki: najpierw nasz schemat, potem rysunki producenta.
+     Wcześniej rysunek producenta całkowicie wypierał schemat — a to dwie
+     różne rzeczy dla dwóch różnych osób. Katalog producenta jest dokumentacją
+     warsztatową (numery profili, tolerancje), nasz schemat tłumaczy budowę.
+     Kto chce szczegółów, przełącza jednym kliknięciem. */
+  const views: { id: string; label: string; drawing: CrossSectionRef | null }[] = [
+    ...(schematic
+      ? [
+          {
+            id: `schemat-${schematic.id}`,
+            /* Przy rysunku zrobionym pod konkretny system nie nazywamy go
+               poglądowym — jego głębokości są z karty tego systemu. */
+            label: schematic.system ? "Schemat uproszczony" : "Schemat poglądowy",
+            drawing: null,
+          },
+        ]
+      : []),
+    ...available.map((d) => ({ id: d.id, label: d.label, drawing: d })),
+  ];
 
   const [viewIndex, setViewIndex] = useState(0);
   const [pinned, setPinned] = useState<string | null>(null);
@@ -360,8 +387,10 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
   const active = hovered ?? pinned;
   const toggle = useCallback((id: string) => setPinned((current) => (current === id ? null : id)), []);
 
-  const current = available[Math.min(viewIndex, available.length - 1)];
-  const resetKey = isReal ? (current?.id ?? "") : (schematic?.id ?? "");
+  const view = views[Math.min(viewIndex, views.length - 1)];
+  const current = view?.drawing ?? null;
+  const isReal = current !== null;
+  const resetKey = view?.id ?? "";
 
   /**
    * Pełny ekran to modal: Escape zamyka, a Tab krąży wewnątrz warstwy.
@@ -413,7 +442,11 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
   /* Ani rysunku, ani sensownego schematu (np. akcesoria) — nie zmyślamy przekroju. */
   if (!isReal && !schematic) return null;
 
-  const badge = isReal ? "Przekrój systemu" : "Schemat poglądowy";
+  const badge = isReal
+    ? "Przekrój systemu"
+    : schematic?.system
+      ? "Schemat uproszczony"
+      : "Schemat poglądowy";
 
   const drawingContent = isReal ? (
     /* Rysunki katalogowe są czarne na białym. Na ciemnym kadrze odwracamy
@@ -446,12 +479,12 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
       <div className={`grid gap-8 lg:grid-cols-12 lg:gap-10 ${className}`}>
         <div className="lg:col-span-8">
           {/* Przełącznik przekrojów — pojawia się dopiero przy kilku rysunkach */}
-          {available.length > 1 && (
+          {views.length > 1 && (
             /* Świadomie `group` + `aria-pressed`, nie `tablist`: nie ma tu
                osobnych paneli ani nawigacji strzałkami, więc pełny wzorzec
                kart byłby obietnicą, której komponent nie dotrzymuje. */
             <div role="group" aria-label="Rodzaj przekroju" className="mb-3 flex flex-wrap gap-2">
-              {available.map((drawing, index) => (
+              {views.map((drawing, index) => (
                 <button
                   key={drawing.id}
                   type="button"
@@ -508,11 +541,23 @@ export function CrossSection({ className = "", drawings = [], type = "okno", sub
                 idPrefix={idPrefix}
               />
               <p className="mt-5 text-xs leading-relaxed text-limestone/55">{schematic!.description}</p>
-              <p className="mt-3 text-xs leading-relaxed text-limestone/55">
-                <span className="text-limestone/70">Rysunek własny, bez skali i bez wymiarów.</span>{" "}
-                Pokazuje zasadę budowy, nie geometrię konkretnego systemu. Realny przekrój podmienimy
-                po otrzymaniu dokumentacji producenta.
-              </p>
+              {/* Dwa różne zastrzeżenia, bo to dwa różne rysunki: schemat ogólny
+                  nie zna geometrii systemu, schemat systemowy zna i ma jego wymiary. */}
+              {schematic!.system ? (
+                <p className="mt-3 text-xs leading-relaxed text-limestone/55">
+                  <span className="text-limestone/70">
+                    Rysunek własny, uproszczony — głębokości zgodne z kartą systemu.
+                  </span>{" "}
+                  Pominęliśmy numery katalogowe profili i uszczelek; pełny przekrój producenta jest
+                  obok, w drugiej zakładce.
+                </p>
+              ) : (
+                <p className="mt-3 text-xs leading-relaxed text-limestone/55">
+                  <span className="text-limestone/70">Rysunek własny, bez skali i bez wymiarów.</span>{" "}
+                  Pokazuje zasadę budowy, nie geometrię konkretnego systemu. Realny przekrój
+                  podmienimy po otrzymaniu dokumentacji producenta.
+                </p>
+              )}
               <p className="mt-3 text-xs leading-relaxed text-limestone/55">{hint}</p>
             </>
           )}
