@@ -89,12 +89,12 @@ export function SystemRow({ system, no, taxonomy, showManufacturer = true }: Sys
           )}
           <Meta label="Konstrukcja" value={construction?.name} />
           <Meta label="Zastosowanie" value={applications} />
-          {/* Na stronie producenta miejsce po producencie zajmuje stan danych */}
-          {!showManufacturer && (
-            <Meta
-              label="Parametry"
-              value={system.dataStatus.specs === "missing" ? "Do uzupełnienia" : "Częściowo potwierdzone"}
-            />
+          {/* Na stronie producenta miejsce po producencie zajmuje stan danych —
+              ale tylko wtedy, gdy jest co pokazać. Przy systemie bez parametrów
+              stała tam plakietka „Do uzupełnienia”, czyli lista katalogu mówiła
+              głównie o tym, czego nie mamy (uwaga klientki). */}
+          {!showManufacturer && system.dataStatus.specs !== "missing" && (
+            <Meta label="Parametry" value="Potwierdzone dokumentacją producenta" />
           )}
         </dl>
 

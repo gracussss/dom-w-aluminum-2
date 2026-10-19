@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowUpRight, Clock, FileText, Phone } from "lucide-react";
+import { ArrowUpRight, FileText, Phone } from "lucide-react";
 import { Seo } from "../components/Seo";
 import { Reveal, RevealText } from "../components/ui/Reveal";
 import { Eyebrow } from "../components/ui/Eyebrow";
@@ -399,8 +399,17 @@ export function SystemDetail() {
                       od drugiego rzędu w dół dostawała wcięcie, którego nie miał
                       rząd pierwszy. Przy dwóch kolumnach lewą stronę wyznacza
                       parzystość, nie pozycja. */}
-                  {glossary.map((entry) => (
-                    <div key={entry.id} className="bg-void py-6 sm:px-6 sm:odd:pl-0">
+                  {glossary.map((entry, i) => (
+                    <div
+                      key={entry.id}
+                      /* Nieparzysta liczba haseł zostawiała w ostatnim rzędzie puste
+                         pół siatki, a że linie rysuje tło kontenera, wyglądało to jak
+                         wklejony ciemny prostokąt (uwaga klientki). Ostatnie hasło
+                         domyka rząd — ten sam zabieg co przy parametrach wyżej. */
+                      className={`bg-void py-6 sm:px-6 sm:odd:pl-0 ${
+                        i === glossary.length - 1 && glossary.length % 2 === 1 ? "sm:col-span-2" : ""
+                      }`}
+                    >
                       <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span className="text-base font-semibold tracking-[-0.02em]">{entry.term}</span>
                         {entry.standard && (
@@ -410,26 +419,19 @@ export function SystemDetail() {
                       <dd className="mt-3 max-w-md text-sm leading-relaxed text-limestone/70">
                         {entry.what}
                       </dd>
-                      {/* Treść normy to źródło, którego nie mamy w repozytorium —
-                          skala klas czeka na nie tak samo jak brakujący parametr. */}
-                      <dd className="mt-3">
-                        {entry.scale ? (
-                          <span className="text-sm leading-relaxed text-limestone/70">{entry.scale}</span>
-                        ) : (
-                          <span className="label-sm inline-flex items-center gap-2 text-limestone/55">
-                            <Clock className="h-3.5 w-3.5 shrink-0 text-bronze-light/70" strokeWidth={1.5} />
-                            Skala klas – do uzupełnienia
-                          </span>
-                        )}
-                      </dd>
+                      {/* Skala klas pojawia się tylko wtedy, gdy ją mamy. Wcześniej
+                          każde hasło kończyło się plakietką „do uzupełnienia” —
+                          a że `scale` jest puste przy wszystkich, słownik czytał się
+                          jak lista braków zamiast jak objaśnienie. */}
+                      {entry.scale && (
+                        <dd className="mt-3 text-sm leading-relaxed text-limestone/70">{entry.scale}</dd>
+                      )}
                     </div>
                   ))}
                 </dl>
 
                 <p className="mt-8 max-w-2xl text-xs leading-relaxed text-limestone/70">
                   Objaśnienia dotyczą samych wielkości, nie tego konkretnego systemu.
-                  Zakresy klas uzupełnimy po sięgnięciu do treści norm – tak jak każdą
-                  inną wartość techniczną, razem ze wskazaniem źródła.
                 </p>
               </div>
             </Reveal>

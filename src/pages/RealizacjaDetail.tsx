@@ -145,22 +145,26 @@ export function RealizationView({ item }: { item: Realization }) {
                 <dt className="label text-void/70">Typ obiektu</dt>
                 <dd className="text-[15px] text-void/75">{item.category}</dd>
               </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
-                <dt className="label text-void/70">Lokalizacja</dt>
-                <dd className={`text-[15px] ${item.location ? "text-void/75" : "text-void/60"}`}>
-                  {item.location || "Do uzupełnienia"}
-                </dd>
-              </div>
+              {/* Wiersz bez treści w ogóle się nie pojawia. Wcześniej metryka
+                  realizacji potrafiła mieć dwa z czterech pól z napisem
+                  „Do uzupełnienia” — zestawienie mówiło wtedy o brakach,
+                  nie o obiekcie (uwaga klientki). */}
+              {item.location && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
+                  <dt className="label text-void/70">Lokalizacja</dt>
+                  <dd className="text-[15px] text-void/75">{item.location}</dd>
+                </div>
+              )}
               <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
                 <dt className="label text-void/70">Zakres prac</dt>
                 <dd className="text-[15px] text-void/75">{item.scope}</dd>
               </div>
-              <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
-                <dt className="label text-void/70">Zastosowany system</dt>
-                <dd className={`text-[15px] ${item.system ? "text-void/75" : "text-void/60"}`}>
-                  {item.system || "Do uzupełnienia"}
-                </dd>
-              </div>
+              {item.system && (
+                <div className="grid gap-2 py-6 sm:grid-cols-[180px_1fr]">
+                  <dt className="label text-void/70">Zastosowany system</dt>
+                  <dd className="text-[15px] text-void/75">{item.system}</dd>
+                </div>
+              )}
             </dl>
 
             <Link
