@@ -34,5 +34,13 @@
   ],
   "depth": "70 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-79N CSF (MB-79N_CSF_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-79n-csf-poziomy.png",
+      "kind": "other",
+      "label": "Przekrój systemu",
+      "source": "ALUPROF – katalog techniczny MB-79N CSF, s. 08-1-01-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

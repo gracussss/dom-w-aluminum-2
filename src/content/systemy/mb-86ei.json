@@ -38,5 +38,13 @@
   ],
   "depth": "77 mm (ościeżnica)",
   "depthSource": "ALUPROF – katalog techniczny MB-86EI, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-86ei-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-86EI, s. 08-1-05.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

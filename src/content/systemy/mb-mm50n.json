@@ -30,5 +30,13 @@
       "note": "W/(m2K)"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-mm50n-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup z izolatorem SI",
+      "source": "ALUPROF – katalog techniczny MB-MM50N, s. 07-1-01-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -8,5 +8,13 @@
     "przesuwne"
   ],
   "constructionType": "przesuwne",
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-openslide-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-OpenSlide, s. 08-1-06-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

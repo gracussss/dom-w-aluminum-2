@@ -24,5 +24,13 @@
   ],
   "depth": "37 mm",
   "depthSource": "ALUPROF – katalog techniczny MB-GLASS BARRIER, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-glass-barrier-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki",
+      "source": "ALUPROF – katalog techniczny MB-GLASS BARRIER, s. 08-0-02.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -30,5 +30,13 @@
       "note": "W/(m2K)"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-rw-poziomy.png",
+      "kind": "other",
+      "label": "Przekrój przez okno MB-RW w systemie MB-TT50",
+      "source": "ALUPROF – katalog techniczny MB-RW, s. 07-0-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

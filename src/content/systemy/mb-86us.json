@@ -37,5 +37,13 @@
   ],
   "depth": "77 mm (ościeżnica)",
   "depthSource": "ALUPROF – karta produktowa MB-86US ST, SI (mb-86us-st-si-13-pl.pdf), s. 1",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-86us-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-86US, s. 08-1-03.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

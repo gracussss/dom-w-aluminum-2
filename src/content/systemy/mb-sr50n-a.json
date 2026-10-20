@@ -25,5 +25,13 @@
       "note": "W/(m2K)"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-a-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup Aluminium-Drewno",
+      "source": "ALUPROF – katalog techniczny MB-SR50N A, s. 07-0-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -39,5 +39,13 @@
   ],
   "depth": "słupy 20 – 250 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-MT50N (MB-MT50N_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-mt50n-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup",
+      "source": "ALUPROF – katalog techniczny MB-MT50N, s. 07-0-02-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -22,5 +22,13 @@
       "value": "19,5 mm lub 40,5 mm"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/earthline-poziomy.png",
+      "kind": "other",
+      "label": "Przekrój systemu",
+      "source": "ALUPROF – katalog techniczny EARTHLINE, s. -"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

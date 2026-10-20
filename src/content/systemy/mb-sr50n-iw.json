@@ -29,5 +29,13 @@
       "value": "E5/I5"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-iw-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup",
+      "source": "ALUPROF – katalog techniczny MB-SR50N IW, s. 07-0-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

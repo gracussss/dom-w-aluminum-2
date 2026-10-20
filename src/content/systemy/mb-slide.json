@@ -17,5 +17,13 @@
   ],
   "depth": "50 mm (szyny 2-torowe), 97 mm (szyny 3-torowe)",
   "depthSource": "ALUPROF – katalog techniczny MB-Slide, MB-Slide ST, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-slide-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-SLIDE, s. 08-1-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

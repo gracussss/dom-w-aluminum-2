@@ -25,5 +25,13 @@
       "note": "kN/m2"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-zs-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup - 2, żaluzja fasadowa SkyFlow",
+      "source": "ALUPROF – katalog techniczny MB-SR50N ZS, s. 07-1-02.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

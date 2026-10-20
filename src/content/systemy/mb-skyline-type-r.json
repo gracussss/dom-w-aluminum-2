@@ -34,5 +34,13 @@
   ],
   "depth": "190 mm (ościeżnice)",
   "depthSource": "ALUPROF – katalog techniczny MB-SKYLINE TYPE-R, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-skyline-type-r-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-SKYLINE TYPE-R, s. 08-1-06-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

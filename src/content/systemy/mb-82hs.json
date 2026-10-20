@@ -42,5 +42,13 @@
   ],
   "depth": "186 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-82HS (MB-82HS_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-82hs-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-82HS, s. 08-1-16-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

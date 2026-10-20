@@ -34,5 +34,13 @@
   ],
   "depth": "60 mm (ościeżnica)",
   "depthSource": "ALUPROF – katalog techniczny MB-69V (strefa partnera), rozdz. 02 Opis techniczny, s. 02-1-01-00",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-69v-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna / drzwi otwieranego do wewnątrz",
+      "source": "ALUPROF – katalog techniczny MB-69V, s. 08-2-07-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

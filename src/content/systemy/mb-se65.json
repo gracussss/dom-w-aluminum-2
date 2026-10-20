@@ -26,5 +26,13 @@
       "value": "UCW < 0,9 W/(m²K)"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-se65-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup",
+      "source": "ALUPROF – katalog techniczny MB-SE65, s. 07-0-01-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

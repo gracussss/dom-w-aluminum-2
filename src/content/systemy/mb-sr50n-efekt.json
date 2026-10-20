@@ -35,5 +35,13 @@
   ],
   "depth": "słupy 65 – 325 mm",
   "depthSource": "ALUPROF – katalog techniczny MB-SR50N EFEKT, część opisowa, s. 02-0-02.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-efekt-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup",
+      "source": "ALUPROF – katalog techniczny MB-SR50N EFEKT, s. 07-0-03.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

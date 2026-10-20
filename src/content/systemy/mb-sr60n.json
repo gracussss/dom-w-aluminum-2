@@ -42,5 +42,13 @@
   ],
   "depth": "słupy 65 – 325 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-SR60N (MB-SR60N_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr60n-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup +90°",
+      "source": "ALUPROF – katalog techniczny MB-SR60N, s. 07-0-05.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

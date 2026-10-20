@@ -22,5 +22,13 @@
       "value": "do 12 psf"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-79n-ww-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje przez połączenie ościeżnic",
+      "source": "ALUPROF – katalog techniczny MB-79N WW, s. 08-5-22.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

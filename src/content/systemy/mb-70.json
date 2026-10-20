@@ -38,5 +38,13 @@
   ],
   "depth": "70 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-70 (mb-70_a3_pl.pdf), s. 4",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-70-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-70, s. 05-06.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

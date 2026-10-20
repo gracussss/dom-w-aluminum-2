@@ -38,5 +38,13 @@
   ],
   "depth": "100 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-100GFT (MB-100GFT_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-100gft-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-100GFT, s. 08-1-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

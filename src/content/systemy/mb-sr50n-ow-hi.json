@@ -30,5 +30,13 @@
       "note": "W/(m2K)"
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-ow-hi-poziomy.png",
+      "kind": "horizontal",
+      "label": "przekroje okna odchylnego - wersja STANDARD",
+      "source": "ALUPROF – katalog techniczny MB-SR50N OW Hi+, s. 07-0-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

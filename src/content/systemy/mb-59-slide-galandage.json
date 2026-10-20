@@ -43,5 +43,13 @@
   ],
   "depth": "166,9 mm (profil 2-szynowy), 245,9 mm (profil 3-szynowy)",
   "depthSource": "ALUPROF – ulotka produktowa MB-59 SLIDE GALANDAGE (MB-59_Slide_Galandage_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-59-slide-galandage-poziomy.png",
+      "kind": "vertical",
+      "label": "Przekrój przez poprzeczkę dolną drzwi",
+      "source": "ALUPROF – katalog techniczny MB-59Slide Galandage, s. 08-2-07.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

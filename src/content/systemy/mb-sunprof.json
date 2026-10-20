@@ -23,5 +23,13 @@
       "source": "ALUPROF – katalog techniczny MB-SUNPROF, część opisowa, s. 02-0-01.00"
     }
   ],
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sunprof-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup 90°",
+      "source": "ALUPROF – katalog techniczny MB-SUNPROF, s. 06-0-14.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

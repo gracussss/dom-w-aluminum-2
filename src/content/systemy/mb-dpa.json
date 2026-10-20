@@ -23,5 +23,13 @@
       "source": "ALUPROF – katalog techniczny MB-DPA, część opisowa, s. 02-0-00.00"
     }
   ],
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-dpa-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi przesuwnych",
+      "source": "ALUPROF – katalog techniczny MB-DPA, s. 08-2-05.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

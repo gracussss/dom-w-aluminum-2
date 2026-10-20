@@ -34,5 +34,13 @@
   ],
   "depth": "190 mm (ościeżnica 2-szynowa), 292 mm (ościeżnica 3-szynowa)",
   "depthSource": "ALUPROF – ulotka produktowa MB-SKYLINE TYPE S (aluprof_mb-skyline_type_s_pl.pdf), s. 3",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-skyline-type-s-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi",
+      "source": "ALUPROF – katalog techniczny MB-SKYLINE TYPE-S, s. 08-1-06-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -30,5 +30,13 @@
   ],
   "depth": "68,5 – 123,5 mm / 90,5 – 145,5 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-SLIMLINE (mb-slimline_a4_pl.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-slimline-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego SG",
+      "source": "ALUPROF – katalog techniczny MB-SLIMLINE, s. 08-1-04.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

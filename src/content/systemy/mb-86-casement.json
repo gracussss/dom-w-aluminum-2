@@ -29,5 +29,13 @@
   ],
   "depth": "77 mm (ościeżnica)",
   "depthSource": "ALUPROF – karta produktowa MB-86 Casement (mb-86-casement-99-pl.pdf), s. 1",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-86-casement-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego na zewnątrz",
+      "source": "ALUPROF – katalog techniczny MB-86 Casement, s. 08-1-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -14,5 +14,13 @@
       "value": "od 5 do 45 st."
     }
   ],
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-wg60-poziomy.png",
+      "kind": "other",
+      "label": "Przekrój przez płatew",
+      "source": "ALUPROF – katalog techniczny MB-WG60, s. 05-22.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

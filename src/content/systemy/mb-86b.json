@@ -29,5 +29,13 @@
   ],
   "depth": "77 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-86B (MB-86B_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-86b-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-86B, s. 08-1-04.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

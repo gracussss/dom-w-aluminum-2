@@ -37,5 +37,13 @@
   ],
   "depth": "słupy 50 – 325 mm",
   "depthSource": "ALUPROF – katalog techniczny MB-SR50N HI+, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-sr50n-hi-plus-poziomy.png",
+      "kind": "mullion",
+      "label": "Przekrój przez słup połówkowy",
+      "source": "ALUPROF – katalog techniczny MB-SR50N HI+, s. 07-0-07.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }
