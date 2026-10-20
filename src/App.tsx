@@ -38,9 +38,14 @@ const PolitykaPrywatnosci = lazy(() =>
 const Cookies = lazy(() => import("./pages/Cookies").then((m) => ({ default: m.Cookies })));
 const NotFound = lazy(() => import("./pages/NotFound").then((m) => ({ default: m.NotFound })));
 
-/** Neutralne tło na czas dociągania podstrony — bez migotania i spinnerów. */
+/** Neutralne tło na czas dociągania podstrony — bez migotania i spinnerów.
+ *
+ * Wysokość to pełny ekran, nie 70% — przy 70svh stopka mieściła się w kadrze
+ * zanim doszła paczka podstrony, a po jej wejściu zjeżdżała o kilka tysięcy
+ * pikseli. Jedno przesunięcie dawało CLS 0,30 na kartach systemów (pomiar:
+ * Slow 4G, CPU ×4). Stopka poniżej krawędzi ekranu nie liczy się do CLS. */
 function RouteFallback() {
-  return <div className="min-h-[70svh] bg-void" />;
+  return <div className="min-h-svh bg-void" />;
 }
 
 /**
