@@ -31,12 +31,6 @@ export interface SchematicMarker {
 
 export interface SchematicDefinition {
   id: string;
-  /**
-   * Oznaczenie systemu, gdy rysunek powstał dla konkretnej konstrukcji —
-   * wtedy proporcje i głębokości są jego, a nie ogólne dla typu. Puste przy
-   * czterech schematach bazowych (okno, drzwi, przesuwne, fasada).
-   */
-  system?: string;
   /** Nagłówek nad rysunkiem, np. „Okno rozwierne — przekrój poziomy”. */
   label: string;
   /** Czego dotyczy rysunek — jedno zdanie pod legendą. */
