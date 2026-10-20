@@ -4,91 +4,59 @@ import type { SchematicDefinition } from "../types";
 /* ------------------------------------------------------------------
    MB-70B — uproszczony przekrój profilu.
 
-   Rysunek WŁASNY, zamiast dokumentacji warsztatowej producenta.
+   Rysunek WŁASNY. Trzy poprzednie podejścia były złe i warto wiedzieć
+   dlaczego, żeby nie wrócić do nich przy kolejnych systemach: rysowałem
+   profile prostokątami — najpierw pełnymi, potem z prostokątną dziurą.
+   Wytłoczka aluminiowa tak nie wygląda i widać to na pierwszy rzut oka.
 
-   Czego tu świadomie nie ma:
-   - kreskowania przekroju (konwencja czytelna tylko dla technika),
-   - numerków do odszukania w legendzie obok,
-   - profili adaptacyjnych, listew i numerów katalogowych.
+   Prawdziwy profil ma:
+   - ściankę 2–3 mm, która wije się po całym obrysie,
+   - przylgi i noski, na których siadają uszczelki,
+   - rowek okuciowy od strony pokoju,
+   - kilka komór różnej wielkości, rozdzielonych wewnętrznymi żebrami,
+   - przylgę skrzydła zachodzącą na ościeżnicę.
 
-   Co zamiast tego: kształt. Profil aluminiowy ma rozpoznawalną sylwetkę —
-   dwie powłoki z pustymi komorami, spięte paskiem tworzywa. Narysowany
-   prostokątami wygląda jak prostokąty; dopiero wycięte komory, zaokrąglone
-   krawędzie i metaliczny gradient sprawiają, że widać metal.
+   Dlatego każda powłoka jest tu łamanym obrysem z wyciętymi komorami
+   (`fill-rule: evenodd`), a nie zaokrąglonym prostokątem.
 
-   Głębokości są prawdziwe: ościeżnica 70 mm, skrzydło 79 mm,
-   w skali 1 mm = 4 px.
+   Uproszczenie względem katalogu producenta polega na LICZBIE detali —
+   nie ma numerów katalogowych, tolerancji, wariantów uszczelek ani
+   profili adaptacyjnych — a nie na zamianie wytłoczki w klocek.
+
+   Skala 1 mm = 4 px. Głębokości rzeczywiste: ościeżnica 70, skrzydło 79 mm.
    ------------------------------------------------------------------ */
 
-const MM = 4;
+const MONO_SIZE = 19;
 
-/* Pas rysunku siedzi w dolnej połowie kadru, bo wszystkie podpisy idą nad
-   niego. Dół zostaje pusty: Stage kładzie tam plakietkę i przyciski
-   przybliżania, a one zasłaniają wszystko, co się pod nie podsunie. */
-const Y = 292;
-const H = 196;
-
-/* Ościeżnica: powłoka zewnętrzna | przekładka | powłoka wewnętrzna */
-const F_X = 118;
-const F_W = 70 * MM; // 280
-const F_SHELL = 112;
-const F_BREAK = 52;
-
-/* Skrzydło domyka ościeżnicę — między nimi zostaje szczelina na uszczelkę. */
-const S_X = F_X + F_W + 20;
-const S_W = 79 * MM; // 316
-const S_SHELL = 124;
-const S_BREAK = 52;
-
-const GLASS_X = S_X + S_W;
-
-/** Komora w profilu — wycięta w metalu, więc w kolorze tła kadru. */
-function komora(x: number, y: number, w: number, h: number) {
-  return <rect x={x} y={y} width={w} height={h} rx="7" fill="#0f1113" opacity="0.92" />;
+/** Obrys z wyciętymi komorami — jedno miejsce na wygląd metalu. */
+function profil(d: string) {
+  return <path d={d} fillRule="evenodd" fill="url(#mb70bAlu)" stroke={OUTLINE} strokeWidth="1.7" />;
 }
 
-/** Podpis z cienką linią odniesienia. Sama nazwa — wyjaśnienia są w legendzie. */
+/** Podpis z łamaną linią odniesienia. Sama nazwa — opisy są w legendzie. */
 function podpis({
   x,
   y,
   do: cel,
   tekst,
-  kotwica = "start",
 }: {
   x: number;
   y: number;
   do: { x: number; y: number };
   tekst: string;
-  kotwica?: "start" | "middle" | "end";
 }) {
-  const start = kotwica === "end" ? x - 10 : x + 10;
-  const zalamanie = (y + cel.y) / 2;
   return (
     <g>
       <path
-        d={`M${start} ${y + 8} L${start} ${zalamanie} L${cel.x} ${zalamanie} L${cel.x} ${cel.y}`}
+        d={`M${x - 8} ${y - 6} H${cel.x + 26} L${cel.x} ${cel.y}`}
         fill="none"
         stroke={RULE}
-        strokeWidth="1.3"
+        strokeWidth="1.2"
         opacity="0.5"
       />
-      <circle cx={cel.x} cy={cel.y} r="4" fill={RULE} opacity="0.85" />
-      <text x={x} y={y} fill="#ece8e1" fontFamily={MONO} fontSize="20" letterSpacing="1.6" textAnchor={kotwica}>
+      <circle cx={cel.x} cy={cel.y} r="3.6" fill={RULE} opacity="0.85" />
+      <text x={x} y={y} fill="#ece8e1" fontFamily={MONO} fontSize={MONO_SIZE} letterSpacing="1.5">
         {tekst}
-      </text>
-    </g>
-  );
-}
-
-/** Linia wymiarowa głębokości. */
-function glebokosc({ x1, x2, label }: { x1: number; x2: number; label: string }) {
-  return (
-    <g opacity="0.7">
-      <line x1={x1} y1="136" x2={x2} y2="136" stroke={RULE} strokeWidth="1.3" />
-      <line x1={x1} y1="130" x2={x1} y2="142" stroke={RULE} strokeWidth="1.3" />
-      <line x1={x2} y1="130" x2={x2} y2="142" stroke={RULE} strokeWidth="1.3" />
-      <text x={(x1 + x2) / 2} y="124" fill={RULE} fontFamily={MONO} fontSize="17" textAnchor="middle">
-        {label}
       </text>
     </g>
   );
@@ -109,176 +77,150 @@ export const mb70bSchematic: SchematicDefinition = {
       id: "oscieznica",
       no: 1,
       label: "Ościeżnica – 70 mm",
-      desc: "Rama zamocowana na stałe w murze. To ona trzyma całe okno.",
+      desc: "Rama zamocowana na stałe w murze. Ścianka ma 2–3 mm, reszta to puste komory – dlatego aluminium jest lekkie, a konstrukcja sztywna.",
     },
     {
       id: "skrzydlo",
       no: 2,
       label: "Skrzydło – 79 mm",
-      desc: "Ruchoma część z szybą – ta, którą otwierasz klamką.",
+      desc: "Ruchoma część z szybą, ta otwierana klamką. Przylgą zachodzi na ościeżnicę, więc po zamknięciu nie widać między nimi szczeliny.",
     },
     {
       id: "przekladka",
       no: 3,
       label: "Przekładka termiczna",
-      desc: "Pasek tworzywa w środku profilu. Aluminium dobrze przewodzi ciepło, więc profil jest przecięty na pół i spięty tym paskiem – ciepło z pokoju nie ma którędy uciec na zewnątrz.",
+      desc: "Dwa pasy tworzywa spinające zewnętrzną i wewnętrzną powłokę profilu. Między nimi nie ma metalu – i tędy ciepło z pokoju nie ucieka na zewnątrz.",
     },
     {
       id: "uszczelka",
       no: 4,
-      label: "Uszczelka",
-      desc: "Guma na styku skrzydła z ościeżnicą. Zatrzymuje wiatr i wodę opadową.",
+      label: "Uszczelki",
+      desc: "Gumowe profile na noskach ościeżnicy i wokół szyby. Zatrzymują wiatr, wodę opadową i hałas.",
     },
     {
       id: "szyba",
       no: 5,
       label: "Szyba zespolona",
-      desc: "Dwie lub trzy tafle szkła, między nimi szczelna przestrzeń z gazem. Tu mieści się pakiet grubości od 23,5 do 62 mm.",
+      desc: "Dwie tafle szkła z ramką dystansową i szczelną przestrzenią z gazem. Listwa przyszybowa dociska pakiet od strony pokoju, więc szybę da się wymienić bez demontażu skrzydła.",
     },
   ],
 
-  /* Pusto celowo — numerki na rysunku każą szukać opisu w legendzie obok. */
   markers: [],
 
   Drawing: ({ dim }) => (
     <>
       <defs>
-        {/* Metal czytelny bez kreskowania: jaśniejsza krawędź u góry,
-            ciemniejsza u dołu — tak jak światło kładzie się na wytłoczce. */}
         <linearGradient id="mb70bAlu" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#d7dbde" />
-          <stop offset="45%" stopColor="#b2b8bd" />
-          <stop offset="100%" stopColor="#8d9398" />
+          <stop offset="0%" stopColor="#e3e7ea" />
+          <stop offset="48%" stopColor="#bcc2c7" />
+          <stop offset="100%" stopColor="#8e9499" />
         </linearGradient>
-        <linearGradient id="mb70bSzyba" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#9fc2ba" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#7d9a92" stopOpacity="0.26" />
+        <linearGradient id="mb70bSzyba" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#a9ccc4" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#7d9a92" stopOpacity="0.3" />
         </linearGradient>
       </defs>
 
-      {/* OŚCIEŻNICA */}
+      {/* ===================== OŚCIEŻNICA =====================
+          Powłoka zewnętrzna: lico od ulicy, nosek pod uszczelkę przylgową
+          u góry, dwie komory rozdzielone żebrem. */}
       <g opacity={dim("oscieznica")} style={{ transition: "opacity .35s" }}>
-        <rect x={F_X} y={Y} width={F_SHELL} height={H} rx="10" fill="url(#mb70bAlu)" stroke={OUTLINE} strokeWidth="2" />
-        <rect
-          x={F_X + F_SHELL + F_BREAK}
-          y={Y}
-          width={F_W - F_SHELL - F_BREAK}
-          height={H}
-          rx="10"
-          fill="url(#mb70bAlu)"
-          stroke={OUTLINE}
-          strokeWidth="2"
-        />
-        {komora(F_X + 26, Y + 30, F_SHELL - 52, H - 60)}
-        {komora(F_X + F_SHELL + F_BREAK + 26, Y + 30, F_W - F_SHELL - F_BREAK - 52, H - 60)}
+        {profil(
+          `M150 436 H214 V414 H232 V436 H268 V586 H150 Z
+           M161 447 H257 V498 H161 Z
+           M161 509 H257 V575 H161 Z`
+        )}
+        {/* Powłoka wewnętrzna: rowek okuciowy od strony pokoju i przylga
+            dla uszczelki centralnej. */}
+        {profil(
+          `M312 436 H364 V420 H382 V436 H430 V492 H408 V514 H430 V586 H312 Z
+           M323 447 H419 V481 H323 Z
+           M323 525 H419 V575 H323 Z`
+        )}
       </g>
 
-      {/* SKRZYDŁO — wyższe od ościeżnicy, bo po zamknięciu ją przykrywa */}
+      {/* ===================== SKRZYDŁO =====================
+          Powłoka zewnętrzna: przylga schodząca na ościeżnicę (lewy dół)
+          i wrąb szybowy u góry. */}
       <g opacity={dim("skrzydlo")} style={{ transition: "opacity .35s" }}>
-        <rect
-          x={S_X}
-          y={Y - 20}
-          width={S_SHELL}
-          height={H + 40}
-          rx="10"
-          fill="url(#mb70bAlu)"
-          stroke={OUTLINE}
-          strokeWidth="2"
-        />
-        <rect
-          x={S_X + S_SHELL + S_BREAK}
-          y={Y - 20}
-          width={S_W - S_SHELL - S_BREAK}
-          height={H + 40}
-          rx="10"
-          fill="url(#mb70bAlu)"
-          stroke={OUTLINE}
-          strokeWidth="2"
-        />
-        {komora(S_X + 28, Y + 12, S_SHELL - 56, H + 16)}
-        {komora(S_X + S_SHELL + S_BREAK + 28, Y + 12, S_W - S_SHELL - S_BREAK - 56, H + 16)}
+        {profil(
+          `M150 232 H206 V214 H224 V232 H286 V416 H196 V440 H150 Z
+           M161 243 H275 V312 H161 Z
+           M161 323 H275 V405 H161 Z`
+        )}
+        {/* Powłoka wewnętrzna z zatrzaskiem listwy przyszybowej. */}
+        {profil(
+          `M330 232 H466 V352 H444 V374 H466 V416 H330 Z
+           M341 243 H455 V318 H341 Z
+           M341 330 H455 V405 H341 Z`
+        )}
+        {/* Listwa przyszybowa — dociska pakiet od strony pokoju. */}
+        {profil(
+          `M300 150 H340 V236 H300 Z
+           M309 161 H331 V225 H309 Z`
+        )}
       </g>
 
-      {/* PRZEKŁADKA TERMICZNA — spina obie powłoki, w obu profilach */}
+      {/* ===================== PRZEKŁADKI =====================
+          Dwa pasy na profil; przestrzeń między nimi zostaje pusta. */}
       <g opacity={dim("przekladka")} style={{ transition: "opacity .35s" }}>
-        <rect
-          x={F_X + F_SHELL}
-          y={Y + 18}
-          width={F_BREAK}
-          height={H - 36}
-          rx="4"
-          fill={BREAK}
-          stroke={OUTLINE}
-          strokeWidth="1.6"
-        />
-        <rect
-          x={S_X + S_SHELL}
-          y={Y - 2}
-          width={S_BREAK}
-          height={H + 4}
-          rx="4"
-          fill={BREAK}
-          stroke={OUTLINE}
-          strokeWidth="1.6"
-        />
+        <rect x="268" y="443" width="44" height="24" rx="3" fill={BREAK} stroke={OUTLINE} strokeWidth="1.4" />
+        <rect x="268" y="555" width="44" height="24" rx="3" fill={BREAK} stroke={OUTLINE} strokeWidth="1.4" />
+        <rect x="286" y="240" width="44" height="24" rx="3" fill={BREAK} stroke={OUTLINE} strokeWidth="1.4" />
+        <rect x="286" y="384" width="44" height="24" rx="3" fill={BREAK} stroke={OUTLINE} strokeWidth="1.4" />
       </g>
 
-      {/* USZCZELKA — w szczelinie między ościeżnicą a skrzydłem */}
+      {/* ===================== USZCZELKI =====================
+          Na noskach, z wargą dociskaną przez skrzydło. */}
       <g opacity={dim("uszczelka")} style={{ transition: "opacity .35s" }}>
-        <rect
-          x={F_X + F_W - 3}
-          y={Y + 56}
-          width="26"
-          height={H - 112}
-          rx="13"
-          fill={GASKET}
-          stroke={OUTLINE}
-          strokeWidth="1.6"
-        />
+        <path d="M214 414 h18 v-16 l12 -8 v24 l-12 8 z" fill={GASKET} stroke={OUTLINE} strokeWidth="1.3" />
+        <path d="M364 420 h18 v-16 l12 -8 v24 l-12 8 z" fill={GASKET} stroke={OUTLINE} strokeWidth="1.3" />
+        {/* przyszybowe: po obu stronach pakietu */}
+        <path d="M224 232 h20 v-18 h-20 z" fill={GASKET} stroke={OUTLINE} strokeWidth="1.2" />
+        <path d="M284 232 h16 v-18 h-16 z" fill={GASKET} stroke={OUTLINE} strokeWidth="1.2" />
       </g>
 
-      {/* SZYBA ZESPOLONA — wychodzi ze skrzydła w głąb okna */}
+      {/* ===================== SZYBA ZESPOLONA ===================== */}
       <g opacity={dim("szyba")} style={{ transition: "opacity .35s" }}>
-        <rect
-          x={GLASS_X}
-          y={Y + 48}
-          width={958 - GLASS_X}
-          height={H - 96}
-          rx="5"
-          fill="url(#mb70bSzyba)"
-          stroke={OUTLINE}
-          strokeWidth="1.6"
-        />
-        {/* Dwie tafle i przestrzeń między nimi — stąd „zespolona” */}
-        <line x1={GLASS_X + 8} y1={Y + 64} x2="946" y2={Y + 64} stroke="#dbe6e2" strokeWidth="2.5" opacity="0.85" />
-        <line x1={GLASS_X + 8} y1={Y + H - 64} x2="946" y2={Y + H - 64} stroke="#dbe6e2" strokeWidth="2.5" opacity="0.85" />
+        <rect x="236" y="60" width="18" height="154" fill="url(#mb70bSzyba)" stroke={OUTLINE} strokeWidth="1.5" />
+        <rect x="272" y="60" width="18" height="154" fill="url(#mb70bSzyba)" stroke={OUTLINE} strokeWidth="1.5" />
+        {/* ramka dystansowa — trzyma tafle w stałym rozstawie */}
+        <rect x="254" y="186" width="18" height="28" rx="2" fill="#6d7378" stroke={OUTLINE} strokeWidth="1.2" />
       </g>
 
-      {/* ---------------- PODPISY ---------------- */}
-      <g opacity={dim("oscieznica")} style={{ transition: "opacity .35s" }}>
-        {podpis({ x: 118, y: 190, do: { x: F_X + 56, y: Y - 2 }, tekst: "OŚCIEŻNICA" })}
+      {/* ===================== PODPISY ===================== */}
+      <g opacity={dim("szyba")} style={{ transition: "opacity .35s" }}>
+        {podpis({ x: 560, y: 108, do: { x: 300, y: 110 }, tekst: "SZYBA ZESPOLONA" })}
       </g>
       <g opacity={dim("skrzydlo")} style={{ transition: "opacity .35s" }}>
-        {podpis({ x: 476, y: 190, do: { x: S_X + 62, y: Y - 22 }, tekst: "SKRZYDŁO" })}
-      </g>
-      <g opacity={dim("szyba")} style={{ transition: "opacity .35s" }}>
-        {podpis({ x: 944, y: 190, do: { x: 880, y: Y + 48 }, tekst: "SZYBA", kotwica: "end" })}
+        {podpis({ x: 560, y: 268, do: { x: 470, y: 268 }, tekst: "SKRZYDŁO" })}
       </g>
       <g opacity={dim("przekladka")} style={{ transition: "opacity .35s" }}>
-        {podpis({
-          x: 118,
-          y: 244,
-          do: { x: F_X + F_SHELL + F_BREAK / 2, y: Y + 20 },
-          tekst: "PRZEKŁADKA TERMICZNA",
-        })}
+        {podpis({ x: 560, y: 396, do: { x: 334, y: 396 }, tekst: "PRZEKŁADKA TERMICZNA" })}
       </g>
       <g opacity={dim("uszczelka")} style={{ transition: "opacity .35s" }}>
-        {podpis({ x: 700, y: 244, do: { x: F_X + F_W + 10, y: Y + 58 }, tekst: "USZCZELKA" })}
+        {podpis({ x: 560, y: 432, do: { x: 400, y: 418 }, tekst: "USZCZELKI" })}
+      </g>
+      <g opacity={dim("oscieznica")} style={{ transition: "opacity .35s" }}>
+        {podpis({ x: 560, y: 520, do: { x: 434, y: 520 }, tekst: "OŚCIEŻNICA" })}
       </g>
 
-      {/* Głębokości — jedyne liczby na rysunku, obie z karty systemu */}
-      {glebokosc({ x1: F_X, x2: F_X + F_W, label: "70 mm" })}
-      {glebokosc({ x1: S_X, x2: S_X + S_W, label: "79 mm" })}
+      {/* ===================== GŁĘBOKOŚCI ===================== */}
+      <g opacity="0.72">
+        <line x1="150" y1="40" x2="466" y2="40" stroke={RULE} strokeWidth="1.2" />
+        <line x1="150" y1="34" x2="150" y2="46" stroke={RULE} strokeWidth="1.2" />
+        <line x1="466" y1="34" x2="466" y2="46" stroke={RULE} strokeWidth="1.2" />
+        <text x="308" y="29" fill={RULE} fontFamily={MONO} fontSize="16" textAnchor="middle">
+          SKRZYDŁO 79 mm
+        </text>
+
+        <line x1="150" y1="604" x2="430" y2="604" stroke={RULE} strokeWidth="1.2" />
+        <line x1="150" y1="598" x2="150" y2="610" stroke={RULE} strokeWidth="1.2" />
+        <line x1="430" y1="598" x2="430" y2="610" stroke={RULE} strokeWidth="1.2" />
+        <text x="290" y="594" fill={RULE} fontFamily={MONO} fontSize="16" textAnchor="middle">
+          OŚCIEŻNICA 70 mm
+        </text>
+      </g>
     </>
   ),
 };
