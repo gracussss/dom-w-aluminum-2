@@ -24,5 +24,13 @@
   ],
   "depth": "80 mm (układ płytki), 92 mm (układ głęboki)",
   "depthSource": "ALUPROF – karta produktowa MB-80 OFFICE (mb-80-office-51-pl.pdf), s. 1",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-80-office-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki",
+      "source": "ALUPROF – katalog techniczny MB-80 OFFICE, s. 08-0-002.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -37,5 +37,13 @@
   ],
   "depth": "60 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-60E EI (MB-60E_EI_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-60e-ei-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi otwieranych do wewnątrz",
+      "source": "ALUPROF – katalog techniczny MB-60E EI, s. 08-0-02.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -33,5 +33,13 @@
     }
   ],
   "depth": "86 mm",
-  "sourceDate": "2026-08-28"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-86n-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-86N, s. 08-1-09.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

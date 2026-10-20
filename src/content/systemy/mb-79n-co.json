@@ -29,5 +29,13 @@
   ],
   "depth": "70 mm (ościeżnica)",
   "depthSource": "ALUPROF – katalog techniczny MB-79N CO, część opisowa, s. 02-0-01.00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-79n-co-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-79N CO, s. 08-0-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

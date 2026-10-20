@@ -22,5 +22,13 @@
   ],
   "depth": "78 mm",
   "depthSource": "ALUPROF – karta produktowa MB-78EI DPA (mb-78ei-dpa-42-pl.pdf), s. 1",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-78ei-dpa-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki drzwi przesuwnych",
+      "source": "ALUPROF – katalog techniczny MB-78EI DPA, s. 08-1-02.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

@@ -42,5 +42,13 @@
   ],
   "depth": "95 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-104 PASSIVE (MB-104_Passive_A3_PL.pdf), s. 4",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-104-passive-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-104 Passive, s. 08-1-03.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

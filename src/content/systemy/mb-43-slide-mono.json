@@ -35,5 +35,13 @@
   ],
   "depth": "70 mm (profil 2-szynowy)",
   "depthSource": "ALUPROF – ulotka produktowa MB-43 SLIDE MONO (MB-43_Slide_Mono_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-43-slide-mono-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojak ościeżnicy i boczny ramiak skrzydła",
+      "source": "ALUPROF – katalog techniczny MB-43SLIDE RENO MONO, s. 08-1-32-00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

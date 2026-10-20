@@ -43,5 +43,13 @@
   ],
   "depth": "78 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-78EI / MB-SR50N EI (MB-78_EI_MB-SR50_EI_A4_PL.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-78ei-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez ościeżnicę ścianki stałej",
+      "source": "ALUPROF – katalog techniczny MB-78EI, s. 08-1-01.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

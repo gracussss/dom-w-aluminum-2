@@ -11,5 +11,13 @@
   "constructionType": "rozwierne",
   "depth": "45 mm",
   "depthSource": "ALUPROF – karta produktowa MB-45 OFFICE (mb-45-office-52-pl.pdf), s. 1",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-45-office-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki",
+      "source": "ALUPROF – katalog techniczny MB-45 Office, s. 08-0-05.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

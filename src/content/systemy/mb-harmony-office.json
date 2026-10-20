@@ -20,5 +20,13 @@
   ],
   "depth": "45 mm (MB-HARMONY), 92 mm (MB-HARMONY DUO)",
   "depthSource": "ALUPROF – katalog techniczny MB-HARMONY OFFICE, część opisowa, s. 02-0-01-00",
-  "sourceDate": "2026-10-19"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-harmony-office-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekrój przez stojaki",
+      "source": "ALUPROF – katalog techniczny MB-HARMONY OFFICE, s. 08-2-05-01"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }

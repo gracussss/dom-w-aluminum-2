@@ -36,5 +36,13 @@
   ],
   "depth": "77 – 110 mm",
   "depthSource": "ALUPROF – ulotka produktowa MB-FERROLINE (mb-ferroline_a4_pl.pdf), s. 2",
-  "sourceDate": "2026-10-14"
+  "drawings": [
+    {
+      "image": "/przekroje/mb-ferroline-poziomy.png",
+      "kind": "horizontal",
+      "label": "Przekroje okna otwieranego",
+      "source": "ALUPROF – katalog techniczny MB-FERROLINE, s. 08-1-09.00"
+    }
+  ],
+  "sourceDate": "2026-10-20"
 }
