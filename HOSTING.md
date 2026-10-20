@@ -1,7 +1,20 @@
 # Przeniesienie strony na hosting klienta (poza Netlify)
 
-Stan: październik 2026. Klient planuje własny hosting zamiast Netlify.
+Stan: 20.10.2026. Klient planuje własny hosting zamiast Netlify.
 Decyzja w sprawie panelu `/admin` jest jeszcze otwarta (sekcja 4).
+
+**Ustalone 20.10.2026:**
+
+- **Formularz** ma wysyłać zapytania **na skrzynkę firmy**, skryptem na
+  hostingu klienta — nie przez usługę zewnętrzną (Formspree i podobne
+  odpadają). Podpinamy dopiero po zatwierdzeniu przez klientkę; do tego
+  czasu formularz zostaje w trybie demonstracyjnym, który mówi o tym wprost.
+- **Zdjęcia, opisy i pozostałe treści** uzupełnia klientka z panelu. Po
+  naszej stronie jest tylko to, żeby panel i strona działały na nowym
+  hostingu.
+- **Kolejny krok** czeka na jedną informację: **jaki to hosting**. Od tego
+  zależy i formularz (PHP kontra funkcja serverless), i sposób logowania
+  do panelu. Lista pytań — sekcja 3.
 
 ---
 
@@ -55,6 +68,23 @@ z Netlify Image CDN, gdy build nie idzie na Netlify (`NETLIFY` nieustawione).
 - **Adres e-mail** odbiorcy zapytań z formularza.
 - **Decyzja w sprawie panelu** (sekcja 4).
 
+### Co trzeba sprawdzić w panelu hostingu przed przygotowaniem plików
+
+Pięć pytań, od których zależy, co dokładnie przygotowujemy. Odpowiedzi widać
+w panelu hostingu albo u jego obsługi:
+
+| Pytanie | Dlaczego to zmienia pracę |
+|---|---|
+| Apache/LiteSpeed z obsługą `.htaccess`, czy coś innego (nginx, hosting statyczny)? | bez `.htaccess` przepisanie adresów i nagłówki trzeba zrobić inaczej; wejście prosto na `/oferta` da inaczej 404 |
+| Jest PHP? Która wersja? | formularz ma iść na skrzynkę skryptem na hostingu; bez PHP trzeba funkcji serverless, a to inny hosting albo dodatkowa usługa |
+| Czy skrzynka e-mail jest na tym samym hostingu? | jeśli tak, wysyłka idzie lokalnie i prawie nie trafia do spamu; jeśli nie, potrzebne dane SMTP i wpisy SPF/DKIM w domenie |
+| FTP, czy SFTP? Dane dostępowe. | decyduje, czy da się ustawić automatyczne wgrywanie po zmianie treści |
+| Czy certyfikat SSL jest włączony dla domeny i `www`? | strona wymusza HTTPS (HSTS); bez certyfikatu nie wolno tego włączyć |
+
+Dopóki nie znamy odpowiedzi, przygotowanie `.htaccess` i skryptu formularza
+byłoby zgadywaniem — pliki dla Apache są bezużyteczne na hostingu statycznym
+i odwrotnie.
+
 ---
 
 ## 4. Panel `/admin` poza Netlify (decyzja otwarta)
@@ -76,7 +106,11 @@ Warianty:
   i domenę.** Nic do przerabiania: domena kierowana na Netlify, poczta (MX)
   zostaje u klienta.
 
-Do czasu decyzji `/admin` można nie wgrywać na hosting klienta.
+**Ta decyzja nie może czekać do końca.** Zdjęcia i opisy wprowadza klientka
+z panelu — bez działającego `/admin` nie ma czym uzupełnić strony, a to
+jest teraz główna rzecz, której brakuje do publikacji. Wcześniejszy zapis
+„do czasu decyzji można nie wgrywać panelu" był prawdziwy, dopóki treści
+miały iść z naszej strony.
 
 Szacunek pracy dla wariantu A/B (automat FTP, `.htaccess`, formularz PHP,
 skalowanie zdjęć przy buildzie, logowanie panelu): około jednego dnia.
