@@ -1,7 +1,7 @@
 # Przeniesienie strony na hosting klienta (poza Netlify)
 
 Stan: 20.10.2026. Klient planuje własny hosting zamiast Netlify.
-Decyzja w sprawie panelu `/admin` jest jeszcze otwarta (sekcja 4).
+Panel `/admin`: wariant A — logowanie kontem GitHub (sekcja 4).
 
 **Ustalone 20.10.2026:**
 
@@ -87,24 +87,43 @@ i odwrotnie.
 
 ---
 
-## 4. Panel `/admin` poza Netlify (decyzja otwarta)
+## 4. Panel `/admin` poza Netlify
+
+**Rozstrzygnięte 21.10.2026: strona idzie na hosting klienta.** Wariant
+z pozostawieniem jej na Netlify (dawne „C") odpada — klient chce pliki
+u siebie. Zostaje **wariant A: logowanie kontem GitHub + automat budujący**.
 
 Bez Netlify znikają: logowanie (Netlify Identity), zapis z panelu (Git
 Gateway), automatyczny build po zapisie i podglądy wersji roboczych.
 Podgląd na żywo obok formularza zostaje — działa w samym panelu.
 
-Warianty:
+Dlaczego w ogóle potrzebny jest automat: treści są **wkompilowane w stronę
+przy budowaniu** (`import.meta.glob` z `eager: true` w `src/data/*.ts`), nie
+czytane z bazy w locie. Każdy zapis w panelu wymaga więc przebudowania
+strony. Zwykły hosting tego nie robi — musi to zrobić coś na zewnątrz.
 
-- **A — logowanie kontem GitHub.** Klientka zakłada darmowe konto GitHub
-  i dostaje dostęp do repozytorium. Logowanie przez mały skrypt OAuth na
-  hostingu klienta (PHP) albo na darmowym Cloudflare Workers. Zapis z panelu
-  → commit → GitHub Actions buduje i wgrywa stronę przez FTP/SFTP.
-- **B — usługa logowania e-mailem dla Decap CMS** (np. DecapBridge).
-  Dla klientki tak jak dziś, ale to kolejny zewnętrzny dostawca — warunki
-  do sprawdzenia przed decyzją.
-- **C — strona zostaje na Netlify, hosting klienta tylko na pocztę
-  i domenę.** Nic do przerabiania: domena kierowana na Netlify, poczta (MX)
-  zostaje u klienta.
+Jak to działa po uruchomieniu:
+
+1. Klientka loguje się na `https://domena-klienta.pl/admin` kontem GitHub.
+2. Zapis w panelu → commit do repozytorium.
+3. GitHub Actions buduje stronę i wgrywa ją na hosting przez FTP/SFTP.
+4. Po 2–3 minutach zmiana jest na stronie.
+
+Potrzebne do uruchomienia:
+
+- **dane FTP/SFTP** do hostingu — jako sekrety repozytorium (GitHub →
+  Settings → Secrets), nigdy w kodzie ani w rozmowie,
+- **darmowe konto GitHub dla klientki**, dodane do repozytorium,
+- **skrypt OAuth** obsługujący logowanie — stanie na hostingu klienta (PHP),
+  żeby nie dokładać kolejnego zewnętrznego dostawcy.
+
+Wariant zapasowy, gdyby klient nie dał dostępu FTP: zapis w panelu nadal
+tworzy commit, ale stronę budujemy i wysyłamy ręcznie nowym archiwum.
+Klientka traci wtedy samodzielność — każda zmiana zdjęcia wraca do nas.
+
+Wariant **B** (usługa logowania e-mailem, np. DecapBridge) zostaje w odwodzie
+na wypadek, gdyby konto GitHub okazało się dla klientki barierą nie do
+przejścia. Kosztem jest kolejny zewnętrzny dostawca.
 
 **Ta decyzja nie może czekać do końca.** Zdjęcia i opisy wprowadza klientka
 z panelu — bez działającego `/admin` nie ma czym uzupełnić strony, a to
