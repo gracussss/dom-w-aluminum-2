@@ -1,0 +1,106 @@
+# Konfiguracja dla hostingu Apache/LiteSpeed — odpowiednik tego, co na
+# Netlify robią `_headers` i `_redirects` (te dwa pliki na zwykłym serwerze
+# są po prostu ignorowane, nie szkodzą).
+#
+# Plik trafia do `dist/` przy budowaniu i wgrywa się razem ze stroną.
+
+AddDefaultCharset UTF-8
+
+# ------------------------------------------------------------------
+# 1. Adresy podstron
+# ------------------------------------------------------------------
+# Strona jest jednoplikowa: adresy w rodzaju /oferta czy /systemy/mb-79n
+# obsługuje JavaScript, a nie serwer. Bez tej reguły wejście prosto pod
+# taki adres albo odświeżenie podstrony kończy się błędem 404.
+#
+# Warunki `-f` i `-d` przepuszczają to, co istnieje naprawdę: pliki
+# ze stylami, zdjęcia, `kontakt.php` i katalog panelu `/admin`.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Wymuszenie HTTPS — ODKOMENTOWAĆ DOPIERO, gdy certyfikat SSL działa
+  # dla domeny i dla wersji z „www". Włączone wcześniej odcina stronę.
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # /admin bez ukośnika ma otwierać panel, a nie stronę 404 aplikacji.
+  RewriteRule ^admin$ /admin/ [R=301,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# ------------------------------------------------------------------
+# 2. Nagłówki bezpieczeństwa — na stałe, także po publikacji
+# ------------------------------------------------------------------
+# Pełna polityka CSP strony siedzi w `<meta>` w index.html (wstawia ją
+# build, źródło: SITE_CSP w vite.config.ts), panelu — w public/admin/
+# index.html. Tutaj tylko część wspólna: panel potrzebuje 'unsafe-eval',
+# a dwie polityki się sumują, więc pełna CSP w nagłówku zablokowałaby panel.
+# `frame-ancestors` działa wyłącznie w nagłówku, dlatego jest tu.
+
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+
+  # HSTS — WŁĄCZYĆ DOPIERO razem z działającym certyfikatem, tak jak
+  # przekierowanie wyżej. Przeglądarka zapamiętuje ten nagłówek na rok.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # --------------------------------------------------------------
+  # WERSJA DEMO: blokada przed wyszukiwarkami.
+  # PRZED PUBLIKACJĄ USUNĄĆ TĘ JEDNĄ LINIĘ — checklista w SEO.md, punkt 9.
+  # Blokada stoi też w robots.txt i w <meta> w index.html; ten nagłówek
+  # obejmuje dodatkowo pliki, których <meta> nie dotyczy (PDF, obrazy).
+  # --------------------------------------------------------------
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+
+# ------------------------------------------------------------------
+# 3. Pamięć podręczna
+# ------------------------------------------------------------------
+# Pliki w /assets/ i /fonts/ mają nazwy ze skrótem treści albo stałe —
+# nigdy nie zmieniają zawartości, więc mogą leżeć w przeglądarce bez
+# odpytywania serwera. HTML nie — inaczej po aktualizacji strony klient
+# dalej widziałby starą wersję.
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|json|xml|txt)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ------------------------------------------------------------------
+# 4. Kompresja
+# ------------------------------------------------------------------
+# Netlify kompresuje odpowiedzi sam. Zwykły hosting bywa, że nie —
+# bez tego paczka skryptów idzie trzy razy cięższa.
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ------------------------------------------------------------------
+# 5. Ochrona plików konfiguracyjnych
+# ------------------------------------------------------------------
+# `kontakt.local.php` trzyma adres skrzynki firmy. Sam z siebie niczego
+# nie wypisuje, ale niech nie będzie dostępny z zewnątrz.
+
+<Files "kontakt.local.php">
+  Require all denied
+</Files>
+<Files ".htaccess">
+  Require all denied
+</Files>

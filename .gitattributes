@@ -1,3 +1,10 @@
 # Zbudowana paczka panelu (Decap CMS) – kod zewnętrzny, aktualizowany
 # skryptem `npm run cms:update`. Bez diffów i bez wpływu na statystyki języków.
 public/admin/vendor/** linguist-vendored -diff
+
+# Pliki serwerowe trafiają z `dist/` prosto na hosting klienta i muszą mieć
+# końce linii uniksowe. `core.autocrlf=true` na Windowsie zamieniłby je na
+# CRLF, a część buildów Apache'a wciąga wtedy znak \r do argumentu dyrektywy
+# i wywala błąd „Invalid command".
+public/.htaccess text eol=lf
+public/kontakt.php text eol=lf

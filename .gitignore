@@ -167,3 +167,9 @@ dist-ssr
 # Dokumentacja producenta sciagnieta ze strefy partnera — nigdy do repozytorium
 # (prawa ALUPROF, publikacja wymaga pisemnej zgody — patrz MATERIALY.md)
 dokumentacja-aluprof/
+
+# Adres skrzynki firmy dla formularza — tylko na serwerze, nie w repozytorium.
+public/kontakt.local.php
+
+# Gotowe archiwum do wyslania na hosting klienta.
+paczka/
