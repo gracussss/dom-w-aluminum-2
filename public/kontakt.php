@@ -144,11 +144,15 @@ $nadawca = defined('NADAWCA') && filter_var(NADAWCA, FILTER_VALIDATE_EMAIL)
     ? NADAWCA
     : ODBIORCA;
 
+/* Treść idzie w quoted-printable, nie 8bit. Prawie każdy serwer poczty
+   przyjmie dziś 8bit, ale „prawie" to za mało dla skryptu, którego nie da
+   się przed wgraniem uruchomić — przy starszym MTA polskie znaki wyszłyby
+   w krzakach. Quoted-printable przechodzi wszędzie. */
 $naglowki = [
     'From: ' . zakoduj('Formularz strony') . ' <' . $nadawca . '>',
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
+    'Content-Transfer-Encoding: quoted-printable',
 ];
 if ($email !== '') {
     $naglowki[] = 'Reply-To: ' . zakoduj($imie) . ' <' . bezpieczny_naglowek($email) . '>';
@@ -166,9 +170,25 @@ $tresc = "Nowe zapytanie z formularza na stronie.\n\n"
     . "---\n"
     . "Wysłano: " . date('Y-m-d H:i:s') . "\n";
 
+/* Część hostingów wyłącza `mail()` całkiem. Bez tej kontroli byłby błąd
+   krytyczny i formularz dostałby w odpowiedzi stronę błędu zamiast JSON-a. */
+if (!function_exists('mail')) {
+    error_log('kontakt.php: funkcja mail() jest wylaczona na tym hostingu');
+    odpowiedz(500, false, 'wysylka niedostepna');
+}
+
+$naglowek = implode("\r\n", $naglowki);
+$cialo = quoted_printable_encode($tresc);
+
 /* Piąty argument ustawia kopertowego nadawcę (Return-Path). Bez tego część
-   hostingów wysyła jako użytkownik systemowy i wiadomość trafia do spamu. */
-$wyslano = @mail(ODBIORCA, $tytul, $tresc, implode("\r\n", $naglowki), '-f' . $nadawca);
+   hostingów wysyła jako użytkownik systemowy i wiadomość trafia do spamu.
+   Ale część innych odwrotnie — zabrania dodatkowych parametrów i wtedy
+   wysyłka się nie uda. Dlatego przy niepowodzeniu druga próba, już bez
+   `-f`: lepiej wiadomość w spamie niż żadna. */
+$wyslano = @mail(ODBIORCA, $tytul, $cialo, $naglowek, '-f' . $nadawca);
+if (!$wyslano) {
+    $wyslano = @mail(ODBIORCA, $tytul, $cialo, $naglowek);
+}
 
 if (!$wyslano) {
     error_log('kontakt.php: mail() zwrocilo false — sprawdz, czy hosting pozwala na wysylke');
