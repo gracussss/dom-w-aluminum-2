@@ -125,23 +125,24 @@ function zakoduj(string $tekst): string
     return '=?UTF-8?B?' . base64_encode(bezpieczny_naglowek($tekst)) . '?=';
 }
 
-/* Nadawcą jest adres we własnej domenie — wiadomość „od Gmaila klienta"
-   nie przejdzie SPF u większości dostawców i wyląduje w spamie.
+/* Nadawca bierze się WYŁĄCZNIE z konfiguracji, nigdy z nagłówków zapytania.
+   Wcześniejsza wersja składała go z `HTTP_HOST` — a ten nagłówek podaje
+   klient, więc wystarczyło wysłać `Host: obca-domena.pl`, żeby wiadomość
+   w skrzynce firmy miała w polu „od" cudzą domenę. Na wstrzyknięcie
+   polecenia to nie pozwalało (adres przechodził przez FILTER_VALIDATE_EMAIL,
+   więc spacje i średniki odpadały), ale samo podszycie się wystarczy,
+   żeby zmylić czytającego.
+
+   Gdy NADAWCA nie jest ustawiony, nadawcą zostaje skrzynka odbiorcy —
+   wiadomość dojdzie, choć u części dostawców trafi do spamu. Dlatego
+   po poznaniu domeny trzeba ustawić NADAWCA na adres w tej domenie:
+   tylko wtedy SPF się zgadza. Opisane w kontakt.local.php.
+
    Odpowiedź ma iść do osoby, która wypełniła formularz, więc jej adres
    wchodzi w Reply-To. */
-$domena = bezpieczny_naglowek((string) ($_SERVER['HTTP_HOST'] ?? ''));
-$domena = preg_replace('/:\d+$/', '', $domena) ?? $domena;   // host bywa z portem
-$domena = preg_replace('/^www\./', '', $domena) ?? $domena;
-
-if (defined('NADAWCA') && filter_var(NADAWCA, FILTER_VALIDATE_EMAIL)) {
-    $nadawca = NADAWCA;
-} else {
-    $kandydat = 'formularz@' . $domena;
-    // HTTP_HOST podaje klient, wiec moze byc czymkolwiek. Gdy nie sklada sie
-    // z tego poprawny adres, nadawca zostaje skrzynka odbiorcy — wiadomosc
-    // dojdzie, zamiast odbic sie o bledny naglowek.
-    $nadawca = filter_var($kandydat, FILTER_VALIDATE_EMAIL) ? $kandydat : ODBIORCA;
-}
+$nadawca = defined('NADAWCA') && filter_var(NADAWCA, FILTER_VALIDATE_EMAIL)
+    ? NADAWCA
+    : ODBIORCA;
 
 $naglowki = [
     'From: ' . zakoduj('Formularz strony') . ' <' . $nadawca . '>',
